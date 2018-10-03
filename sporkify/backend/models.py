@@ -73,7 +73,7 @@ class Employee(models.Model):
     password = models.CharField(max_length=25)
 
 class Shift(models.Model):
-    emp_ID = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
+    emp_ID = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     time_in = models.DateTimeField()
     time_out = models.DateTimeField()
     hourly_wage = models.FloatField()
@@ -90,7 +90,7 @@ class Shipment(models.Model):
     shipment_cost = models.FloatField()
     materials_used = models.TextField()
     material_cost = models.FloatField()
-    user_shipped = models.ForeignKey('User', on_delete = models.SET_NULL, null=True)
+    user_shipped = models.ForeignKey(User, on_delete = models.SET_NULL, null=True)
     time_shipped = models.DateTimeField()
 
     def create(self):
