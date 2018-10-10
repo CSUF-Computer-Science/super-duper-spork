@@ -1,0 +1,61 @@
+body{
+  display: flex;
+  flex-direction: column;
+  background-image: url("../img/Spork2.png");
+  align-items: center;
+  justify-content: center;
+  margin-top: 10%;
+  background-color: black;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+.loginGroup{
+  display:flex;
+  background-image: url("../img/sporkheadBlackest.png");
+  height: 600px;
+  width:375px;
+  background-repeat: no-repeat;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+  color: white;
+}
+
+.mainLogo{
+  width: 200px;
+}
+.inpT{
+  display:flex;
+  flex-direction:row;
+
+}
+.sub{
+  color: Black;
+  margin: 8px;
+  font-weight: 200;
+  border: 2px solid #DADADA;
+  border-radius: 2px;
+  background-color: White;
+}
+.sub:hover{
+  border: 2px #C6C6C6 solid;
+   box-shadow: 1px 1px 1px rgba(234,234,234,.8);
+   color: #333333;
+   background: #F7F7F7;
+   cursor: pointer;
+}
+
+.inType{
+  height: 35px;
+  width: 210px;
+  font-size: 18px;
+  padding: 5px;
+  padding-left: 8px;
+  background-color:rgb(33, 31, 41);
+  /*background-color: rgb(45,45,45);*/
+  display: inline-block;
+  border: 0px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  vertical-align: text-bottom;
+  box-shadow: inset 0px 2px 3px #000;
+}
