@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Sporkify</title>
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <!--The normalize link needs to go before your stylesheet
+    reference so that it will download what it needs to normalize
+    your file before it reads your file-->
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <!--Above the rel(ationship) attribute tells
+    the browser what kind of information is in
+    the linked doc. The href sttribut tells the browser
+    to sent a request for the file and which folder it is in.
+    in this case relative to the current document.-->
+  </head>
+
+  <body>
+    <form class="loginGroup" action="#">
+      <img class="mainLogo" src="img/sporkifyWhite.png" alt="Sporkify">
+      <br>
+      <div class="inpT">
+        <input class="inType" type="text" name="eID" placeholder="Employee ID">
+      </div>
+      <br>
+      <div class="inpT">
+      <input class="inType" type="password" name="pwd" placeholder="Password">
+    </div>
+      <br>
+        <input class="sub" type="submit" value="Login">
+    </form>
+  </body>
+</html>
