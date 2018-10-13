@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    </head>
+    <body>
+        {% include "menu.html" %}
+        <a>Warehouse Inventory Management</a>
+        <br>
+        <button>Add Item</button>
+        <br><br>
+        <div id="add_item">
+            <a>Add Item</a><br>
+            <input type="text" name="Item Name" value="Item Name"><br>
+            <a>Sales Channel</a><br>
+            <form>
+              <input type="radio" name="Sales Channel" value="ebay" checked>Ebay<br>
+              <input type="radio" name="Sales Channel" value="amazon">Amazon<br>
+              <input type="radio" name="Sales Channel" value="self">Self<br>
+            </form>
+            <input type="text" name="Vendor" value="Vendor: [Vendor1, Vendor2.. VendorN]"><br>
+            <a>Condition</a><br>
+            <form>
+              <input type="radio" name="Condition" value="new" checked>New<br>
+              <input type="radio" name="Condition" value="used">Used<br>
+              <input type="radio" name="Condition" value="parts">Parts<br>
+            </form>
+            <a>Purchase Price</a><br>
+            <input type="text" name="Purchase Price" value="$0.00"><br>
+            <a>Asking Price</a><br>
+            <input type="text" name="Asking Price" value="$0.00"><br>
+            <a>Product Type</a><br>
+            <form>
+              <input type="radio" name="Type" value="laptop" checked>Laptop<br>
+              <input type="radio" name="Type" value="desktop">Desktop<br>
+              <input type="radio" name="Type" value="phones">Smartphone<br>
+            </form>
+            <input type="submit" value="Done!">
+            <input type="submit" value="Cancel">
+        </div>
+        <table style="width:100%">
+          <tr>
+            <th>Product Code</th>
+            <th>Item Name</th>
+            <th>Sales Channel</th>
+            <th>Vendor</th>
+            <th>Condition</th>
+            <th>Purchase Price</th>
+            <th>Asking Price</th>
+            <th>Product Type</th>
+          </tr>
+          {% for item in items %}
+          <tr>
+            <td>{{item.product_code}}</td>
+            <td>iPhone SE</td>
+            <td>getsporkedwith.us</td>
+            <td>Apple</td>
+            <td>New</td>
+            <td>$250</td>
+            <td>$499</td>
+            <td>Smartphone</td>
+          </tr>
+          {% endfor %}
+        </table>
+    </body>
+</html>
