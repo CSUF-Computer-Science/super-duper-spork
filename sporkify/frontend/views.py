@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
-def login(request):
-    
+from backend.models import Inventory
+
+def inventory(request):
+    return render(request, 'inventory.html', {
+        "items": Inventory.objects.all()
+    })
