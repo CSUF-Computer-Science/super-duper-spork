@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <link rel="stylesheet" type="text/css" href="/static/stylesheets/styles.css">
+    </head>
+    <body>
+        {% include "header.html" %}
+        <a>Warehouse Inventory Management</a>
+        <br>
+        <button>Add Item</button>
+        <br><br>
+        <div id="add_item">
+            <a>Add Item</a><br>
+            <input type="text" name="Item Name" value="Item Name"><br>
+            <a>Sales Channel</a><br>
+            <form>
+              <input type="radio" name="Sales Channel" value="ebay" checked>Ebay<br>
+              <input type="radio" name="Sales Channel" value="amazon">Amazon<br>
+              <input type="radio" name="Sales Channel" value="self">Self<br>
+            </form>
+            <input type="text" name="Vendor" value="Vendor: [Vendor1, Vendor2.. VendorN]"><br>
+            <a>Condition</a><br>
+            <form>
+              <input type="radio" name="Condition" value="new" checked>New<br>
+              <input type="radio" name="Condition" value="used">Used<br>
+              <input type="radio" name="Condition" value="parts">Parts<br>
+            </form>
+            <a>Purchase Price</a><br>
+            <input type="text" name="Purchase Price" value="$0.00"><br>
+            <a>Asking Price</a><br>
+            <input type="text" name="Asking Price" value="$0.00"><br>
+            <a>Product Type</a><br>
+            <form>
+              <input type="radio" name="Type" value="laptop" checked>Laptop<br>
+              <input type="radio" name="Type" value="desktop">Desktop<br>
+              <input type="radio" name="Type" value="phones">Smartphone<br>
+            </form>
+            <input type="submit" value="Done!">
+            <input type="submit" value="Cancel">
+        </div>
+        <table style="width:100%">
+          <tr>
+            <th>Product Code</th>
+            <th>Selling Site</th>
+            <th>Vendor</th>
+            <th>Condition</th>
+            <th>Purchase Price</th>
+            <th>Asking Price</th>
+            <th>Product Type</th>
+            <th>Added By</th>
+            <th>Time Added</th>
+          </tr>
+          {% for item in items %}
+          <tr>
+            <td>{{item.product_code}}</td>
+            <td>{{item.selling_site.name}}</td>
+            <td>{{item.vendor.comp_Name}}</td>
+            <td>{{item.condition.cond_Name}}</td>
+            <td>{{item.pur_price}}</td>
+            <td>{{item.ask_price}}</td>
+            <td>{{item.product_code}}</td>
+            <td>{{item.added_by.user.username}}</td>
+            <td>{{item.time_added}}</td>
+            <td><button>Edit Item</button></td>
+            <td><form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.product_code}}" /><button type="submit" name="deleteItem">Delete Item</button></form></td>
+          </tr>
+          {% endfor %}
+        </table>
+    </body>
+</html>
