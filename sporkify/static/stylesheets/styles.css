@@ -1,7 +1,7 @@
 body{
   display: flex;
   flex-direction: column;
-  background-image: url("../img/Spork2.png");
+  background-image: url("/static/img/Spork2.png");
   align-items: center;
   justify-content: center;
   margin-top: 10%;
@@ -10,7 +10,7 @@ body{
 }
 .loginGroup{
   display:flex;
-  background-image: url("../img/sporkheadBlackest.png");
+  background-image: url("/static/img/sporkheadBlackest.png");
   height: 600px;
   width:375px;
   background-repeat: no-repeat;
@@ -51,6 +51,7 @@ body{
   padding: 5px;
   padding-left: 8px;
   background-color:rgb(33, 31, 41);
+  color: white;
   /*background-color: rgb(45,45,45);*/
   display: inline-block;
   border: 0px solid #ccc;

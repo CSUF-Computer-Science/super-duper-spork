@@ -9,7 +9,7 @@
     <!--The normalize link needs to go before your stylesheet
     reference so that it will download what it needs to normalize
     your file before it reads your file-->
-    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="/static/stylesheets/styles.css">
     <!--Above the rel(ationship) attribute tells
     the browser what kind of information is in
     the linked doc. The href sttribut tells the browser
@@ -18,18 +18,20 @@
   </head>
 
   <body>
-    <form class="loginGroup" action="#">
-      <img class="mainLogo" src="img/sporkifyWhite.png" alt="Sporkify">
+    <form class="loginGroup" action="#" method="POST">
+      {% csrf_token %}
+
+      <img class="mainLogo" src="/static/img/sporkifyWhite.png" alt="Sporkify">
       <br>
       <div class="inpT">
-        <input class="inType" type="text" name="eID" placeholder="Employee ID">
+        <input class="inType" type="text" name="username" placeholder="Employee ID">
       </div>
       <br>
       <div class="inpT">
-      <input class="inType" type="password" name="pwd" placeholder="Password">
+      <input class="inType" type="password" name="password" placeholder="Password">
     </div>
       <br>
-        <input class="sub" type="submit" value="Login">
+      <input class="sub" type="submit" value="Login">
     </form>
   </body>
 </html>
