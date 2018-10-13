@@ -40,24 +40,28 @@
         <table style="width:100%">
           <tr>
             <th>Product Code</th>
-            <th>Item Name</th>
-            <th>Sales Channel</th>
+            <th>Selling Site</th>
             <th>Vendor</th>
             <th>Condition</th>
             <th>Purchase Price</th>
             <th>Asking Price</th>
             <th>Product Type</th>
+            <th>Added By</th>
+            <th>Time Added</th>
           </tr>
           {% for item in items %}
           <tr>
             <td>{{item.product_code}}</td>
-            <td>iPhone SE</td>
-            <td>getsporkedwith.us</td>
-            <td>Apple</td>
-            <td>New</td>
-            <td>$250</td>
-            <td>$499</td>
-            <td>Smartphone</td>
+            <td>{{item.selling_site}}</td>
+            <td>{{item.vendor.name}}</td>
+            <td>{{item.condition.name}}</td>
+            <td>{{item.pur_price}}</td>
+            <td>{{item.ask_price}}</td>
+            <td>{{item.product_code}}</td>
+            <td>{{item.added_by}}</td>
+            <td>{{item.time_added}}</td>
+            <td><button>Edit Item</button></td>
+            <td><button>Delete Item</button></td>
           </tr>
           {% endfor %}
         </table>
