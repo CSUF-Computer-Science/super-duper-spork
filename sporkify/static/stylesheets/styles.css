@@ -1,62 +1,84 @@
 body{
   display: flex;
   flex-direction: column;
-  background-image: url("/static/img/Spork2.png");
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  margin-top: 10%;
-  background-color: black;
+  background-color: rgb(194,224,222);
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
-.loginGroup{
-  display:flex;
-  background-image: url("/static/img/sporkheadBlackest.png");
-  height: 600px;
-  width:375px;
-  background-repeat: no-repeat;
-  flex-direction: column;
-  align-items:center;
+header{
+  background-image: url("../img/Spork2.png");
+  display: grid;
+  grid-template-columns: 1fr,1fr;
+  grid-template-areas: "p q";
+  height: 200px;
+  width: 100%;
+
+}
+.headerlogo{
+  grid-area:p;
+  width: 300px;
+  align-self: center;
+  justify-self:flex-start;
+  padding-left:35px;
+  margin-top: 10px;
+}
+.headerlinks{
+  justify-self: flex-end;
+  display: grid;
+  padding-bottom: 10px;
+  grid-area: q;
+  grid-template-columns: repeat(5,auto);
+  grid-template-areas:
+  "a b c d e";
+  align-items: center;
   justify-content: center;
-  color: white;
+  width: 600px;
 }
+a{
+  color:white;
+  text-decoration: none;
+  font-size: 20px;
+}
+.dashB{
+  grid-area: a;
+  align-self: flex-end;
+  text-align: left;
+  margin-right: 40px;
+  padding-bottom: 50px;
 
-.mainLogo{
-  width: 200px;
 }
-.inpT{
-  display:flex;
-  flex-direction:row;
+.inVent{
+  grid-area: b;
+  align-self: flex-end;
+  text-align: left;
+  margin-right: 40px;
+  padding-bottom: 50px;
 
 }
-.sub{
-  color: Black;
-  margin: 8px;
-  font-weight: 200;
-  border: 2px solid #DADADA;
-  border-radius: 2px;
-  background-color: White;
-}
-.sub:hover{
-  border: 2px #C6C6C6 solid;
-   box-shadow: 1px 1px 1px rgba(234,234,234,.8);
-   color: #333333;
-   background: #F7F7F7;
-   cursor: pointer;
-}
+.saleS{
+  grid-area: c;
+  align-self: flex-end;
+  text-align: left;
+  margin-right: 40px;
+  padding-bottom: 50px;
 
-.inType{
-  height: 35px;
-  width: 210px;
-  font-size: 18px;
-  padding: 5px;
-  padding-left: 8px;
-  background-color:rgb(33, 31, 41);
-  color: white;
-  /*background-color: rgb(45,45,45);*/
-  display: inline-block;
-  border: 0px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  vertical-align: text-bottom;
-  box-shadow: inset 0px 2px 3px #000;
+}
+.emploY{
+  grid-area: d;
+  align-self: flex-end;
+  text-align: center;
+  text-align: left;
+  padding-bottom: 50px;
+  margin-right: 40px;
+
+}
+.sporky{
+  grid-area: e;
+  align-self: flex-end;
+  text-align: center;
+  margin-right: 40px;
+  padding-bottom: 40px;
+
+  width: 40px;
 }
