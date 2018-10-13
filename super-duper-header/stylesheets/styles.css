@@ -1,0 +1,84 @@
+body{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: rgb(194,224,222);
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+header{
+  background-image: url("../img/Spork2.png");
+  display: grid;
+  grid-template-columns: 1fr,1fr;
+  grid-template-areas: "p q";
+  height: 200px;
+  width: 100%;
+
+}
+.headerlogo{
+  grid-area:p;
+  width: 300px;
+  align-self: center;
+  justify-self:flex-start;
+  padding-left:35px;
+  margin-top: 10px;
+}
+.headerlinks{
+  justify-self: flex-end;
+  display: grid;
+  padding-bottom: 10px;
+  grid-area: q;
+  grid-template-columns: repeat(5,auto);
+  grid-template-areas:
+  "a b c d e";
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+}
+a{
+  color:white;
+  text-decoration: none;
+  font-size: 20px;
+}
+.dashB{
+  grid-area: a;
+  align-self: flex-end;
+  text-align: left;
+  margin-right: 40px;
+  padding-bottom: 50px;
+
+}
+.inVent{
+  grid-area: b;
+  align-self: flex-end;
+  text-align: left;
+  margin-right: 40px;
+  padding-bottom: 50px;
+
+}
+.saleS{
+  grid-area: c;
+  align-self: flex-end;
+  text-align: left;
+  margin-right: 40px;
+  padding-bottom: 50px;
+
+}
+.emploY{
+  grid-area: d;
+  align-self: flex-end;
+  text-align: center;
+  text-align: left;
+  padding-bottom: 50px;
+  margin-right: 40px;
+
+}
+.sporky{
+  grid-area: e;
+  align-self: flex-end;
+  text-align: center;
+  margin-right: 40px;
+  padding-bottom: 40px;
+
+  width: 40px;
+}
