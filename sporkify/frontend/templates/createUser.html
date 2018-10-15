@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Create Sporker</title>
+        <script src="./createUser.js" async></script>
+	</head>
+	<body>
+        <h1>Sporkify</h1>
+		<form>
+			<fieldset>
+				<legend>Create User</legend>
+                    <label for="uname">User Name:</label>
+                <br>
+					<input type="username" name="uname" maxlength="40" size="40" required> </input>
+				<br>
+                    <label>Password:</label>
+                <br>
+					<input type="password" name="pword" maxlength="40" size="40" id="pwordInput" required> </input>
+                    <p id="incorrect_pword_msg"></p>
+				<br> <br>
+					<input type="submit" onclick="validatePassword()"> </input>
+			</fieldset>
+		</form>
+	</body>
+</html>
