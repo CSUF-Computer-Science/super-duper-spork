@@ -8,14 +8,14 @@
     <body>
         {% include "header.html" %}
         <div class="content">
-          <a>Warehouse Inventory Management</a>
+          <h1>Warehouse Inventory Management</h1>
           <br>
           <button onclick="hideAddItem()">Add Item</button>
           <br><br>
           <div id="add_item" style="display:none;">
-              <a>Add Item</a><br>
+              <h2>Add Item</h2><br>
               <input type="text" name="Item Name" value="Item Name"><br>
-              <a>Sale Site</a><br>
+              <h2>Sales Site</h2><br>
               <form>
                 {% for channel in channels %}
                 <input type="radio" name="Sale Site" value="{{channel.name}}">{{channel.name}}<br>
@@ -27,17 +27,18 @@
                 <input type="radio" name="Vendor" value="{{vendor.comp_Name}}">{{vendor.comp_Name}}<br>
                 {% endfor %}
               </form>
-              <a>Condition</a><br>
+              <input type="text" name="Vendor" value="Vendor: [Vendor1, Vendor2.. VendorN]"><br>
+              <h2>Condition</h2><br>
               <form>
                 <input type="radio" name="Condition" value="new" checked>New<br>
                 <input type="radio" name="Condition" value="used">Used<br>
                 <input type="radio" name="Condition" value="parts">Parts<br>
               </form>
-              <a>Purchase Price</a><br>
+              <h2>Purchase Price</h2><br>
               <input type="text" name="Purchase Price" value="$0.00"><br>
-              <a>Asking Price</a><br>
+              <h2>Asking Price</h2><br>
               <input type="text" name="Asking Price" value="$0.00"><br>
-              <a>Product Type</a><br>
+              <h2>Product Type</h2><br>
               <form>
                 <input type="radio" name="Type" value="laptop" checked>Laptop<br>
                 <input type="radio" name="Type" value="desktop">Desktop<br>
