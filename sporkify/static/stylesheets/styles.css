@@ -102,14 +102,10 @@ a{
   width: 40px;
 }
 
-.content {
+/*Content Box Styles*/
+.contentContainer {
   margin: 0 auto;
   padding: 10px;
-  box-shadow: 0px 0px 18px 3px rgba(0,0,0,0.75);
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.40);
   background: white;
-}
-
-/* This is temporary and should be removed */
-.content a {
-  color: black;
 }
