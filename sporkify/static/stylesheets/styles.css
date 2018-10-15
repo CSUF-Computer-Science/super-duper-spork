@@ -12,6 +12,8 @@ body{
   width: 100%;
   background: url(/static/img/Spork2.png);
   height: 200px;
+  box-shadow: 0px 7px 15px -1px rgba(0,0,0,0.65);
+  margin-bottom: 10px;
 }
 
 .darkness {
@@ -98,4 +100,8 @@ a{
   padding-bottom: 40px;
 
   width: 40px;
+}
+
+.content {
+  margin: 0 auto;
 }
