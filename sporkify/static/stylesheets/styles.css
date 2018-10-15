@@ -13,7 +13,7 @@ body{
   background: url(/static/img/Spork2.png);
   height: 200px;
   box-shadow: 0px 7px 15px -1px rgba(0,0,0,0.65);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .darkness {
@@ -104,4 +104,12 @@ a{
 
 .content {
   margin: 0 auto;
+  padding: 10px;
+  box-shadow: 0px 0px 18px 3px rgba(0,0,0,0.75);
+  background: white;
+}
+
+/* This is temporary and should be removed */
+.content a {
+  color: black;
 }
