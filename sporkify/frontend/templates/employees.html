@@ -65,13 +65,16 @@
         			<th>Total Hours</th>
         			<th>Total Pay</th>
         		</tr>
+        		{% for employee in employees %}
         		<tr>
-        			<td></td>
-        			<td></td>
-        			<td></td>
-        			<td></td>
-        			<td></td>
-        		</tr>
+        			<td>{{employee.emp_ID}}</td>
+        			<td>{{employee.f_name}}</td>
+        			<td>{{employee.l_name}}</td>
+        			<td>{{employee.hourly_wage}}</td>
+        			<td>{{employee.permissions}}</td>
+        			<td><button id="edit_user">Edit Information</button></td>
+       			</tr>
+       			{% endfor %}
         	</table>
         </div>
 {% endblock %}
