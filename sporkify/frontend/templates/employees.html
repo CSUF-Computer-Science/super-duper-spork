@@ -1,4 +1,77 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Employee Database</h1>
+    	<h1>Employee Management</h1><br>
+    	<!-- User Side -->
+    	<h2>User Preview</h2>
+    	<div class="tracktime">
+        	<a>Time Portal</a>
+        	<br>
+			            
+    		<form>
+    			<fieldset>
+    				<legend>Your Information</legend>
+    				<label>First Name:</label> <br> <!--pull from django here-->
+    				<label>Last Name:</label> <br><!--pull from django here-->
+    				<label>Houry Wage:</label> <br><!--pull from django here-->
+    			</fieldset>
+    		</form>
+    	</div><br><br>
+
+    	<!-- Show Hours for the Week -->
+    	<a>Weekly Timesheet</a>
+        <div class="timesheet_weekly">
+        	<table style="width: 100%">
+        		<tr>
+        			<th>Date</th>
+        			<th>Clock In</th>
+        			<th>Clock Out</th>
+        			<th>Total Hours</th>
+        			<th>Total Pay</th>
+        		</tr>
+        	</table>
+        </div><br><br>
+        <!-- Manager/Owner Side -->
+        <h2>Manager Preview</h2>
+        <a>Manage Employees</a>
+        <div class="manage">
+        	<button id="create_user">Add Employee</button>
+        	<button id="remove_user">Remove Employee</button>
+        	<table style="width: 100%">
+        		<tr>
+        			<th>Employee ID</th>
+        			<th>First Name</th>
+        			<th>Last Name</th>
+        			<th>Hourly Wage</th>
+        			<th>Permissions</th>
+        		</tr>
+        		<tr>
+        			<td></td>
+        			<td></td>
+        			<td></td>
+        			<td></td>
+        			<td></td>
+        			<td><button id="edit_user">Edit Information</button></td>
+       			</tr>
+       		</table>
+        </div><br><br>
+        <!-- Show Timesheet for that day (or more if possible) -->
+        <div class="timesheet_daily">
+        	<a>Daily Timesheet</a>
+        	<table style="width: 100%">
+        		<tr>
+        			<th>Employee Name</th>
+        			<th>Clock In</th>
+        			<th>Clock Out</th>
+        			<th>Total Hours</th>
+        			<th>Total Pay</th>
+        		</tr>
+        		<tr>
+        			<td></td>
+        			<td></td>
+        			<td></td>
+        			<td></td>
+        			<td></td>
+        		</tr>
+        	</table>
+        </div>
 {% endblock %}
