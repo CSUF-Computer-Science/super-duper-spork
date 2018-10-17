@@ -9,10 +9,18 @@ from backend.models import Shift
 
 @login_required
 def inventory(request):
+    if request.method == 'POST':
+        
+
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
         "vendors": Vendor.objects.all(),
         "channels": Sale_Site.objects.all(),
+        "employee": Employee.objects.all(),
+        "shift": Shift.objects.all()
+    })
+def employee(request):
+    return render(request, 'employees.html',{
         "employee": Employee.objects.all(),
         "shift": Shift.objects.all()
     })

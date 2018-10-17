@@ -9,44 +9,45 @@
 {%block miniDash%}
 
 <div id="add_item">
-  <h2>Add Item</h2><br>
-  <input type="text" name="Item Name" value="Item Name"><br>
-  <h2>Sales Site</h2><br>
-  <form>
-    {% for channel in channels %}
-    <input type="radio" name="Sale Site" value="{{channel.pk}}">{{channel.name}}<br>
-    {% endfor %}
-  </form>
-  <a>Vendor</a><br>
-  <form>
-    {% for vendor in vendors %}
-    <input type="radio" name="Vendor" value="{{vendor.pk}}">{{vendor.comp_Name}}<br>
-    {% endfor %}
-  </form>
-  <input type="text" name="Vendor" value="Vendor: [Vendor1, Vendor2.. VendorN]"><br>
-  <h2>Condition</h2><br>
-  <form>
-    <input type="radio" name="Condition" value="new" checked>New<br>
-    <input type="radio" name="Condition" value="used">Used<br>
-    <input type="radio" name="Condition" value="parts">Parts<br>
-  </form>
-  <h2>Purchase Price</h2><br>
-  <input type="text" name="Purchase Price" value="$0.00"><br>
-  <h2>Asking Price</h2><br>
-  <input type="text" name="Asking Price" value="$0.00"><br>
-  <h2>Product Type</h2><br>
-  <form>
-    <input type="radio" name="Type" value="laptop" checked>Laptop<br>
-    <input type="radio" name="Type" value="desktop">Desktop<br>
-    <input type="radio" name="Type" value="phones">Smartphone<br>
-  </form>
-  <input type="submit" value="Done!">
-  <input type="submit" value="Cancel">
+  <div id="add_item" style="display:none;">
+    <h2>Add Item</h2><br>
+    <form method="post">
+        <input type="text" name="Item Name" value="Item Name"><br>
+
+        <h2>Sales Site</h2><br>
+        {% for channel in channels %}
+        <input type="radio" name="Sale Site" value="{{channel.pk}}">{{channel.name}}<br>
+        {% endfor %}
+
+        <a>Vendor</a><br>
+        {% for vendor in vendors %}
+        <input type="radio" name="Vendor" value="{{vendor.pk}}">{{vendor.comp_Name}}<br>
+        {% endfor %}
+
+        <h2>Condition</h2><br>
+        <input type="radio" name="Condition" value="new" checked>New<br>
+        <input type="radio" name="Condition" value="used">Used<br>
+        <input type="radio" name="Condition" value="parts">Parts<br>
+
+        <h2>Purchase Price</h2><br>
+        <input type="text" name="Purchase Price" value="$0.00"><br>
+
+        <h2>Asking Price</h2><br>
+        <input type="text" name="Asking Price" value="$0.00"><br>
+
+        <h2>Product Type</h2><br>
+        <input type="radio" name="Type" value="laptop" checked>Laptop<br>
+        <input type="radio" name="Type" value="desktop">Desktop<br>
+        <input type="radio" name="Type" value="phones">Smartphone<br>
+
+        <input type="submit" value="Done!">
+        <input type="submit" value="Cancel">
+    </form>
 </div>
 {%block%}
 
 
-{%block content%}
+{%block contentContainer%}
 <table style="width:100%">
   <tr>
     <th>Product Code</th>
@@ -79,3 +80,4 @@
   {% endfor %}
 </table>
 {% endblock %}
+
