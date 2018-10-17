@@ -15,11 +15,17 @@
           <div id="add_item" style="display:none;">
               <h2>Add Item</h2><br>
               <input type="text" name="Item Name" value="Item Name"><br>
-              <h2>Sales Channel</h2><br>
+              <h2>Sales Site</h2><br>
               <form>
-                <input type="radio" name="Sales Channel" value="ebay" checked>Ebay<br>
-                <input type="radio" name="Sales Channel" value="amazon">Amazon<br>
-                <input type="radio" name="Sales Channel" value="self">Self<br>
+                {% for channel in channels %}
+                <input type="radio" name="Sale Site" value="{{channel.pk}}">{{channel.name}}<br>
+                {% endfor %}
+              </form>
+              <a>Vendor</a><br>
+              <form>
+                {% for vendor in vendors %}
+                <input type="radio" name="Vendor" value="{{vendor.pk}}">{{vendor.comp_Name}}<br>
+                {% endfor %}
               </form>
               <input type="text" name="Vendor" value="Vendor: [Vendor1, Vendor2.. VendorN]"><br>
               <h2>Condition</h2><br>
