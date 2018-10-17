@@ -1,10 +1,15 @@
+
 {%extends "base.html"%}
 
-<h1>Warehouse Inventory Management</h1>
-<br>
-<button onclick="hideAddItem()">Add Item</button>
-<br><br>
-<div id="add_item" style="display:none;">
+
+{%block headIncludes%}
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/inventory.css">
+{%endblock%}
+
+{%block miniDash%}
+
+<div id="add_item">
+  <div id="add_item" style="display:none;">
     <h2>Add Item</h2><br>
     <form method="post">
         <input type="text" name="Item Name" value="Item Name"><br>
@@ -39,8 +44,10 @@
         <input type="submit" value="Cancel">
     </form>
 </div>
+{%block%}
 
-{%block content%}
+
+{%block contentContainer%}
 <table style="width:100%">
   <tr>
     <th>Product Code</th>
@@ -65,9 +72,12 @@
     <td>{{item.added_by.user.username}}</td>
     <td>{{item.time_added}}</td>
     <td><button>Edit Item</button></td>
-    <td><form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.product_code}}" /><button type="submit" name="deleteItem">Delete Item</button></form></td>
+    <td>
+      <form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.product_code}}" /><button
+          type="submit" name="deleteItem">Delete Item</button></form>
+    </td>
   </tr>
   {% endfor %}
 </table>
-
 {% endblock %}
+
