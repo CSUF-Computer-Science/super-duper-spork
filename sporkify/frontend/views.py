@@ -10,8 +10,8 @@ from backend.models import Shift
 @login_required
 def inventory(request):
     if request.method == 'POST':
+        pass
         
-
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
         "vendors": Vendor.objects.all(),
