@@ -1,5 +1,5 @@
 {%extends "base.html"%}
-{%block content%}
+
 <h1>Warehouse Inventory Management</h1>
 <br>
 <button onclick="hideAddItem()">Add Item</button>
@@ -39,6 +39,8 @@
     <input type="submit" value="Done!">
     <input type="submit" value="Cancel">
 </div>
+
+{%block content%}
 <table style="width:100%">
   <tr>
     <th>Product Code</th>
