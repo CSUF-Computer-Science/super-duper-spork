@@ -22,12 +22,17 @@
         <div class="timesheet_weekly">
         	<table style="width: 100%">
         		<tr>
-        			<th>Date</th>
         			<th>Clock In</th>
         			<th>Clock Out</th>
         			<th>Total Hours</th>
         			<th>Total Pay</th>
         		</tr>
+        		{% for shift in shifts %}
+                <tr>
+                    <td>{{shift.time_in}}</td>
+                    <td>{{shift.time_out}}</td>
+                </tr>
+                {% endfor %}
         	</table>
         </div><br><br>
         <!-- Manager/Owner Side -->
@@ -44,14 +49,16 @@
         			<th>Hourly Wage</th>
         			<th>Permissions</th>
         		</tr>
+        		{% for employee in employees %}
         		<tr>
-        			<td></td>
-        			<td></td>
-        			<td></td>
-        			<td></td>
-        			<td></td>
+        			<td>{{employee.emp_ID}}</td>
+        			<td>{{employee.f_name}}</td>
+        			<td>{{employee.l_name}}</td>
+        			<td>{{employee.hourly_wage}}</td>
+        			<td>{{employee.permissions}}</td>
         			<td><button id="edit_user">Edit Information</button></td>
        			</tr>
+       			{% endfor %}
        		</table>
         </div><br><br>
         <!-- Show Timesheet for that day (or more if possible) -->
