@@ -103,7 +103,9 @@ a{
 }
 
 /*Content Box Styles*/
-.contentContainer {
+#contentContainer{
+  align-self: center;
+  width: 90%;
   margin: 0 auto;
   padding: 10px;
   box-shadow: inset 0px 0px 10px rgba(0,0,0,0.40);
