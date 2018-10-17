@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <link rel="stylesheet" type="text/css" href="/static/stylesheets/styles.css">
+	  <script src="/static/js/inventory.js" async></script>
+      <noscript>Enable Javascript to use the Add Item feature.</noscript>
+    </head>
+    <body>
+        {% include "header.html" %}
+        <div id="miniDash">
+            {%block miniDash%}
+            {%endblock%}
+        </div>
+        
+        <div id="contentContainer">
+            {%block content%}
+            {%endblock%}
+        
+        </div> 
+    </body>
+</html>
+
