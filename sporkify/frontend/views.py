@@ -16,3 +16,8 @@ def inventory(request):
         "employee": Employee.objects.all(),
         "shift": Shift.objects.all()
     })
+def employee(request):
+    return render(request, 'employees.html',{
+        "employee": Employee.objects.all(),
+        "shift": Shift.objects.all()
+    })
