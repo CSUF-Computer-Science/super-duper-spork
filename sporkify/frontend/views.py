@@ -10,7 +10,7 @@ from backend.models import Shift
 @login_required
 def inventory(request):
     if request.method == 'POST':
-        
+        pass # TODO Implement form submission entries here
 
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
@@ -19,6 +19,7 @@ def inventory(request):
         "employee": Employee.objects.all(),
         "shift": Shift.objects.all()
     })
+
 def employee(request):
     return render(request, 'employees.html',{
         "employee": Employee.objects.all(),
