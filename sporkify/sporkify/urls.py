@@ -20,7 +20,7 @@ from frontend import views
 
 urlpatterns = [
     path('', views.inventory),
-    path('', views.employee),
+    path('employees/', views.employee),
     path('admin/', admin.site.urls),
     path('auth/', include('django.contrib.auth.urls')),
 ]
