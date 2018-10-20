@@ -13,14 +13,18 @@
     <input type="text" name="Item Name" value="Item Name"><br>
 
     <h2>Sales Site</h2><br>
-    {% for channel in channels %}
-    <input type="radio" name="Sale Site" value="{{channel.pk}}">{{channel.name}}<br>
-    {% endfor %}
+    <select name="Sale Site">
+        {% for channel in channels %}
+            <option value="{{channel.pk}}">{{channel.name}}<option>
+        {% endfor %}
+    </select>
 
-    <a>Vendor</a><br>
-    {% for vendor in vendors %}
-    <input type="radio" name="Vendor" value="{{vendor.pk}}">{{vendor.comp_Name}}<br>
-    {% endfor %}
+    <h2>Vendor</h2><br>
+    <select name="Vendor">
+        {% for vendor in vendors %}
+            <option value="{{vendor.pk}}">{{vendor.comp_Name}}<option>
+        {% endfor %}
+    </select>
 
     <h2>Condition</h2><br>
     <input type="radio" name="Condition" value="new" checked>New<br>
@@ -34,9 +38,13 @@
     <input type="text" name="Asking Price" value="$0.00"><br>
 
     <h2>Product Type</h2><br>
-    <input type="radio" name="Type" value="laptop" checked>Laptop<br>
-    <input type="radio" name="Type" value="desktop">Desktop<br>
-    <input type="radio" name="Type" value="phones">Smartphone<br>
+    <select name="Type">
+        {% for product_type in product_types %}
+        <option value="{{product_type.pk}}">{{product_type.type_name}}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>  <!-- For spacing, please refactor with styling -->
 
     <input type="submit" value="Done!">
     <input type="submit" value="Cancel">
