@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from datetime import timedelta
+
 class Open_Product_Code(models.Model):
     product_code = models.CharField(max_length=15, primary_key=True, unique=True)
     slot_Size = models.ForeignKey('Slot_size', on_delete = models.SET_NULL, null=True)
@@ -73,17 +75,24 @@ class Employee(models.Model):
     password = models.CharField(max_length=25)
 
 class Shift(models.Model):
-    emp_ID = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    emp_ID = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     time_in = models.DateTimeField()
-    time_out = models.DateTimeField()
+    time_out = models.DateTimeField(null=True)
     hourly_wage = models.FloatField()
 
     def create(self):
         self.time_in = timezone.now()
         self.save()
 
-    def hours_worked(self):
-        return (self.time_out - self.time_in).hours
+    @property
+    def time_worked(self):
+        if self.time_out == None:
+            return timedelta(seconds=0)
+        return (self.time_out - self.time_in)
+
+    @property
+    def money(self):
+        return (self.time_worked.total_seconds() / 3600) * self.hourly_wage
 
 class Shipment(models.Model):
     tracking_number = models.CharField(max_length=100, primary_key=True, unique=True)

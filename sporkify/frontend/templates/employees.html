@@ -1,6 +1,30 @@
 {% extends "base.html" %}
+
+{% block headIncludes %}
+{% endblock %}
+
+{% block miniDash %}
+<div style="margin: 0 auto;">
+	<form action="" method="POST">
+		{% csrf_token %}
+		<!-- Print stuff -->
+		{% if clockedIn == True %}
+			You are clocked IN!
+		{% endif %}
+
+		{% if clockedIn == False %}
+			You are clocked OUT!
+			{% if timeWorked != None %}
+				Your shift lasted for {{ timeWorked }}.
+			{% endif %}
+		{% endif %}
+		<button type="submit" name="clockInOut">Clock In/Out</button>
+	</form>
+</div>
+{% endblock %}
+
 {% block content %}
-    	<h1>Employee Management</h1><br>
+		<h1>Employee Management</h1><br>
     	<!-- User Side -->
     	<h2>User Preview</h2>
     	<div class="tracktime">
@@ -22,12 +46,19 @@
         <div class="timesheet_weekly">
         	<table style="width: 100%">
         		<tr>
-        			<th>Date</th>
         			<th>Clock In</th>
         			<th>Clock Out</th>
         			<th>Total Hours</th>
         			<th>Total Pay</th>
         		</tr>
+        		{% for shift in myShifts %}
+        		<tr>
+        			<td>{{shift.time_in}}</td>
+        			<td>{{shift.time_out}}</td>
+        			<td>{{shift.time_worked}}</td>
+        			<td>${{shift.money|floatformat}}</td>
+       			</tr>
+       			{% endfor %}
         	</table>
         </div><br><br>
         <!-- Manager/Owner Side -->
@@ -65,13 +96,13 @@
         			<th>Total Hours</th>
         			<th>Total Pay</th>
         		</tr>
-        		{% for employee in employees %}
+        		{% for shift in shifts %}
         		<tr>
-        			<td>{{employee.emp_ID}}</td>
-        			<td>{{employee.f_name}}</td>
-        			<td>{{employee.l_name}}</td>
-        			<td>{{employee.hourly_wage}}</td>
-        			<td>{{employee.permissions}}</td>
+        			<td>{{shift.emp_ID.f_name}} {{shift.emp_ID.l_name}}</td>
+        			<td>{{shift.time_in}}</td>
+        			<td>{{shift.time_out}}</td>
+        			<td>{{shift.time_worked}}</td>
+        			<td>${{shift.money|floatformat}}</td>
         			<td><button id="edit_user">Edit Information</button></td>
        			</tr>
        			{% endfor %}
