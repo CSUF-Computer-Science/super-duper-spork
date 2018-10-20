@@ -1,46 +1,51 @@
 {%extends "base.html"%}
 
-<h1>Warehouse Inventory Management</h1>
-<br>
-<button onclick="hideAddItem()">Add Item</button>
-<br><br>
-<div id="add_item" style="display:none;">
-    <h2>Add Item</h2><br>
-    <form method="post">
-        <input type="text" name="Item Name" value="Item Name"><br>
 
-        <h2>Sales Site</h2><br>
-        {% for channel in channels %}
-        <input type="radio" name="Sale Site" value="{{channel.pk}}">{{channel.name}}<br>
-        {% endfor %}
+{%block headIncludes%}
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/inventory.css">
+{%endblock%}
 
-        <a>Vendor</a><br>
-        {% for vendor in vendors %}
-        <input type="radio" name="Vendor" value="{{vendor.pk}}">{{vendor.comp_Name}}<br>
-        {% endfor %}
+{%block miniDash%}
 
-        <h2>Condition</h2><br>
-        <input type="radio" name="Condition" value="new" checked>New<br>
-        <input type="radio" name="Condition" value="used">Used<br>
-        <input type="radio" name="Condition" value="parts">Parts<br>
+<div id="add_item">
+  <h2>Add Item</h2><br>
+  <form method="post">
+    <input type="text" name="Item Name" value="Item Name"><br>
 
-        <h2>Purchase Price</h2><br>
-        <input type="text" name="Purchase Price" value="$0.00"><br>
+    <h2>Sales Site</h2><br>
+    {% for channel in channels %}
+    <input type="radio" name="Sale Site" value="{{channel.pk}}">{{channel.name}}<br>
+    {% endfor %}
 
-        <h2>Asking Price</h2><br>
-        <input type="text" name="Asking Price" value="$0.00"><br>
+    <a>Vendor</a><br>
+    {% for vendor in vendors %}
+    <input type="radio" name="Vendor" value="{{vendor.pk}}">{{vendor.comp_Name}}<br>
+    {% endfor %}
 
-        <h2>Product Type</h2><br>
-        <input type="radio" name="Type" value="laptop" checked>Laptop<br>
-        <input type="radio" name="Type" value="desktop">Desktop<br>
-        <input type="radio" name="Type" value="phones">Smartphone<br>
+    <h2>Condition</h2><br>
+    <input type="radio" name="Condition" value="new" checked>New<br>
+    <input type="radio" name="Condition" value="used">Used<br>
+    <input type="radio" name="Condition" value="parts">Parts<br>
 
-        <input type="submit" value="Done!">
-        <input type="submit" value="Cancel">
-    </form>
+    <h2>Purchase Price</h2><br>
+    <input type="text" name="Purchase Price" value="$0.00"><br>
+
+    <h2>Asking Price</h2><br>
+    <input type="text" name="Asking Price" value="$0.00"><br>
+
+    <h2>Product Type</h2><br>
+    <input type="radio" name="Type" value="laptop" checked>Laptop<br>
+    <input type="radio" name="Type" value="desktop">Desktop<br>
+    <input type="radio" name="Type" value="phones">Smartphone<br>
+
+    <input type="submit" value="Done!">
+    <input type="submit" value="Cancel">
+  </form>
 </div>
+{%endblock%}
 
-{%block content%}
+
+{%block contentContainer%}
 <table style="width:100%">
   <tr>
     <th>Product Code</th>
@@ -65,9 +70,11 @@
     <td>{{item.added_by.user.username}}</td>
     <td>{{item.time_added}}</td>
     <td><button>Edit Item</button></td>
-    <td><form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.product_code}}" /><button type="submit" name="deleteItem">Delete Item</button></form></td>
+    <td>
+      <form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.product_code}}" /><button
+          type="submit" name="deleteItem">Delete Item</button></form>
+    </td>
   </tr>
   {% endfor %}
 </table>
-
 {% endblock %}
