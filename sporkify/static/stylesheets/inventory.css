@@ -1,0 +1,141 @@
+
+#miniDashContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+    margin: 10px;
+}
+
+#add_item{
+    justify-content: flex-start; 
+    align-content: top;
+    border-radius: 4px;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin: 10px;
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.40);
+    background: white;
+    width: 350px;
+    height: 325px;
+}
+
+#sectionTitle{
+    font-size: 20px;
+    background-color: darkorange;
+}
+#addedby{
+    /*added_by*/
+    display: none;
+}
+#add_submit{
+    /*done & cancel*/
+    justify-content: flex-end;
+    background-color: lightgreen;
+}
+#add_item ul{
+    justify-content: flex-start;
+    background-color: black;
+    padding:0px;
+}
+/*List level*/
+#add_item li{
+    list-style: none;
+    margin:2px;
+    padding: 0px;
+    
+}
+#add_item #bullet2_product{
+    background-color: lightblue;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+#add_item #bullet3_selling{
+    background-color: #888;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+#add_item #bullet4_purchased{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: lightblue;
+}
+
+/*input label level*/
+#add_item #pCode{
+    padding:4px;
+}
+#add_item #pType{
+    padding:4px;
+}
+#add_item #sSite{
+    padding:4px;
+}
+#add_item #sCondition{
+    padding:4px;
+}
+#add_item #sAPrice{
+    padding:4px;
+}
+#add_item #purVendor{
+    padding:4px;
+}
+#add_item #purPrice{
+    padding:4px;
+}
+/*input field level*/
+#add_item #selling_site{
+    width: 120px;
+}
+#add_item input.price_{
+    width: 80px;
+}
+#add_item input.product_code{
+    width: 200px;
+}
+#add_item #vendor{
+    width: 150px;
+}
+#add_item #product_type{
+    width: 200px;
+}
+#add_item #product_code{
+    width: 120px;
+}
+
+#add_item input[type="none"],
+#add_item select,
+#add_item input[type="text"]{
+	display: block;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 80px;
+	padding: 8px;
+	border-radius: 6px;
+	-webkit-border-radius:6px;
+	-moz-border-radius:6px;
+	border: 0px solid #fff;
+	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+	-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+	-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+}
+
+#add_item input[type="submit"]{
+	background: #2A88AD;
+	padding: 8px 20px 8px 20px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	color: #fff;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+	font: normal 30px 'Bitter', serif;
+	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	border: 1px solid #257C9E;
+	font-size: 15px;
+}
