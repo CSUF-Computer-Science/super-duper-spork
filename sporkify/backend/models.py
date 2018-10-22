@@ -27,7 +27,7 @@ class Inventory(models.Model):
     ask_price = models.FloatField()
     product_type = models.ForeignKey('Product_Type', on_delete = models.SET_NULL, null=True)
     added_by = models.ForeignKey('Employee',on_delete = models.SET_NULL, null=True)
-    time_added = models.DateTimeField()
+    time_added = models.DateTimeField(auto_now=True)
 
     def create(self):
         self.time_added = timezone.now()

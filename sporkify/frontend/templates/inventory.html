@@ -1,88 +1,116 @@
 {%extends "base.html"%}
-
-
 {%block headIncludes%}
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/inventory.css">
 {%endblock%}
-
 {%block miniDash%}
+<div id="MiniDashContainer">
+    <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
 
-<div id="add_item">
-  <h2>Add Item</h2><br>
-  <form method="post">
-    <input type="text" name="Item Name" value="Item Name"><br>
+        <ul>
+            <li>
+                <label id="sectionTitle">Add Item</label><br>
+            </li>
+            <li id="bullet2_product">
+                <label id="pCode">Product Code<br>
+                    <input type="none" id="product_code" name="product_code" value=""><br>
+                </label>
 
-    <h2>Sales Site</h2><br>
-    <select name="Sale Site">
-        {% for channel in channels %}
-            <option value="{{channel.pk}}">{{channel.name}}<option>
-        {% endfor %}
-    </select>
+                <label id="pType">Product Type<br>
+                    <select id="product_type" name="product_type">
+                        {% for product_type in product_types %}
+                        <option value="{{product_type.pk}}">{{product_type.type_name}}</option>
+                        {% endfor %}
+                    </select></label>
+            </li>
 
-    <h2>Vendor</h2><br>
-    <select name="Vendor">
-        {% for vendor in vendors %}
-            <option value="{{vendor.pk}}">{{vendor.comp_Name}}<option>
-        {% endfor %}
-    </select>
+            <li id="bullet3_selling">
+                <label id="sSite">Sales Site<br>
+                    <select id="selling_site" name="selling_site">
+                        {% for channel in channels %}
+                        <option value="{{channel.pk}}">{{channel.name}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
 
-    <h2>Condition</h2><br>
-    <input type="radio" name="Condition" value="new" checked>New<br>
-    <input type="radio" name="Condition" value="used">Used<br>
-    <input type="radio" name="Condition" value="parts">Parts<br>
+                <label id="sCondition">Condition<br>
+                    <select id="condition" name="condition">
+                        {% for condition in conditions %}
+                        <option value="{{condition.pk}}">{{condition.cond_Name}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
 
-    <h2>Purchase Price</h2><br>
-    <input type="text" name="Purchase Price" value="$0.00"><br>
+                <label id="sAPrice">
+                    Asking Price<br>
+                    <input class="price_" type="text" id="ask_price" name="ask_price" value="0.00"><br>
+                </label>
 
-    <h2>Asking Price</h2><br>
-    <input type="text" name="Asking Price" value="$0.00"><br>
+            </li>
+            <li id="bullet4_purchased">
+                <label id="purVendor">Vendor<br>
+                    <select id="vendor" name="vendor">
+                        {% for vendor in vendors %}
+                        <option value="{{vendor.pk}}">{{vendor.comp_Name}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
 
-    <h2>Product Type</h2><br>
-    <select name="Type">
-        {% for product_type in product_types %}
-        <option value="{{product_type.pk}}">{{product_type.type_name}}</option>
-        {% endfor %}
-    </select>
+                <label id="purPrice">Purchase Price<br>
+                    <input class="price_" type="text" id="pur_price" name="pur_price" value="0.00"><br>
+                </label>
+            </li>
+            <li>
+                <div id="add_submit">
+                    <input id="add_buttonchild10" type="submit" value="Done!">
+                    <input id="add_buttonchild11" type="submit" value="Cancel">
+                </div>
+            </li>
+        </ul>
 
-    <br><br>  <!-- For spacing, please refactor with styling -->
+        <label id="addedby">Added By<br>
+            <select id="added_by" name="added_by">
+                {% for human in employee %}
+                <option value="{{human.pk}}">{{human.f_name}}</option>
+                {% endfor %}
+            </select>
+        </label>
 
-    <input type="submit" value="Done!">
-    <input type="submit" value="Cancel">
-  </form>
+
+    </form>
+
 </div>
 {%endblock%}
 
-
 {%block contentContainer%}
 <table style="width:100%">
-  <tr>
-    <th>Product Code</th>
-    <th>Selling Site</th>
-    <th>Vendor</th>
-    <th>Condition</th>
-    <th>Purchase Price</th>
-    <th>Asking Price</th>
-    <th>Product Type</th>
-    <th>Added By</th>
-    <th>Time Added</th>
-  </tr>
-  {% for item in items %}
-  <tr>
-    <td>{{item.product_code}}</td>
-    <td>{{item.selling_site.name}}</td>
-    <td>{{item.vendor.comp_Name}}</td>
-    <td>{{item.condition.cond_Name}}</td>
-    <td>{{item.pur_price}}</td>
-    <td>{{item.ask_price}}</td>
-    <td>{{item.product_code}}</td>
-    <td>{{item.added_by.user.username}}</td>
-    <td>{{item.time_added}}</td>
-    <td><button>Edit Item</button></td>
-    <td>
-      <form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.product_code}}" /><button
-          type="submit" name="deleteItem">Delete Item</button></form>
-    </td>
-  </tr>
-  {% endfor %}
+    <tr>
+        <th>Product Code</th>
+        <th>Selling Site</th>
+        <th>Vendor</th>
+        <th>Condition</th>
+        <th>Purchase Price</th>
+        <th>Asking Price</th>
+        <th>Product Type</th>
+        <th>Added By</th>
+        <th>Time Added</th>
+    </tr>
+    {% for item in items %}
+    <tr>
+        <td>{{item.product_code}}</td>
+        <td>{{item.selling_site.name}}</td>
+        <td>{{item.vendor.comp_Name}}</td>
+        <td>{{item.condition.cond_Name}}</td>
+        <td>{{item.pur_price}}</td>
+        <td>{{item.ask_price}}</td>
+        <td>{{item.product_code}}</td>
+        <td>{{item.added_by.user.username}}</td>
+        <td>{{item.time_added}}</td>
+        <td><button>Edit Item</button></td>
+        <td>
+            <form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.product_code}}" /><button
+                    type="submit" name="deleteItem">Delete Item</button></form>
+        </td>
+    </tr>
+    {% endfor %}
 </table>
 {% endblock %}
