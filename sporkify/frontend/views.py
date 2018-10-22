@@ -7,12 +7,19 @@ from backend.models import Sale_Site
 from backend.models import Employee
 from backend.models import Shift
 from backend.models import Product_Type
+from backend.models import Condition
+
+from backend.forms import AddItemForm
 
 
 @login_required
 def inventory(request):
     if request.method == 'POST':
-        pass  # TODO Implement form submission entries here
+        entry = AddItemForm(request.POST)
+        if entry.is_valid():
+            entry.save()
+        else:
+            print("Bad sumbmission")
 
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
@@ -20,7 +27,8 @@ def inventory(request):
         "channels": Sale_Site.objects.all(),
         "employee": Employee.objects.all(),
         "shift": Shift.objects.all(),
-        "product_types": Product_Type.objects.all()
+        "product_types": Product_Type.objects.all(),
+        "conditions": Condition.objects.all()
     })
 
 
