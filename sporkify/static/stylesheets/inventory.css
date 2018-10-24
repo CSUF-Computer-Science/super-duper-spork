@@ -10,58 +10,85 @@
 #add_item{
     justify-content: flex-start; 
     align-content: top;
-    border-radius: 4px;
-    padding-right: 10px;
-    padding-left: 10px;
+    border-radius: 5px;
+    padding: 10px;
     margin: 10px;
-    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.40);
-    background: white;
-    width: 350px;
-    height: 325px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color:#F8F8F8;
+    width: 375px;
+    height: 238px;
 }
 
 #sectionTitle{
     font-size: 20px;
-    background-color: darkorange;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    color:#d9c877;
 }
+
 #addedby{
     /*added_by*/
     display: none;
 }
 #add_submit{
     /*done & cancel*/
+    display: flex;
+    flex-direction: row;
     justify-content: flex-end;
-    background-color: lightgreen;
 }
 #add_item ul{
     justify-content: flex-start;
-    background-color: black;
     padding:0px;
+    margin: 0px;
 }
 /*List level*/
 #add_item li{
     list-style: none;
     margin:2px;
+    margin-top:2px;
     padding: 0px;
+    height: 70px;
     
 }
+#add_item #titleItem{
+    height:26px;
+    margin-top:0px;
+    margin-left:6px;
+}
 #add_item #bullet2_product{
-    background-color: lightblue;
+    color: gray;
+    font-size:16px;
+    background-color:#F8F8F8;
     display:flex;
     flex-direction: row;
+    margin-top: 1px;
     justify-content: flex-start;
+    border-radius: 5px;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border: none;
 }
 #add_item #bullet3_selling{
-    background-color: #888;
+    background-color:#F8F8F8;;
+    color: gray;
     display:flex;
     flex-direction: row;
     justify-content: flex-start;
+    border-radius: 5px;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border: none;
 }
 #add_item #bullet4_purchased{
     display:flex;
+    color: gray;
     flex-direction: row;
     justify-content: flex-start;
-    background-color: lightblue;
+    background-color: #F8F8F8;;
+    border-radius: 5px;
+	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+
 }
 
 /*input label level*/
@@ -105,7 +132,11 @@
 #add_item #product_code{
     width: 120px;
 }
-
+#add_item #add_buttonchild11{
+    background-color: lightgray;
+    padding: 8px 8px 8px 8px;
+    border-color: rgb(195,195,195);
+}
 #add_item input[type="none"],
 #add_item select,
 #add_item input[type="text"]{
@@ -125,17 +156,22 @@
 }
 
 #add_item input[type="submit"]{
-	background: #2A88AD;
-	padding: 8px 20px 8px 20px;
+    background:rgb(170,170,170);
+    height: 35px;
+    padding: 8px 10px 8px 10px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 12px;
 	border-radius: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
-	color: #fff;
-	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+    color: #fff;
+    align-self: flex-end;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
 	font: normal 30px 'Bitter', serif;
 	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-	border: 1px solid #257C9E;
+	border: 1px solid rgb(165,165,165);
 	font-size: 15px;
 }
