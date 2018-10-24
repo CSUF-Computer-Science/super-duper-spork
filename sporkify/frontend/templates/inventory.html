@@ -7,7 +7,7 @@
     <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
 
         <ul>
-            <li>
+            <li id="titleItem" >
                 <label id="sectionTitle">Add Item</label><br>
             </li>
             <li id="bullet2_product">
@@ -41,7 +41,7 @@
                 </label>
 
                 <label id="sAPrice">
-                    Asking Price<br>
+                    Price<br>
                     <input class="price_" type="text" id="ask_price" name="ask_price" value="0.00"><br>
                 </label>
 
@@ -55,15 +55,12 @@
                     </select>
                 </label>
 
-                <label id="purPrice">Purchase Price<br>
+                <label id="purPrice">Cost<br>
                     <input class="price_" type="text" id="pur_price" name="pur_price" value="0.00"><br>
                 </label>
-            </li>
-            <li>
-                <div id="add_submit">
-                    <input id="add_buttonchild10" type="submit" value="Done!">
-                    <input id="add_buttonchild11" type="submit" value="Cancel">
-                </div>
+
+                <input id="add_buttonchild10" type="submit" value="Done!">
+                <input id="add_buttonchild11" type="submit" value="Clear">
             </li>
         </ul>
 
