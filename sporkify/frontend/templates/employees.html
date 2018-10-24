@@ -1,24 +1,93 @@
 {% extends "base.html" %}
 
 {% block headIncludes %}
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/minidash.css">
+<style>
+#timeClockForm {
+	align-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+#timeclockContainer {
+	background: white;
+    width: 350px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+	padding: 10px;
+	
+	box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+	background-color:#F8F8F8;
+	border-radius: 5px;
+}
+
+#timeclockContainer p {
+	text-align: center;
+}
+
+#timeclockContainer input[type="submit"]{
+	background:rgb(170,170,170);
+	width: 157px;
+    height: 35px;
+    padding: 8px 10px 8px 10px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 12px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+    color: #fff;
+    align-self: center;
+	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+	border: 1px solid rgb(165,165,165);
+	font-size: 15px;
+}
+</style>
+<script type="text/javascript">
+	onload = () => {
+		// Find elements with clockin tag and update them
+		// every half-second
+		setInterval(() => {
+			const curTime = new Date().getTime() / 1000;
+
+			const elemsToUpdate = document.querySelectorAll("[clockin]");
+			elemsToUpdate.forEach((elem) => {
+				var timeDiff = curTime - parseInt(elem.getAttribute("clockin"));
+
+				const hours = Math.floor(timeDiff / 3600).toString().padStart(2, '0');
+				timeDiff %= 3600;
+				const minutes = Math.floor(timeDiff / 60).toString().padStart(2, '0');
+				const seconds = Math.floor(timeDiff % 60).toString().padStart(2, '0');
+
+				elem.innerHTML = `${hours}:${minutes}:${seconds}`;
+			});
+		}, 500);
+	}
+</script>
 {% endblock %}
 
 {% block miniDash %}
-<div style="margin: 0 auto;">
-	<form action="" method="POST">
+<div id="timeclockContainer">
+	<form id="timeClockForm" action="" method="POST">
 		{% csrf_token %}
 		<!-- Print stuff -->
+		<p>
 		{% if clockedIn == True %}
-			You are clocked IN!
+			You have been on the clock for <span clockin="{{ curShiftStartedAt }}">(calculating...)</span>
 		{% endif %}
 
 		{% if clockedIn == False %}
-			You are clocked OUT!
+			You are not clocked in.
 			{% if timeWorked != None %}
 				Your shift lasted for {{ timeWorked }}.
 			{% endif %}
 		{% endif %}
-		<button type="submit" name="clockInOut">Clock In/Out</button>
+		</p>
+		<input type="submit" id="clockInOut" name="clockInOut" value='Clock {{ clockedIn|yesno:"Out,In" }}' />
 	</form>
 </div>
 {% endblock %}
