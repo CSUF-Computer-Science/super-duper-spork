@@ -90,7 +90,12 @@ def employee(request):
     return render(request, 'employees.html', base_context)
 
 def reports(request):
-    sales = Sale.objects.get()
+    # gross sales
+    sum = 0;
+    for sale in Sale.objects.all():
+        sum += sale.sel_price
+    # end gross sales
     return render(request, 'reports.html', {
-        "sales": Sale.objects.all()
+        "sales": Sale.objects.all(),
+        "gross": sum
         })
