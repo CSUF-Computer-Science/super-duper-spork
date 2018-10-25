@@ -1,3 +1,5 @@
+import calendar
+
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -46,6 +48,10 @@ def employee(request):
         "clockedIn": len(open_shifts) > 0       # If current user is clocked in
     }
 
+    if base_context["clockedIn"]:
+        cur_shift = open_shifts[0]
+        base_context["curShiftStartedAt"] = calendar.timegm(cur_shift.time_in.utctimetuple())
+
     # Begin logic for the time clock
     if request.method == 'POST' and request.POST['clockInOut'] is not None:
         if len(open_shifts) == 0:
@@ -59,6 +65,7 @@ def employee(request):
             return render(request, 'employees.html', {
                 **base_context,
                 "clockedInAt": timezone.now(),
+                "curShiftStartedAt": calendar.timegm(timezone.now().utctimetuple()),
                 "clockedIn": True # Replace the initial clockedIn from above
             })
         elif len(open_shifts) == 1:
