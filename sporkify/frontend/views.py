@@ -10,13 +10,10 @@ from backend.models import Sale_Site
 from backend.models import Employee
 from backend.models import Shift
 from backend.models import Product_Type
-<<<<<<< Updated upstream
 from backend.models import Condition
-
 from backend.forms import AddItemForm
-=======
-from backend.models import Sale
->>>>>>> Stashed changes
+from backend.models import Sale 
+
 
 
 @login_required
@@ -40,7 +37,6 @@ def inventory(request):
 
 @login_required
 def employee(request):
-<<<<<<< Updated upstream
     emp = get_object_or_404(Employee, user=request.user)
     open_shifts = Shift.objects.filter(emp_ID=emp, time_out__isnull=True)
 
@@ -92,23 +88,9 @@ def employee(request):
             raise Exception('More than one shift is open. How\'d you manage that?')
 
     return render(request, 'employees.html', base_context)
-=======
-    return render(request, 'employees.html', {
-        "employee": Employee.objects.all(),
-        "shift": Shift.objects.all()
-    })
 
 def reports(request):
-    # logic 
-    outstring = "";
-    for product in Product_Type.objects.all():
-        outstring += product.type_name + ", "
-
-    #new logic
-    
-    
+    sales = Sale.objects.get()
     return render(request, 'reports.html', {
-        "category_sales": outstring,
         "sales": Sale.objects.all()
         })
->>>>>>> Stashed changes
