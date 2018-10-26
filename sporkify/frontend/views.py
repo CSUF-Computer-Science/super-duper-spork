@@ -91,11 +91,18 @@ def employee(request):
 
 def reports(request):
     # gross sales
-    sum = 0;
+    total_sales = 0;
     for sale in Sale.objects.all():
-        sum += sale.sel_price
+        total_sales += sale.sel_price
     # end gross sales
+    # labor vs sales
+    labor_cost = 0
+    for shift in Shift.objects.all():
+        labor_cost += shift.money
+
+    # end labor vs sales
     return render(request, 'reports.html', {
         "sales": Sale.objects.all(),
-        "gross": sum
+        "total_sales": total_sales,
+        "labor_cost" : labor_cost
         })
