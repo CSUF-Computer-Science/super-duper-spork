@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+		<h1>Sales Reports</h1>
+		{% block headIncludes %}
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+		{% endblock %}
+		{% block content %}
+		<canvas id="myChart" width="50" height="200"></canvas>
+		<script>
+		var ctx = document.getElementById("myChart").getContext('2d');
+		var myChart = new Chart(ctx, {
+		    type: 'bar',
+		    data: {
+		        labels: [ "Gross Sales"],
+		        datasets: [{
+		            label: 'Amount (Dollars)',
+		            data: [ {{gross}} ],
+		            backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+		            borderColor: ['rgba(255,99,132,1)'],
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		    	maintainAspectRatio: false,
+		        scales: {
+		            yAxes: [{
+		                ticks: {
+		                    beginAtZero:true
+		                }
+		            }]
+		        }
+		    }
+		});
+		</script>
+		{% endblock %}
+		<h2>Sales Summary</h2>
+		<a>Gross Sales</a>
+		<a>Weekly Gross Sales</a>
+
+		<h2>Category Sales</h2>
+		<a>Items Sold</a>
+		<a>Gross Sales</a>
+
+		<a>Average Spent per Sale</a>
