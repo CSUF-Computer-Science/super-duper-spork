@@ -34,6 +34,7 @@ def inventory(request):
         "conditions": Condition.objects.all()
     })
 
+
 @login_required
 def employee(request):
     emp = get_object_or_404(Employee, user=request.user)
@@ -66,7 +67,7 @@ def employee(request):
                 **base_context,
                 "clockedInAt": timezone.now(),
                 "curShiftStartedAt": calendar.timegm(timezone.now().utctimetuple()),
-                "clockedIn": True # Replace the initial clockedIn from above
+                "clockedIn": True  # Replace the initial clockedIn from above
             })
         elif len(open_shifts) == 1:
             # Close the open shift
@@ -81,9 +82,9 @@ def employee(request):
             return render(request, 'employees.html', {
                 **base_context,
                 "timeWorked": f"{hours:02}:{mins:02}:{secs:02}",
-                "clockedIn": False # Replace the initial clockedIn from above
+                "clockedIn": False  # Replace the initial clockedIn from above
             })
-        else: # More than one shift is open - this shouldn't happen
+        else:  # More than one shift is open - this shouldn't happen
             raise Exception('More than one shift is open. How\'d you manage that?')
 
     return render(request, 'employees.html', base_context)
