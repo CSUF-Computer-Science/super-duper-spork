@@ -95,23 +95,9 @@
 {% block content %}
 		<h1>Employee Management</h1><br>
     	<!-- User Side -->
-    	<h2>User Preview</h2>
-    	<div class="tracktime">
-        	<a>Time Portal</a>
-        	<br>
-			            
-    		<form>
-    			<fieldset>
-    				<legend>Your Information</legend>
-    				<label>First Name:</label> <br> <!--pull from django here-->
-    				<label>Last Name:</label> <br><!--pull from django here-->
-    				<label>Houry Wage:</label> <br><!--pull from django here-->
-    			</fieldset>
-    		</form>
-    	</div><br><br>
+    	<h2>Your Timesheet</h2>
 
     	<!-- Show Hours for the Week -->
-    	<a>Weekly Timesheet</a>
         <div class="timesheet_weekly">
         	<table style="width: 100%">
         		<tr>
@@ -132,26 +118,26 @@
         </div><br><br>
         <!-- Manager/Owner Side -->
         <h2>Manager Preview</h2>
-        <a>Manage Employees</a>
         <div class="manage">
         	<button id="create_user">Add Employee</button>
         	<button id="remove_user">Remove Employee</button>
         	<table style="width: 100%">
         		<tr>
-        			<th>Employee ID</th>
         			<th>First Name</th>
         			<th>Last Name</th>
         			<th>Hourly Wage</th>
         			<th>Permissions</th>
         		</tr>
+                {% for employee in employees %}
         		<tr>
-        			<td></td>
-        			<td></td>
-        			<td></td>
-        			<td></td>
-        			<td></td>
-        			<td><button id="edit_user">Edit Information</button></td>
+        			<td>{{employee.emp_id}}</td>
+        			<td>{{employee.f_name}}</td>
+        			<td>{{employee.l_name}}</td>
+        			<td>{{employee.hourly_wage}}</td>
+        			<td>{{employee.permissions}}</td>
+        			<td><button id="edit_user">Edit Employee Info</button></td>
        			</tr>
+                {% endfor %}
        		</table>
         </div><br><br>
         <!-- Show Timesheet for that day (or more if possible) -->
@@ -172,7 +158,6 @@
         			<td>{{shift.time_out}}</td>
         			<td>{{shift.time_worked}}</td>
         			<td>${{shift.money|floatformat}}</td>
-        			<td><button id="edit_user">Edit Information</button></td>
        			</tr>
        			{% endfor %}
         	</table>

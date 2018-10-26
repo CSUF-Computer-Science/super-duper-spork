@@ -11,8 +11,9 @@ from backend.models import Employee
 from backend.models import Shift
 from backend.models import Product_Type
 from backend.models import Condition
-
 from backend.forms import AddItemForm
+from backend.models import Sale 
+
 
 
 @login_required
@@ -87,3 +88,14 @@ def employee(request):
             raise Exception('More than one shift is open. How\'d you manage that?')
 
     return render(request, 'employees.html', base_context)
+
+def reports(request):
+    # gross sales
+    sum = 0;
+    for sale in Sale.objects.all():
+        sum += sale.sel_price
+    # end gross sales
+    return render(request, 'reports.html', {
+        "sales": Sale.objects.all(),
+        "gross": sum
+        })

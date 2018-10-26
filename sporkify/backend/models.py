@@ -48,7 +48,7 @@ class Sale(models.Model):
     condition = models.CharField(max_length=30)
     pur_price = models.FloatField()
     sel_price = models.FloatField()
-    #merge product name and brand for produt type in function
+    #merge product name and brand for product type in function
     product_type = models.CharField(max_length=150)
     added_by = models.IntegerField()
     time_added = models.DateTimeField()
@@ -64,6 +64,9 @@ class Product_Type(models.Model):
     type_name = models.CharField(max_length=75)
     weight = models.FloatField()
     brand = models.CharField(max_length=75)
+
+    def __str__(self):
+        return type_name
 
 class Employee(models.Model):
     # or emp_ID = models.CharField(max_length = 20, primary_key = true, unique=true)
