@@ -11,9 +11,8 @@ from backend.models import Employee
 from backend.models import Shift
 from backend.models import Product_Type
 from backend.models import Condition
-from backend.forms import AddItemForm
-from backend.models import Sale 
 
+from backend.forms import AddItemForm
 
 
 @login_required
@@ -34,6 +33,7 @@ def inventory(request):
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all()
     })
+
 
 @login_required
 def employee(request):
@@ -67,7 +67,7 @@ def employee(request):
                 **base_context,
                 "clockedInAt": timezone.now(),
                 "curShiftStartedAt": calendar.timegm(timezone.now().utctimetuple()),
-                "clockedIn": True # Replace the initial clockedIn from above
+                "clockedIn": True  # Replace the initial clockedIn from above
             })
         elif len(open_shifts) == 1:
             # Close the open shift
@@ -82,20 +82,9 @@ def employee(request):
             return render(request, 'employees.html', {
                 **base_context,
                 "timeWorked": f"{hours:02}:{mins:02}:{secs:02}",
-                "clockedIn": False # Replace the initial clockedIn from above
+                "clockedIn": False  # Replace the initial clockedIn from above
             })
-        else: # More than one shift is open - this shouldn't happen
+        else:  # More than one shift is open - this shouldn't happen
             raise Exception('More than one shift is open. How\'d you manage that?')
 
     return render(request, 'employees.html', base_context)
-
-def reports(request):
-    # gross sales
-    sum = 0;
-    for sale in Sale.objects.all():
-        sum += sale.sel_price
-    # end gross sales
-    return render(request, 'reports.html', {
-        "sales": Sale.objects.all(),
-        "gross": sum
-        })
