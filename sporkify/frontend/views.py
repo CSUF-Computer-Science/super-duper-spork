@@ -103,8 +103,15 @@ def delete_inventory(request):
         item_id = request.POST.get('product_code')
         item = Inventory.objects.get(product_code=item_id)
         item.delete()
-        return render(request, 'inventory.html', {
-        })
+    return render(request, 'inventory.html', {
+        "items": Inventory.objects.all(),
+        "vendors": Vendor.objects.all(),
+        "channels": Sale_Site.objects.all(),
+        "employee": Employee.objects.all(),
+        "shift": Shift.objects.all(),
+        "product_types": Product_Type.objects.all(),
+        "conditions": Condition.objects.all()
+    })
 
 
 @login_required
