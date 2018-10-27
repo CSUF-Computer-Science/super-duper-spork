@@ -66,7 +66,7 @@ class Product_Type(models.Model):
     brand = models.CharField(max_length=75)
 
     def __str__(self):
-        return type_name
+        return self.type_name
 
 class Employee(models.Model):
     # or emp_ID = models.CharField(max_length = 20, primary_key = true, unique=true)
