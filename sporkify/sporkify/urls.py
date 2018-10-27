@@ -21,8 +21,12 @@ from frontend import views
 urlpatterns = [
     path('', views.inventory),
     path('add-item/', views.inventory),
-    path('employees/', views.employee),
     path('admin/', admin.site.urls),
+    path('dashboard/', views.dashboard),
+    path('employees/', views.employee),
+    path('inventory/', views.inventory),
+    path('reports/', views.reports),
+    path('sales/', views.sales),
     # path('reports/', views.reports),
     path('auth/', include('django.contrib.auth.urls')),
 ]

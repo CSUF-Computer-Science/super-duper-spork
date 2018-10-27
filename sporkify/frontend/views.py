@@ -16,22 +16,10 @@ from backend.forms import AddItemForm
 
 
 @login_required
-def inventory(request):
+def dashboard(request):
     if request.method == 'POST':
-        entry = AddItemForm(request.POST)
-        if entry.is_valid():
-            entry.save()
-        else:
-            print("Bad sumbmission")
-
-    return render(request, 'inventory.html', {
-        "items": Inventory.objects.all(),
-        "vendors": Vendor.objects.all(),
-        "channels": Sale_Site.objects.all(),
-        "employee": Employee.objects.all(),
-        "shift": Shift.objects.all(),
-        "product_types": Product_Type.objects.all(),
-        "conditions": Condition.objects.all()
+        pass
+    return render(request, 'dashboard.html', {
     })
 
 
@@ -88,3 +76,36 @@ def employee(request):
             raise Exception('More than one shift is open. How\'d you manage that?')
 
     return render(request, 'employees.html', base_context)
+
+
+@login_required
+def inventory(request):
+    if request.method == 'POST':
+        entry = AddItemForm(request.POST)
+        if entry.is_valid():
+            entry.save()
+    return render(request, 'inventory.html', {
+        "items": Inventory.objects.all(),
+        "vendors": Vendor.objects.all(),
+        "channels": Sale_Site.objects.all(),
+        "employee": Employee.objects.all(),
+        "shift": Shift.objects.all(),
+        "product_types": Product_Type.objects.all(),
+        "conditions": Condition.objects.all()
+    })
+
+
+@login_required
+def reports(request):
+    if request.method == 'POST':
+        pass
+    return render(request, 'reports.html', {
+    })
+
+
+@login_required
+def sales(request):
+    if request.method == 'POST':
+        pass
+    return render(request, 'sales.html', {
+    })
