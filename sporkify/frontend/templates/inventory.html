@@ -105,8 +105,8 @@
         <td>{{item.time_added}}</td>
         <td><button>Edit Item</button></td>
         <td>
-            <form action="" method="POST">{% csrf_token %}
-              <input type="hidden" name="productCode" value="{{item.product_code}}" />
+            <form action="/delete-item/" method="POST">{% csrf_token %}
+              <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
               <button type="submit" name="deleteItem">Delete Item</button>
             </form>
         </td>

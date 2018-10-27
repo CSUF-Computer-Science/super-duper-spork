@@ -21,6 +21,7 @@ from frontend import views
 urlpatterns = [
     path('', views.inventory),
     path('add-item/', views.inventory),
+    path('delete-item/', views.delete_inventory),
     path('admin/', admin.site.urls),
     path('dashboard/', views.dashboard),
     path('employees/', views.employee),

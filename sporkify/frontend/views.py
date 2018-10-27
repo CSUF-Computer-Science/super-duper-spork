@@ -12,7 +12,7 @@ from backend.models import Shift
 from backend.models import Product_Type
 from backend.models import Condition
 
-from backend.forms import AddItemForm
+from backend.forms import InventoryForm
 
 
 @login_required
@@ -81,7 +81,7 @@ def employee(request):
 @login_required
 def inventory(request):
     if request.method == 'POST':
-        entry = AddItemForm(request.POST)
+        entry = InventoryForm(request.POST)
         if entry.is_valid():
             entry.save()
     return render(request, 'inventory.html', {
@@ -93,6 +93,18 @@ def inventory(request):
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all()
     })
+
+
+@login_required
+def delete_inventory(request):
+    if request.method == 'POST':
+        form = Inventory()
+        inventory = Inventory.objects.all()
+        item_id = request.POST.get('product_code')
+        item = Inventory.objects.get(product_code=item_id)
+        item.delete()
+        return render(request, 'inventory.html', {
+        })
 
 
 @login_required
