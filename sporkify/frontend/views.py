@@ -124,6 +124,24 @@ def delete_inventory(request):
 
 @login_required
 def reports(request):
+
+    # gross sales
+    total_sales = 0;
+    for sale in Sale.objects.all():
+        total_sales += sale.sel_price
+    # end gross sales
+    # labor vs sales
+    labor_cost = 0
+    for shift in Shift.objects.all():
+        labor_cost += shift.money
+
+    # end labor vs sales
+    return render(request, 'reports.html', {
+        "sales": Sale.objects.all(),
+        "total_sales": total_sales,
+        "labor_cost" : labor_cost
+        })
+
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
@@ -136,3 +154,4 @@ def sales(request):
         pass
     return render(request, 'sales.html', {
     })
+
