@@ -1,6 +1,7 @@
 {%extends "base.html"%}
 {%block headIncludes%}
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/inventory.css">
+<title>Sporkify - Inventory</title>
 {%endblock%}
 {%block miniDash%}
 <div id="MiniDashContainer">
@@ -104,8 +105,10 @@
         <td>{{item.time_added}}</td>
         <td><button>Edit Item</button></td>
         <td>
-            <form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.product_code}}" /><button
-                    type="submit" name="deleteItem">Delete Item</button></form>
+            <form action="/delete-item/" method="POST">{% csrf_token %}
+              <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
+              <button type="submit" name="deleteItem">Delete Item</button>
+            </form>
         </td>
     </tr>
     {% endfor %}

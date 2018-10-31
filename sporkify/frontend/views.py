@@ -7,33 +7,23 @@ from django.utils import timezone
 from backend.models import Inventory
 from backend.models import Vendor
 from backend.models import Sale_Site
+from backend.models import Sale
 from backend.models import Employee
 from backend.models import Shift
 from backend.models import Product_Type
 from backend.models import Condition
-from backend.forms import AddItemForm
-from backend.models import Sale 
+
+from backend.forms import InventoryForm
 
 
 
 @login_required
-def inventory(request):
+def dashboard(request):
     if request.method == 'POST':
-        entry = AddItemForm(request.POST)
-        if entry.is_valid():
-            entry.save()
-        else:
-            print("Bad sumbmission")
-
-    return render(request, 'inventory.html', {
-        "items": Inventory.objects.all(),
-        "vendors": Vendor.objects.all(),
-        "channels": Sale_Site.objects.all(),
-        "employee": Employee.objects.all(),
-        "shift": Shift.objects.all(),
-        "product_types": Product_Type.objects.all(),
-        "conditions": Condition.objects.all()
+        pass
+    return render(request, 'dashboard.html', {
     })
+
 
 @login_required
 def employee(request):
@@ -67,7 +57,7 @@ def employee(request):
                 **base_context,
                 "clockedInAt": timezone.now(),
                 "curShiftStartedAt": calendar.timegm(timezone.now().utctimetuple()),
-                "clockedIn": True # Replace the initial clockedIn from above
+                "clockedIn": True  # Replace the initial clockedIn from above
             })
         elif len(open_shifts) == 1:
             # Close the open shift
@@ -82,14 +72,59 @@ def employee(request):
             return render(request, 'employees.html', {
                 **base_context,
                 "timeWorked": f"{hours:02}:{mins:02}:{secs:02}",
-                "clockedIn": False # Replace the initial clockedIn from above
+                "clockedIn": False  # Replace the initial clockedIn from above
             })
-        else: # More than one shift is open - this shouldn't happen
+        else:  # More than one shift is open - this shouldn't happen
             raise Exception('More than one shift is open. How\'d you manage that?')
 
     return render(request, 'employees.html', base_context)
 
+
+@login_required
+def inventory(request):
+    if request.method == 'POST':
+        entry = InventoryForm(request.POST)
+        if entry.is_valid():
+            entry.save()
+    return render(request, 'inventory.html', {
+        "items": Inventory.objects.all(),
+        "vendors": Vendor.objects.all(),
+        "channels": Sale_Site.objects.all(),
+        "employee": Employee.objects.all(),
+        "shift": Shift.objects.all(),
+        "product_types": Product_Type.objects.all(),
+        "conditions": Condition.objects.all()
+    })
+
+@login_required
+def sales(request):
+    return render(request, 'sale.html', {
+        "items": Sale.objects.all()
+    })
+
+
+@login_required
+def delete_inventory(request):
+    if request.method == 'POST':
+        form = Inventory()
+        inventory = Inventory.objects.all()
+        item_id = request.POST.get('product_code')
+        item = Inventory.objects.get(product_code=item_id)
+        item.delete()
+    return render(request, 'inventory.html', {
+        "items": Inventory.objects.all(),
+        "vendors": Vendor.objects.all(),
+        "channels": Sale_Site.objects.all(),
+        "employee": Employee.objects.all(),
+        "shift": Shift.objects.all(),
+        "product_types": Product_Type.objects.all(),
+        "conditions": Condition.objects.all()
+    })
+
+
+@login_required
 def reports(request):
+
     # gross sales
     total_sales = 0;
     for sale in Sale.objects.all():
@@ -106,3 +141,17 @@ def reports(request):
         "total_sales": total_sales,
         "labor_cost" : labor_cost
         })
+
+    if request.method == 'POST':
+        pass
+    return render(request, 'reports.html', {
+    })
+
+
+@login_required
+def sales(request):
+    if request.method == 'POST':
+        pass
+    return render(request, 'sales.html', {
+    })
+
