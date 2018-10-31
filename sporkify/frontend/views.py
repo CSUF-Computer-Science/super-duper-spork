@@ -7,12 +7,14 @@ from django.utils import timezone
 from backend.models import Inventory
 from backend.models import Vendor
 from backend.models import Sale_Site
+from backend.models import Sale
 from backend.models import Employee
 from backend.models import Shift
 from backend.models import Product_Type
 from backend.models import Condition
 
 from backend.forms import InventoryForm
+
 
 
 @login_required
@@ -92,6 +94,12 @@ def inventory(request):
         "shift": Shift.objects.all(),
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all()
+    })
+
+@login_required
+def sales(request):
+    return render(request, 'sale.html', {
+        "items": Sale.objects.all()
     })
 
 

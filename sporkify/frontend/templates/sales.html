@@ -1,8 +1,48 @@
 {% extends "base.html" %}
 {%block headIncludes%}
-  <link rel="stylesheet" type="text/css" href="#">
+  <link rel="stylesheet" type="text/css" href="/static/stylesheets/sales.css">
   <title>Sporkify - Sales</title>
 {%endblock%}
+
 {% block content %}
     <h1>Sales History</h1>
+    <table style="width:100%">
+            <tr>
+                <th>Invoice Number</th>
+                <th>Past Product Code</th>
+                <th>Product Type</th>
+                <th>Condition</th>
+                <th>Vendor</th>
+                <th>Cost</th>
+                <th>Selling Site</th>
+                <th>Sold For</th>
+                <th>Added to In. By</th>
+                <th>Time Added</th>
+                <th>Shipment Number</th>
+                <th>Archived By</th>
+                <th>Time Archived</th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td>{{item.invoice_num}}</td>
+                <td>{{item.past_product_code}}</td>
+                <td>{{item.product_type}}</td>
+                <td>{{item.condition}}</td>
+                <td>{{item.vendor}}</td>
+                <td>{{item.pur_price}}</td>
+                <td>{{item.selling_site}}</td>
+                <td>{{item.sel_price}}</td>
+                <td>{{item.added_by}}</td>
+                <td>{{item.time_added}}</td>
+                <td>{{item.shipment_number}}</td>
+                <td>{{item.archived_by}}</td>
+                <td>{{item.time_archived}}</td>
+                <td><button>Edit Item</button></td>
+                <td>
+                    <form action="" method="POST">{% csrf_token %}<input type="hidden" name="Invoice Number" value="{{item.invoice_num}}" /><button
+                            type="submit" name="deleteItem">Delete Item</button></form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
 {% endblock %}
