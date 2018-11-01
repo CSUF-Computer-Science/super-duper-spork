@@ -1,8 +1,51 @@
 {% extends "base.html" %}
 {%block headIncludes%}
   <link rel="stylesheet" type="text/css" href="/static/stylesheets/sales.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
   <title>Sporkify - Sales</title>
-{%endblock%}
+{% endblock %}
+
+{% block miniDash %}
+    <div id="grossSalesContainer">
+        <canvas id="grossSalesBar" width="400" height="200"></canvas>
+        <script>
+            var gv = document.getElementById("grossSalesBar");
+            var gtx = gv.getContext('2d');
+            var gsChart = new Chart(gtx, {
+                type: 'horizontalBar',
+                data: {
+                    datasets: [{
+                        label: 'Amount (Dollars $)',
+                        data: [ {{ total_sales|floatformat:2 }} ],
+                        backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                        borderColor: ['rgba(255,99,132,1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Total Sales History'
+                    },
+                    responsive: false,
+                    maintainAspectRatio: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+            gv.onclick = function(gvt){
+                var activePoint = myChart.getElementAtEvent(gvt);
+                console.log('activePoint', activePoint)
+                window.location = '/reports/'
+            };
+        </script>
+    </div>
+{% endblock %}
 
 {% block content %}
     <h1>Sales History</h1>

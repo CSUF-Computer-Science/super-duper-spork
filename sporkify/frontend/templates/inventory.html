@@ -77,47 +77,6 @@
 
     </form>
 
-    <div id="MiniHistoryGross">
-        <a href="/reports" target="_blank" style="color:black"><h1>Sales Reports</h1></a>
-        <canvas id="myChart" width="400" height="200"></canvas>
-        <script>
-            var cv = document.getElementById("myChart");
-            var ctx = cv.getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'horizontalBar',
-                data: {
-                    datasets: [{
-                        label: 'Amount (Dollars $)',
-                        data: [ {{ total_sales|floatformat:2 }} ],
-                        backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                        borderColor: ['rgba(255,99,132,1)'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: 'Total Sales History'
-                    },
-                    responsive: false,
-                    maintainAspectRatio: true,
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    }
-                }
-            });
-            cv.onclick = function(evt){
-                var activePoint = myChart.getElementAtEvent(evt);
-                console.log('activePoint', activePoint)
-                window.location = '/reports/'
-            };
-        </script>
-    </div>
-
 </div>
 {%endblock%}
 

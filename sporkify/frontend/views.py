@@ -15,7 +15,7 @@ from backend.models import Condition
 
 from backend.forms import InventoryForm
 
-#calculation functions
+# calculation functions
 def labor_costs():
     labor_costs = 0
     for shift in Shift.objects.all():
@@ -28,6 +28,15 @@ def total_sales():
         total_sales += sale.sel_price
     return total_sales
 
+def category_sales():
+    category_sales = {}
+    for p in Product_Type.objects.all():
+        sales  = 0
+        for s in Sale.objects.all():
+            if(s.product_type == p.type_name):
+                sales += s.sel_price
+        category_sales[p.type_name] = sales
+    return category_sales
 
 @login_required
 def dashboard(request):
@@ -108,15 +117,7 @@ def inventory(request):
         "shift": Shift.objects.all(),
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all(),
-        "total_sales": total_sales()
     })
-
-@login_required
-def sales(request):
-    return render(request, 'sale.html', {
-        "items": Sale.objects.all()
-    })
-
 
 @login_required
 def delete_inventory(request):
@@ -139,22 +140,18 @@ def delete_inventory(request):
 
 @login_required
 def reports(request):
-    return render(request, 'reports.html', {
-        "sales": Sale.objects.all(),
-        "total_sales": total_sales(),
-        "labor_cost" : labor_costs()
-        })
-
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
-    })
-
+        "sales": Sale.objects.all(),
+        "category_sales": category_sales()
+        })
 
 @login_required
 def sales(request):
     if request.method == 'POST':
         pass
     return render(request, 'sales.html', {
+        "total_sales": total_sales(),
     })
 
