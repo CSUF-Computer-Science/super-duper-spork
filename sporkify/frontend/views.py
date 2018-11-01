@@ -15,6 +15,18 @@ from backend.models import Condition
 
 from backend.forms import InventoryForm
 
+#calculation functions
+def labor_costs():
+    labor_costs = 0
+    for shift in Shift.objects.all():
+        labor_costs += shift.money
+    return labor_costs
+
+def total_sales():
+    total_sales = 0
+    for sale in Sale.objects.all():
+        total_sales += sale.sel_price
+    return total_sales
 
 
 @login_required
@@ -33,6 +45,8 @@ def employee(request):
     # Dictionary of stuff that should always be included in the
     # render context
     base_context = {
+        "labor_cost" : labor_costs(),
+        "total_sales": total_sales(),
         "employees": Employee.objects.all(),    # List of employees
         "shifts": Shift.objects.all().order_by('-time_in'),                    # List of all shifts
         "myShifts": Shift.objects.filter(emp_ID=emp).order_by('-time_in'),     # List of user shifts
@@ -93,7 +107,8 @@ def inventory(request):
         "employee": Employee.objects.all(),
         "shift": Shift.objects.all(),
         "product_types": Product_Type.objects.all(),
-        "conditions": Condition.objects.all()
+        "conditions": Condition.objects.all(),
+        "total_sales": total_sales()
     })
 
 @login_required
@@ -124,6 +139,12 @@ def delete_inventory(request):
 
 @login_required
 def reports(request):
+    return render(request, 'reports.html', {
+        "sales": Sale.objects.all(),
+        "total_sales": total_sales(),
+        "labor_cost" : labor_costs()
+        })
+
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
@@ -136,3 +157,4 @@ def sales(request):
         pass
     return render(request, 'sales.html', {
     })
+
