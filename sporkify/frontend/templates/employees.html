@@ -2,6 +2,7 @@
 
 {% block headIncludes %}
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/minidash.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <title>Sporkify - Employee Management</title>
 <style>
 #timeClockForm {
@@ -90,6 +91,38 @@
 		</p>
 		<input type="submit" id="clockInOut" name="clockInOut" value='Clock {{ clockedIn|yesno:"Out,In" }}' />
 	</form>
+</div>
+
+<div id="laborcostContainer">
+    <canvas id="doughnut-chart" width="500" height="300"></canvas>
+    <script>
+        var dv = document.getElementById("doughnut-chart")
+        var dchart = new Chart(dv, {
+            type: 'doughnut',
+            data: {
+              labels: ["Total Sales: $", "Total Labor Costs: $"],
+              datasets: [
+                {
+                  backgroundColor: ["#3e4157f", "#d9cb77"],
+                  data: [ {{total_sales}}, {{ labor_cost|floatformat:2 }} ]
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Total Labor vs. Sales'
+              },
+              responsive: false,
+              maintainAspectRatio: true
+            }
+        });
+        dv.onclick = function(evt){
+            var activePoint = dchart.getElementAtEvent(evt);
+            console.log('activePoint', activePoint)
+            window.location = '/reports'
+        };
+    </script>
 </div>
 {% endblock %}
 
