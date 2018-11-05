@@ -158,3 +158,11 @@ def sales(request):
     return render(request, 'sales.html', {
     })
 
+@login_required
+def vendors(request):
+    if request.method == 'POST':
+        pass
+        
+    return render(request, 'vendors.html', {
+        "vendors": Vendor.objects.all()
+    })
