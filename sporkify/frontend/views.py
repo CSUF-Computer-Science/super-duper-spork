@@ -30,12 +30,13 @@ def total_sales():
 
 def category_sales():
     category_sales = {}
-    for p in Product_Type.objects.all():
-        sales = 0
-        for s in Sale.objects.all():
-            if(s.product_type == p.type_name):
-                sales += s.sel_price
-        category_sales[p.type_name] = sales
+
+    for s in Sale.objects.all():
+        if category_sales.get(s.product_type) is None:
+            category_sales[s.product_type] = s.sel_price
+        else:
+            category_sales[s.product_type] += s.sel_price
+
     return category_sales
 
 @login_required
