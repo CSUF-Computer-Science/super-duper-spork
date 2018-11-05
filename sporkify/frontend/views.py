@@ -15,7 +15,7 @@ from backend.models import Condition
 
 from backend.forms import InventoryForm
 
-# calculation functions
+# calculation functions for graphs
 def labor_costs():
     labor_costs = 0
     for shift in Shift.objects.all():
@@ -31,7 +31,7 @@ def total_sales():
 def category_sales():
     category_sales = {}
     for p in Product_Type.objects.all():
-        sales  = 0
+        sales = 0
         for s in Sale.objects.all():
             if(s.product_type == p.type_name):
                 sales += s.sel_price
@@ -142,9 +142,11 @@ def delete_inventory(request):
 def reports(request):
     if request.method == 'POST':
         pass
+    cs = category_sales() # testing purposes
+    print(cs)
     return render(request, 'reports.html', {
         "sales": Sale.objects.all(),
-        "category_sales": category_sales()
+        "cat_sal": cs
         })
 
 @login_required

@@ -8,31 +8,44 @@
 
 {% block content %}
 <!--Total Gross Sales, Labor vs. Gross Sales, Category Sales-->
-<canvas id="categorySalesPolar" width="800" height="450"></canvas>
+<!-- changed from polar area chart to bar chart-->
+<canvas id="categorySalesBar" width="800" height="450"></canvas>
 <script>
-	var pv = document.getElementById("categorySalesPolar")
-	var csPolar = new Chart(pv, {
-	    type: 'polarArea',
-	    data:  {
-	      labels: [ {% for k in category_sales.items.keys %} "{{k}}", {% endfor %} ],
-	      datasets: [
-	      	{
-	          label: "Sales $:",
-	          backgroundColor: ["#2ecc71", "#3498db", "#95a5a6", "#9b59b6",
-        		"#f1c40f", "#e74c3c", "#34495e"],
-	          data: [ {% for v in category_sales.items.values %} '{{v.vs}}', {% endfor %} ]
-	        }
-	      ]
-	    },
-	    options: {
-	      title: {
-	        display: true,
-	        text: 'Product Type Sales'
-	      },
-	      responsive: false,
-          maintainAspectRatio: true
-	    }
-});
+	var csv = document.getElementById("categorySalesBar");
+    var csx = gv.getContext('2d');
+    var gsChart = new Chart(csx, {
+        type: 'horizontalBar',
+        data: {
+            datasets: [{
+            
+                label: [ {% for key, value in cat_sal.items %} '{{key}},' {% endfor %}],
+                data: [ {% for key, value in cat_sal.items %} {{value}} {% endfor %}],
+                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
+                borderColor: ['rgba(255,99,132,1)'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Category Sales'
+            },
+            responsive: false,
+            maintainAspectRatio: true,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+    csv.onclick = function(gvt){
+        var activePoint = myChart.getElementAtEvent(gvt);
+        console.log('activePoint', activePoint)
+        window.location = '/reports/'
+    };
 </script>
 {% endblock %}
 
