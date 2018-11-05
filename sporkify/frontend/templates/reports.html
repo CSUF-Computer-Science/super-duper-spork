@@ -12,14 +12,14 @@
 <canvas id="categorySalesBar" width="800" height="450"></canvas>
 <script>
 	var csv = document.getElementById("categorySalesBar");
-    var csx = gv.getContext('2d');
+    var csx = csv.getContext('2d');
     var gsChart = new Chart(csx, {
         type: 'horizontalBar',
         data: {
             datasets: [{
             
-                label: [ {% for key, value in cat_sal.items %} '{{key}},' {% endfor %}],
-                data: [ {% for key, value in cat_sal.items %} {{value}} {% endfor %}],
+                label: [ {% for key, value in cat_sal.items %} '{{key}}', {% endfor %}],
+                data: [ {% for key, value in cat_sal.items %} {{value}}, {% endfor %}],
                 backgroundColor: ['rgba(255, 99, 132, 0.2)'],
                 borderColor: ['rgba(255,99,132,1)'],
                 borderWidth: 1
