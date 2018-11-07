@@ -6,6 +6,9 @@
 {% endblock %}
 
 {% block miniDash %}
+    <form>
+    <input type="button" value="View Sales Report" onclick="window.location.href='/reports'"/>
+    </form>
     <div id="grossSalesContainer">
         <canvas id="grossSalesBar" width="400" height="200"></canvas>
         <script>
@@ -38,11 +41,6 @@
                     }
                 }
             });
-            gv.onclick = function(gvt){
-                var activePoint = gsChart.getElementAtEvent(gvt);
-                console.log('activePoint', activePoint)
-                window.location = '/reports'
-            };
         </script>
     </div>
     <div id ="ProductTypeSalesContainer">
@@ -78,11 +76,6 @@
                   }
                 }
             });
-            psv.onclick = function(pvt){
-                var activePoint = psChart.getElementAtEvent(pvt);
-                console.log('activePoint', activePoint)
-                window.location = '/reports'
-            };
         </script>
     </div>
 {% endblock %}
