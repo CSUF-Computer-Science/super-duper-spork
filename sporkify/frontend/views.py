@@ -172,4 +172,3 @@ def vendors(request):
     return render(request, 'vendors.html', {
         "vendors": Vendor.objects.all()
     })
-
