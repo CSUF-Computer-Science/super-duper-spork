@@ -13,7 +13,7 @@ from backend.models import Shift
 from backend.models import Product_Type
 from backend.models import Condition
 
-from backend.forms import InventoryForm
+from backend.forms import InventoryForm, AddVendorForm
 
 #calculation functions
 def labor_costs():
@@ -158,3 +158,17 @@ def sales(request):
     return render(request, 'sales.html', {
     })
 
+@login_required
+def vendors(request):
+    if request.method == 'POST':
+        if request.POST.get('addVendor') is not None:
+            entry = AddVendorForm(request.POST)
+            if entry.is_valid():
+                entry.save()
+        elif request.POST.get('deleteVendor') is not None:
+            vend_to_del = get_object_or_404(Vendor, pk=request.POST.get("vendorId"))
+            vend_to_del.delete()
+
+    return render(request, 'vendors.html', {
+        "vendors": Vendor.objects.all()
+    })

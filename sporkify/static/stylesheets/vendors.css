@@ -6,13 +6,18 @@
     margin: 10px;
 }
 
-#timeClockForm {
+td a {
+    color: black !important;
+    font-size: 16px;
+}
+
+#addVendorForm {
 	align-content: center;
     display: flex;
     flex-direction: column;
 }
 
-#timeclockContainer {
+#addVendorContainer {
 	background: white;
     width: 200px;
     margin: 10px;
@@ -26,11 +31,11 @@
 	border-radius: 5px;
 }
 
-#timeclockContainer p {
+#addVendorContainer p {
 	text-align: center;
 }
 
-#timeclockContainer input[type="submit"]{
+#addVendorContainer input[type="submit"]{
 	background:rgb(170,170,170);
 	width: 157px;
     height: 35px;
