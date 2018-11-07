@@ -9,37 +9,30 @@
 {% block content %}
 <!--Total Gross Sales, Labor vs. Gross Sales, Category Sales-->
 <!-- changed from polar area chart to bar chart-->
-<canvas id="ProductType_doughnut" width="300" height="300"></canvas>
+<canvas id="StorageCapacity_doughnut" width="300" height="300"></canvas>
 <script>
-    new Chart(document.getElementById("ProductType_doughnut"), {
-        type: 'doughnut',
-        data: {
-          labels: [ {% for key in cat_sal.keys %} '{{key}}', {% endfor %} ],
-          datasets: [
-            {
-              backgroundColor: [ {%for c in color%} 'rgba{{c}}', {%endfor%} ],
-              data: [ {% for value in cat_sal.values %} {{value}}, {% endfor %} ],
-              borderColor: "black",
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          title: {
-            display: true,
-            text: 'Product Type Sales (Dollars)'
-          },
-          legend: {
-            display: true,
-            position: 'bottom'
-          },
-          responsive: false,
-          maintainAspectRatio: true,
-          ticks: {
-            beginAtZero: true
-          }
+    var scv = document.getElementById("StorageCapacity_doughnut")
+    var scChart = new Chart(scv, {
+    type: 'doughnut',
+    data: {
+      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+      datasets: [
+        {
+          label: "Population (millions)",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [2478,5267,734,784,433]
         }
-    });
+      ]
+    },
+    options: {
+      responsive: false,
+      maintainAspectRatio: true,
+      title: {
+        display: true,
+        text: 'Predicted world population (millions) in 2050'
+      }
+    }
+});
 </script>
 {% endblock %}
 

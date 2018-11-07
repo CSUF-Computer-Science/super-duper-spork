@@ -128,6 +128,9 @@ def inventory(request):
         entry = InventoryForm(request.POST)
         if entry.is_valid():
             entry.save()
+
+    # chart info
+
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
         "vendors": Vendor.objects.all(),
