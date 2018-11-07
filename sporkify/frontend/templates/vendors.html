@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {%block headIncludes%}
-  <link rel="stylesheet" type="text/css" href="/static/stylesheets/minidash.css">
   <link rel="stylesheet" type="text/css" href="/static/stylesheets/vendors.css">
   <script type="text/javascript">
     $(document).ready(function() {
@@ -14,10 +13,19 @@
 <div id="addVendorContainer">
     <form id="addVendorForm" action="" method="POST">
         {% csrf_token %}
+
+        <label for="comp_Name">Company Name:</label>
         <input type="text" name="comp_Name" id="comp_Name" />
+
+        <label for="contact_name">Contact Name:</label>
         <input type="text" name="contact_name" id="contact_name" />
+
+        <label for="contact_phone">Contact Phone:</label>
         <input type="text" name="contact_phone" id="contact_phone" />
+
+        <label for="contact_email">Contact Email:</label>
         <input type="text" name="contact_email" id="contact_email" />
+
         <input type="submit" id="addVendor" name="addVendor" value='Add Vendor' />
     </form>
 </div>
