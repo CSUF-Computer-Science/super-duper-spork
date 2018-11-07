@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Sporkify - Create Sporker</title>
+		<title>Create Employee</title>
         <script src="./createUser.js" async></script>
 	</head>
 	<body>
@@ -14,17 +14,34 @@
 		<form>
 			<fieldset>
 				<legend>Create User</legend>
-                    <label for="uname">User Name:</label>
+                    <label for="fname">First Name:</label>
                 <br>
-					<input type="username" name="uname" maxlength="40" size="40" required> </input>
+					<input type="username" name="fname" placeholder="Enter First Name" maxlength="40" size="40" required> </input>
+				<br>
+                    <label for="lname">Last Name:</label>
+                <br>
+					<input type="username" name="lname" placeholder="Enter Last Name"  maxlength="40" size="40" required> </input>
+				<br>
+                    <label for="hourly_wage">Hourly Wage:</label>
+                <br>
+					<input type="text" name="lname" placeholder="$0.00" maxlength="30" size="40" required> </input>
 				<br>
                     <label>Password:</label>
                 <br>
-					<input type="password" name="pword" maxlength="40" size="40" id="pwordInput" required> </input>
+					<input type="password" name="pword" placeholder="Enter Password" maxlength="40" size="40" id="pwordInput" required> </input>
                     <p id="incorrect_pword_msg"></p>
-				<br> <br>
+				<br>
 					<input type="submit" onclick="validatePassword()"> </input>
 			</fieldset>
 		</form>
 	</body>
 </html>
+
+<!--
+	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    permissions = models.CharField(max_length=75)
+    f_name = models.CharField(max_length=100)
+    l_name = models.CharField(max_length=75)
+    hourly_wage = models.FloatField()
+    password = models.CharField(max_length=25)
+-->
