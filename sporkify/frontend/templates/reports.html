@@ -9,43 +9,37 @@
 {% block content %}
 <!--Total Gross Sales, Labor vs. Gross Sales, Category Sales-->
 <!-- changed from polar area chart to bar chart-->
-<canvas id="categorySalesBar" width="800" height="450"></canvas>
+<canvas id="ProductType_doughnut" width="300" height="300"></canvas>
 <script>
-	var csv = document.getElementById("categorySalesBar");
-    var csx = csv.getContext('2d');
-    var gsChart = new Chart(csx, {
-        type: 'horizontalBar',
+    new Chart(document.getElementById("ProductType_doughnut"), {
+        type: 'doughnut',
         data: {
-            datasets: [{
-            
-                label: [ {% for key in cat_sal.keys %} '{{key}}', {% endfor %} ],
-                data: [ {% for key, value in cat_sal.items %} {{value}}, {% endfor %} ],
-                backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                borderColor: ['rgba(255,99,132,1)'],
-                borderWidth: 1
-            }]
+          labels: [ {% for key in cat_sal.keys %} '{{key}}', {% endfor %} ],
+          datasets: [
+            {
+              backgroundColor: [ {%for c in color%} 'rgba{{c}}', {%endfor%} ],
+              data: [ {% for value in cat_sal.values %} {{value}}, {% endfor %} ],
+              borderColor: "black",
+              borderWidth: 1
+            }
+          ]
         },
         options: {
-            title: {
-                display: true,
-                text: 'Category Sales'
-            },
-            responsive: false,
-            maintainAspectRatio: true,
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
+          title: {
+            display: true,
+            text: 'Product Type Sales (Dollars)'
+          },
+          legend: {
+            display: true,
+            position: 'bottom'
+          },
+          responsive: false,
+          maintainAspectRatio: true,
+          ticks: {
+            beginAtZero: true
+          }
         }
     });
-    csv.onclick = function(gvt){
-        var activePoint = myChart.getElementAtEvent(gvt);
-        console.log('activePoint', activePoint)
-        window.location = '/reports/'
-    };
 </script>
 {% endblock %}
 

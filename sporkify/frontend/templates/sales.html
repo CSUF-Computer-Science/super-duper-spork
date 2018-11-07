@@ -9,7 +9,7 @@
     <div id="grossSalesContainer">
         <canvas id="grossSalesBar" width="400" height="200"></canvas>
         <script>
-            var gv = document.getElementById("grossSalesBar");
+            var gv = document.getElementById("grossSalesBar")
             var gtx = gv.getContext('2d');
             var gsChart = new Chart(gtx, {
                 type: 'horizontalBar',
@@ -39,13 +39,51 @@
                 }
             });
             gv.onclick = function(gvt){
-                var activePoint = myChart.getElementAtEvent(gvt);
+                var activePoint = gsChart.getElementAtEvent(gvt);
                 console.log('activePoint', activePoint)
-                window.location = '/reports/'
+                window.location = '/reports'
             };
         </script>
     </div>
-    <div id ="categorySalesContainer">
+    <div id ="ProductTypeSalesContainer">
+        <canvas id="ProductType_doughnut" width="300" height="300"></canvas>
+        <script>
+            var psv = document.getElementById("ProductType_doughnut")
+            var psChart = new Chart(psv, {
+                type: 'doughnut',
+                data: {
+                  labels: [ {% for key in cat_sal.keys %} '{{key}}', {% endfor %} ],
+                  datasets: [
+                    {
+                      backgroundColor: [ {%for c in color%} 'rgba{{c}}', {%endfor%} ],
+                      data: [ {% for value in cat_sal.values %} {{value}}, {% endfor %} ],
+                      borderColor: "grey",
+                      borderWidth: 1
+                    }
+                  ]
+                },
+                options: {
+                  title: {
+                    display: true,
+                    text: 'Product Type Sales (Dollars)'
+                  },
+                  legend: {
+                    display: true,
+                    position: 'bottom'
+                  },
+                  responsive: false,
+                  maintainAspectRatio: true,
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }
+            });
+            psv.onclick = function(pvt){
+                var activePoint = psChart.getElementAtEvent(pvt);
+                console.log('activePoint', activePoint)
+                window.location = '/reports'
+            };
+        </script>
     </div>
 {% endblock %}
 

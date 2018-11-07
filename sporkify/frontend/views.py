@@ -1,4 +1,4 @@
-import calendar
+import calendar, random
 
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -15,7 +15,7 @@ from backend.models import Condition
 
 from backend.forms import InventoryForm
 
-# calculation functions for graphs
+# chart functions
 def labor_costs():
     labor_costs = 0
     for shift in Shift.objects.all():
@@ -38,6 +38,24 @@ def category_sales():
             category_sales[s.product_type] += s.sel_price
 
     return category_sales
+ 
+def colors(n):
+  ret = []
+  r = int(random.random() * 256)
+  g = int(random.random() * 256)
+  b = int(random.random() * 256)
+  step = 256 / n
+  for i in range(n):
+    r += step
+    g += step
+    b += step
+    r = int(r) % 256
+    g = int(g) % 256
+    b = int(b) % 256
+    a = 0.5
+    ret.append((r,g,b,a)) 
+  return ret
+#end chart functions
 
 @login_required
 def dashboard(request):
@@ -143,18 +161,19 @@ def delete_inventory(request):
 def reports(request):
     if request.method == 'POST':
         pass
-    cs = category_sales() # testing purposes
-    print(cs)
     return render(request, 'reports.html', {
-        "sales": Sale.objects.all(),
-        "cat_sal": cs
+        "sales": Sale.objects.all()      
         })
 
 @login_required
 def sales(request):
     if request.method == 'POST':
         pass
+    cs = category_sales()
+    cs_colors = colors(len(cs))
     return render(request, 'sales.html', {
         "total_sales": total_sales(),
+        "cat_sal": cs,
+        "color": cs_colors
     })
 
