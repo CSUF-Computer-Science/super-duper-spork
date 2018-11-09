@@ -13,6 +13,7 @@ from backend.models import Shift
 from backend.models import Product_Type
 from backend.models import Condition
 
+from backend.forms import CreateEmployeeForm
 from backend.forms import InventoryForm
 
 #calculation functions
@@ -93,6 +94,13 @@ def employee(request):
 
     return render(request, 'employees.html', base_context)
 
+@login_required
+def create_employee(request):
+    if request.method == 'POST':
+       form = CreateEmployeeForm(request.POST)
+       if form.is_valid():
+           form.save()
+    return render(request, 'createUser.html')
 
 @login_required
 def inventory(request):
