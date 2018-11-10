@@ -7,27 +7,34 @@
 {%block content%}
 <h1>Sporkify</h1>
 <!--action="/add-item/" method="post">{% csrf_token %}-->
-<form>
+<form id="create_user" action="//" method="post"> {% csrf_token %}
 	<fieldset>
 		<legend>Create User</legend>
             <label for="fname">First Name:</label>
         <br>
-			<input type="username" name="fname" placeholder="Enter First Name" maxlength="40" size="40" required> </input>
+			<input type="username" name="fname" form="create_user" placeholder="Enter First Name" maxlength="40" size="40" required> </input>
 		<br>
             <label for="lname">Last Name:</label>
         <br>
-			<input type="username" name="lname" placeholder="Enter Last Name"  maxlength="40" size="40" required> </input>
+			<input type="username" name="lname" form="create_user" placeholder="Enter Last Name"  maxlength="40" size="40" required> </input>
 		<br>
             <label for="hourly_wage">Hourly Wage:</label>
-        <br>
-			<input type="text" name="lname" placeholder="$0.00" maxlength="30" size="40" required> </input>
+		<br>
+			<input type="text" name="hwage" form="create_user" placeholder="$0.00" maxlength="30" size="40" required> </input>
+		<br>
+			<label for="permissions">Permissions:</label>
+		<br>
+			<select form="create_user">
+				<option value="Employee">Employee</option>
+				<option value="Manager">Manager</option>
+			</select>
 		<br>
             <label>Password:</label>
         <br>
-			<input type="password" name="pword" placeholder="Enter Password" maxlength="40" size="40" id="pwordInput" required> </input>
-            <p id="incorrect_pword_msg"></p>
+			<input type="password" name="pword" form="create_user" placeholder="Enter Password" maxlength="40" size="40" id="pwordInput" required> </input>
+			<p id="incorrect_pword_msg"></p>
 		<br>
-			<input type="submit" onclick="validatePassword()"> </input>
+			<input type="submit" form="create_user" onclick="validatePassword()"> </input>
 	</fieldset>
 </form>
 {%endblock%}
