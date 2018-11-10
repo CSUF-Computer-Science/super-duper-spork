@@ -30,7 +30,7 @@
     display: none;
 }
 #pCode{ /* Hides the product code to be assigned to the new item */
-    /*display: none;*/
+    display: none;
 }
 #add_submit{
     /*done & cancel*/

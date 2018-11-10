@@ -99,7 +99,12 @@ def inventory(request):
     if request.method == 'POST':
         entry = InventoryForm(request.POST)
         if entry.is_valid():
+            # Save the new item into the database
             entry.save()
+            # Remove the assigned code from open codes
+            code_to_remove = request.POST.get('product_code')
+            code_object = Open_Product_Code.objects.get(pk=code_to_remove)
+            code_object.delete()
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
         "vendors": Vendor.objects.all(),
