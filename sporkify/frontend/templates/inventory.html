@@ -19,10 +19,6 @@
                 <label id="sectionTitle">Add Item</label><br>
             </li>
             <li id="bullet2_product">
-                <label id="pCode">Product Code<br>
-                    <input type="none" id="product_code" name="product_code" value=""><br>
-                </label>
-
                 <label id="pType">Product Type<br>
                     <select id="product_type" name="product_type">
                         {% for product_type in product_types %}
@@ -74,12 +70,18 @@
         <label id="addedby">Added By<br>
             <select id="added_by" name="added_by">
                 {% for human in employee %}
-                <option value="{{human.pk}}">{{human.f_name}}</option>
+                  <option value="{{human.pk}}">{{human.f_name}}</option>
                 {% endfor %}
             </select>
         </label>
-
-
+        <label id="pCode">Product Code<br>
+            <!--<input id="product_code" name="product_code" value=""><br>-->
+            <select id="product_code" name="product_code">
+                {% for code in product_code %}
+                  <option value="{{code.pk}}">{{code.pk}}</option>
+                {% endfor %}
+            </select>
+        </label>
     </form>
 
     <div id="MiniHistoryGross">
@@ -132,12 +134,12 @@
       <thead>
         <tr>
             <th>Product Code</th>
-            <th>Selling Site</th>
-            <th>Vendor</th>
-            <th>Condition</th>
-            <th>Purchase Price</th>
-            <th>Asking Price</th>
             <th>Product Type</th>
+            <th>Selling Site</th>
+            <th>Asking Price</th>
+            <th>Condition</th>
+            <th>Vendor</th>
+            <th>Purchase Price</th>
             <th>Added By</th>
             <th>Time Added</th>
             <th>Sell</th>
@@ -148,12 +150,12 @@
         {% for item in items %}
           <tr>
               <td>{{item.product_code}}</td>
+              <td>{{item.product_type}}</td>
               <td>{{item.selling_site.name}}</td>
-              <td>{{item.vendor.comp_Name}}</td>
-              <td>{{item.condition.cond_Name}}</td>
-              <td>{{item.pur_price}}</td>
               <td>{{item.ask_price}}</td>
-              <td>{{item.product_code}}</td>
+              <td>{{item.condition.cond_Name}}</td>
+              <td>{{item.vendor.comp_Name}}</td>
+              <td>{{item.pur_price}}</td>
               <td>{{item.added_by.user.username}}</td>
               <td>{{item.time_added}}</td>
               <td>

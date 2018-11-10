@@ -26,9 +26,11 @@
     color:#d9c877;
 }
 
-#addedby{ /* Hides the user currently adding an item to inventory
-    /*added_by*/
+#addedby{ /* Hides the user currently adding an item to inventory */
     display: none;
+}
+#pCode{ /* Hides the product code to be assigned to the new item */
+    /*display: none;*/
 }
 #add_submit{
     /*done & cancel*/
