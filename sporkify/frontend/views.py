@@ -4,14 +4,15 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
-from backend.models import Inventory
-from backend.models import Vendor
-from backend.models import Sale_Site
-from backend.models import Sale
-from backend.models import Employee
-from backend.models import Shift
-from backend.models import Product_Type
 from backend.models import Condition
+from backend.models import Employee
+from backend.models import Inventory
+from backend.models import Open_Product_Code
+from backend.models import Product_Type
+from backend.models import Sale
+from backend.models import Sale_Site
+from backend.models import Shift
+from backend.models import Vendor
 
 from backend.forms import InventoryForm, AddVendorForm
 
@@ -27,7 +28,6 @@ def total_sales():
     for sale in Sale.objects.all():
         total_sales += sale.sel_price
     return total_sales
-
 
 @login_required
 def dashboard(request):
@@ -99,7 +99,12 @@ def inventory(request):
     if request.method == 'POST':
         entry = InventoryForm(request.POST)
         if entry.is_valid():
+            # Save the new item into the database
             entry.save()
+            # Remove the assigned code from open codes
+            code_to_remove = request.POST.get('product_code')
+            code_object = Open_Product_Code.objects.get(pk=code_to_remove)
+            code_object.delete()
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
         "vendors": Vendor.objects.all(),
@@ -108,7 +113,8 @@ def inventory(request):
         "shift": Shift.objects.all(),
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all(),
-        "total_sales": total_sales()
+        "total_sales": total_sales(),
+        "product_code": Open_Product_Code.objects.all()[:1] # Grabs only the first open product code
     })
 
 @login_required

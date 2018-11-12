@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from backend.models import Inventory
 from backend.models import Vendor
 from backend.models import Sale
+from backend.models import Open_Product_Code
 
 class InventoryForm(ModelForm):
     class Meta:

@@ -1,9 +1,15 @@
 {%extends "base.html"%}
 {%block headIncludes%}
+<title>Sporkify - Inventory</title>
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/inventory.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
-<title>Sporkify - Inventory</title>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#inventoryTable').DataTable();
+  });
+</script>
 {%endblock%}
+
 {%block miniDash%}
 <div id="MiniDashContainer">
     <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
@@ -13,10 +19,6 @@
                 <label id="sectionTitle">Add Item</label><br>
             </li>
             <li id="bullet2_product">
-                <label id="pCode">Product Code<br>
-                    <input type="none" id="product_code" name="product_code" value=""><br>
-                </label>
-
                 <label id="pType">Product Type<br>
                     <select id="product_type" name="product_type">
                         {% for product_type in product_types %}
@@ -42,8 +44,7 @@
                     </select>
                 </label>
 
-                <label id="sAPrice">
-                    Price<br>
+                <label id="sAPrice">Asking Price<br>
                     <input class="price_" type="text" id="ask_price" name="ask_price" value="0.00"><br>
                 </label>
 
@@ -57,7 +58,7 @@
                     </select>
                 </label>
 
-                <label id="purPrice">Cost<br>
+                <label id="purPrice">Purchase Price<br>
                     <input class="price_" type="text" id="pur_price" name="pur_price" value="0.00"><br>
                 </label>
 
@@ -69,12 +70,18 @@
         <label id="addedby">Added By<br>
             <select id="added_by" name="added_by">
                 {% for human in employee %}
-                <option value="{{human.pk}}">{{human.f_name}}</option>
+                  <option value="{{human.pk}}">{{human.f_name}}</option>
                 {% endfor %}
             </select>
         </label>
-
-
+        <label id="pCode">Product Code<br>
+            <!--<input id="product_code" name="product_code" value=""><br>-->
+            <select id="product_code" name="product_code">
+                {% for code in product_code %}
+                  <option value="{{code.pk}}">{{code.pk}}</option>
+                {% endfor %}
+            </select>
+        </label>
     </form>
 
     <div id="MiniHistoryGross">
@@ -122,37 +129,49 @@
 {%endblock%}
 
 {%block content%}
-<table style="width:100%">
-    <tr>
-        <th>Product Code</th>
-        <th>Selling Site</th>
-        <th>Vendor</th>
-        <th>Condition</th>
-        <th>Purchase Price</th>
-        <th>Asking Price</th>
-        <th>Product Type</th>
-        <th>Added By</th>
-        <th>Time Added</th>
-    </tr>
-    {% for item in items %}
-    <tr>
-        <td>{{item.product_code}}</td>
-        <td>{{item.selling_site.name}}</td>
-        <td>{{item.vendor.comp_Name}}</td>
-        <td>{{item.condition.cond_Name}}</td>
-        <td>{{item.pur_price}}</td>
-        <td>{{item.ask_price}}</td>
-        <td>{{item.product_code}}</td>
-        <td>{{item.added_by.user.username}}</td>
-        <td>{{item.time_added}}</td>
-        <td><button>Edit Item</button></td>
-        <td>
-            <form action="/delete-item/" method="POST">{% csrf_token %}
-              <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
-              <button type="submit" name="deleteItem">Delete Item</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+  <h1>Inventory</h1>
+  <table id="inventoryTable" class="display" style="width:100%">
+      <thead>
+        <tr>
+            <th>Product Code</th>
+            <th>Product Type</th>
+            <th>Selling Site</th>
+            <th>Asking Price</th>
+            <th>Condition</th>
+            <th>Vendor</th>
+            <th>Purchase Price</th>
+            <th>Added By</th>
+            <th>Time Added</th>
+            <th>Sell</th>
+            <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+              <td>{{item.product_code}}</td>
+              <td>{{item.product_type}}</td>
+              <td>{{item.selling_site.name}}</td>
+              <td>{{item.ask_price}}</td>
+              <td>{{item.condition.cond_Name}}</td>
+              <td>{{item.vendor.comp_Name}}</td>
+              <td>{{item.pur_price}}</td>
+              <td>{{item.added_by.user.username}}</td>
+              <td>{{item.time_added}}</td>
+              <td>
+                  <form action="/sell-item/" method="POST">{% csrf_token %}
+                    <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
+                    <button type="submit" name="sellItem">Sell</button>
+                  </form>
+              </td>
+              <td>
+                  <form action="/delete-item/" method="POST">{% csrf_token %}
+                    <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
+                    <button type="submit" name="deleteItem">Delete</button>
+                  </form>
+              </td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
