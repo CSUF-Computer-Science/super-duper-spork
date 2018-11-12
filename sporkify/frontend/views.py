@@ -3,18 +3,11 @@ import calendar
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.core.exceptions import PermissionDenied
 
-from backend.models import Condition
-from backend.models import Employee
-from backend.models import Inventory
-from backend.models import Open_Product_Code
-from backend.models import Product_Type
-from backend.models import Sale
-from backend.models import Sale_Site
-from backend.models import Shift
-from backend.models import Vendor
-
+from backend.models import Condition, Employee, Inventory, Open_Product_Code, Product_Type, Sale, Sale_Site, Shift, Vendor
 from backend.forms import InventoryForm, AddVendorForm
+from backend.permissions import hr_login_required, supervisor_login_required
 
 #calculation functions
 def labor_costs():
@@ -35,7 +28,6 @@ def dashboard(request):
         pass
     return render(request, 'dashboard.html', {
     })
-
 
 @login_required
 def employee(request):
@@ -143,7 +135,7 @@ def delete_inventory(request):
     })
 
 
-@login_required
+@supervisor_login_required
 def reports(request):
     return render(request, 'reports.html', {
         "sales": Sale.objects.all(),
@@ -156,15 +148,14 @@ def reports(request):
     return render(request, 'reports.html', {
     })
 
-
-@login_required
+@supervisor_login_required
 def sales(request):
     if request.method == 'POST':
         pass
     return render(request, 'sales.html', {
     })
 
-@login_required
+@supervisor_login_required
 def vendors(request):
     if request.method == 'POST':
         if request.POST.get('addVendor') is not None:
@@ -178,3 +169,6 @@ def vendors(request):
     return render(request, 'vendors.html', {
         "vendors": Vendor.objects.all()
     })
+
+def not_allowed(request):
+    raise PermissionDenied

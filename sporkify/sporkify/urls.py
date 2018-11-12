@@ -31,4 +31,5 @@ urlpatterns = [
     path('vendors/', views.vendors),
     # path('reports/', views.reports),
     path('auth/', include('django.contrib.auth.urls')),
+    path('not-allowed/', views.not_allowed),
 ]

@@ -69,13 +69,36 @@ class Product_Type(models.Model):
         return self.type_name
 
 class Employee(models.Model):
-    # or emp_ID = models.CharField(max_length = 20, primary_key = true, unique=true)
+    EMPLOYEE = 1
+    HR = 2
+    SUPERVISOR = 3
+    ADMIN = 4
+
+    USER_TYPE_CHOICES = (
+        (EMPLOYEE, 'employee'),         # Can clock in/out, view their own profile, and manage inventory
+        (HR, 'hr'),                     # Can view other profiles and time tracking info
+        (SUPERVISOR, 'supervisor'),     # Can do everything
+        (ADMIN, 'admin'),               # Can do everything + more
+    )
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    permissions = models.CharField(max_length=75)
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=1)
+    hourly_wage = models.FloatField()
+
+    # Permissions cascade, meaning, if someone is a SUPERVISOR
+    # they are also considered HR and an EMPLOYEE
+    def is_hr(self):
+        return self.user_type == Employee.HR or self.is_supervisor()
+
+    def is_supervisor(self):
+        return self.user_type == Employee.SUPERVISOR or self.is_admin()
+
+    def is_admin(self):
+        return self.user_type == Employee.ADMIN
+
+    # Obsolete
     f_name = models.CharField(max_length=100)
     l_name = models.CharField(max_length=75)
-    hourly_wage = models.FloatField()
-    password = models.CharField(max_length=25)
 
 class Shift(models.Model):
     emp_ID = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
