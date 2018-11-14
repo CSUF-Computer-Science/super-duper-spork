@@ -33,7 +33,7 @@ def category_sales():
             category_sales[s.product_type] += s.sel_price
 
     return category_sales
- 
+
 def colors(n): #charts -- generate random colors for given size
   ret = []
   r = int(random.random() * 256)
@@ -48,7 +48,7 @@ def colors(n): #charts -- generate random colors for given size
     g = int(g) % 256
     b = int(b) % 256
     a = 0.5
-    ret.append((r,g,b,a)) 
+    ret.append((r,g,b,a))
   return ret
 
 
@@ -161,6 +161,12 @@ def delete_inventory(request):
         inventory = Inventory.objects.all()
         item_id = request.POST.get('product_code')
         item = Inventory.objects.get(product_code=item_id)
+
+        # Add the released code back to Open Product Codes
+        readd = Open_Product_Code()
+        readd.product_code = item_id
+        readd.save()
+
         item.delete()
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
@@ -201,7 +207,7 @@ def reports(request): # Stacey's temp playground
         pass
     return render(request, 'reports.html', {
 
-        "sales": Sale.objects.all()      
+        "sales": Sale.objects.all()
         })
 def not_allowed(request):
     raise PermissionDenied
