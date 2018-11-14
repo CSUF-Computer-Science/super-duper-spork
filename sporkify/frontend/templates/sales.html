@@ -1,83 +1,9 @@
 {% extends "base.html" %}
+
 {%block headIncludes%}
   <link rel="stylesheet" type="text/css" href="/static/stylesheets/sales.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
   <title>Sporkify - Sales</title>
-{% endblock %}
-
-{% block miniDash %}
-    <form>
-    <input type="button" value="View Sales Report" onclick="window.location.href='/reports'"/>
-    </form>
-    <div id="grossSalesContainer">
-        <canvas id="grossSalesBar" width="400" height="200"></canvas>
-        <script>
-            var gv = document.getElementById("grossSalesBar")
-            var gtx = gv.getContext('2d');
-            var gsChart = new Chart(gtx, {
-                type: 'horizontalBar',
-                data: {
-                    datasets: [{
-                        label: 'Amount (Dollars $)',
-                        data: [ {{ total_sales|floatformat:2 }} ],
-                        backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                        borderColor: ['rgba(255,99,132,1)'],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: 'Total Sales Collected'
-                    },
-                    responsive: false,
-                    maintainAspectRatio: true,
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    }
-                }
-            });
-        </script>
-    </div>
-    <div id ="ProductTypeSalesContainer">
-        <canvas id="ProductType_doughnut" width="300" height="300"></canvas>
-        <script>
-            var psv = document.getElementById("ProductType_doughnut")
-            var psChart = new Chart(psv, {
-                type: 'doughnut',
-                data: {
-                  labels: [ {% for key in cat_sal.keys %} '{{key}}', {% endfor %} ],
-                  datasets: [
-                    {
-                      backgroundColor: [ {%for c in color%} 'rgba{{c}}', {%endfor%} ],
-                      data: [ {% for value in cat_sal.values %} {{value}}, {% endfor %} ],
-                      borderColor: "grey",
-                      borderWidth: 1
-                    }
-                  ]
-                },
-                options: {
-                  title: {
-                    display: true,
-                    text: 'Product Type Sales (Dollars)'
-                  },
-                  legend: {
-                    display: true,
-                    position: 'bottom'
-                  },
-                  responsive: false,
-                  maintainAspectRatio: true,
-                  ticks: {
-                    beginAtZero: true
-                  }
-                }
-            });
-        </script>
-    </div>
 {% endblock %}
 
 {% block content %}
