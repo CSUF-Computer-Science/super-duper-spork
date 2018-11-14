@@ -1,4 +1,4 @@
-import calendar
+import calendar, random
 
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -9,7 +9,7 @@ from backend.models import Condition, Employee, Inventory, Open_Product_Code, Pr
 from backend.forms import InventoryForm, AddVendorForm
 from backend.permissions import hr_login_required, supervisor_login_required
 
-#calculation functions
+# chart functions
 def labor_costs():
     labor_costs = 0
     for shift in Shift.objects.all():
@@ -21,6 +21,36 @@ def total_sales():
     for sale in Sale.objects.all():
         total_sales += sale.sel_price
     return total_sales
+
+
+def category_sales():
+    category_sales = {}
+
+    for s in Sale.objects.all():
+        if category_sales.get(s.product_type) is None:
+            category_sales[s.product_type] = s.sel_price
+        else:
+            category_sales[s.product_type] += s.sel_price
+
+    return category_sales
+ 
+def colors(n):
+  ret = []
+  r = int(random.random() * 256)
+  g = int(random.random() * 256)
+  b = int(random.random() * 256)
+  step = 256 / n
+  for i in range(n):
+    r += step
+    g += step
+    b += step
+    r = int(r) % 256
+    g = int(g) % 256
+    b = int(b) % 256
+    a = 0.5
+    ret.append((r,g,b,a)) 
+  return ret
+#end chart functions
 
 @login_required
 def dashboard(request):
@@ -93,10 +123,12 @@ def inventory(request):
         if entry.is_valid():
             # Save the new item into the database
             entry.save()
+
             # Remove the assigned code from open codes
             code_to_remove = request.POST.get('product_code')
             code_object = Open_Product_Code.objects.get(pk=code_to_remove)
             code_object.delete()
+
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
         "vendors": Vendor.objects.all(),
@@ -105,6 +137,7 @@ def inventory(request):
         "shift": Shift.objects.all(),
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all(),
+
         "total_sales": total_sales(),
         "product_code": Open_Product_Code.objects.all()[:1] # Grabs only the first open product code
     })
@@ -114,7 +147,6 @@ def sales(request):
     return render(request, 'sale.html', {
         "items": Sale.objects.all()
     })
-
 
 @login_required
 def delete_inventory(request):
@@ -137,22 +169,28 @@ def delete_inventory(request):
 
 @supervisor_login_required
 def reports(request):
-    return render(request, 'reports.html', {
-        "sales": Sale.objects.all(),
-        "total_sales": total_sales(),
-        "labor_cost" : labor_costs()
-        })
-
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
+
+        "sales": Sale.objects.all()      
+        })
+
+@login_required
+
     })
 
 @supervisor_login_required
+
 def sales(request):
     if request.method == 'POST':
         pass
+    cs = category_sales()
+    cs_colors = colors(len(cs))
     return render(request, 'sales.html', {
+        "total_sales": total_sales(),
+        "cat_sal": cs,
+        "color": cs_colors
     })
 
 @supervisor_login_required

@@ -51,9 +51,9 @@
 </div>
 
 <div id="laborcostContainer">
-    <canvas id="doughnut-chart" width="500" height="300"></canvas>
+    <canvas id="laborcostDoughnut" width="500" height="300"></canvas>
     <script>
-        var dv = document.getElementById("doughnut-chart")
+        var dv = document.getElementById("laborcostDoughnut")
         var dchart = new Chart(dv, {
             type: 'doughnut',
             data: {
@@ -74,8 +74,8 @@
               maintainAspectRatio: true
             }
         });
-        dv.onclick = function(evt){
-            var activePoint = dchart.getElementAtEvent(evt);
+        dv.onclick = function(dvt){
+            var activePoint = dchart.getElementAtEvent(dvt);
             console.log('activePoint', activePoint)
             window.location = '/reports'
         };
