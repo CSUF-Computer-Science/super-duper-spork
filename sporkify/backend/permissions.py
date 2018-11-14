@@ -24,6 +24,8 @@ def admin_login_required(view_func):
     return decorated_view_func
 
 def permission_context_processor(request):
+    if request.user.is_anonymous:
+        return {}
     return {
         'is_hr': find_employee_or_404(request.user).is_hr(),
         'is_supervisor': find_employee_or_404(request.user).is_supervisor(),
