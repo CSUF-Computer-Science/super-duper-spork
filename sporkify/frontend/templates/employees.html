@@ -106,7 +106,9 @@
        			</tr>
        			{% endfor %}
         	</table>
-        </div><br><br>
+		</div><br><br>
+		
+		{% if is_hr %}
         <!-- Manager/Owner Side -->
         <h2>Manager Preview</h2>
         <div class="manage">
@@ -129,7 +131,8 @@
        			</tr>
                 {% endfor %}
        		</table>
-        </div><br><br>
+		</div><br><br>
+		
         <!-- Show Timesheet for that day (or more if possible) -->
         <div class="timesheet_daily">
         	<a>Daily Timesheet</a>
@@ -151,5 +154,6 @@
        			</tr>
        			{% endfor %}
         	</table>
-        </div>
+		</div>
+		{% endif %}
 {% endblock %}

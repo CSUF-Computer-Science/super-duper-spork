@@ -49,10 +49,10 @@ header{
   grid-area: q;
   grid-template-columns: repeat(5,auto);
   grid-template-areas:
-  "a b c d e";
+  "a b c d f e";
   align-items: center;
   justify-content: center;
-  width: 600px;
+  width: 680px;
 }
 a{
   color:white;
@@ -102,6 +102,15 @@ a{
   width: 40px;
 }
 
+.vendors{
+  grid-area: f;
+  align-self: flex-end;
+  text-align: center;
+  text-align: left;
+  padding-bottom: 50px;
+  margin-right: 40px;
+}
+
 /*Content Box Styles*/
 #contentContainer{
   align-self: center;
@@ -110,4 +119,8 @@ a{
   padding: 10px;
   box-shadow: inset 0px 0px 10px rgba(0,0,0,0.40);
   background: white;
+}
+
+#miniDash {
+  margin-left: 4%;
 }

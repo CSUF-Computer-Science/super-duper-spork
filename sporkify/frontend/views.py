@@ -3,17 +3,11 @@ import calendar, random
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.core.exceptions import PermissionDenied
 
-from backend.models import Inventory
-from backend.models import Vendor
-from backend.models import Sale_Site
-from backend.models import Sale
-from backend.models import Employee
-from backend.models import Shift
-from backend.models import Product_Type
-from backend.models import Condition
-
-from backend.forms import InventoryForm
+from backend.models import Condition, Employee, Inventory, Open_Product_Code, Product_Type, Sale, Sale_Site, Shift, Vendor
+from backend.forms import InventoryForm, AddVendorForm
+from backend.permissions import hr_login_required, supervisor_login_required
 
 # chart functions
 def labor_costs():
@@ -27,6 +21,7 @@ def total_sales():
     for sale in Sale.objects.all():
         total_sales += sale.sel_price
     return total_sales
+
 
 def category_sales():
     category_sales = {}
@@ -63,7 +58,6 @@ def dashboard(request):
         pass
     return render(request, 'dashboard.html', {
     })
-
 
 @login_required
 def employee(request):
@@ -127,9 +121,13 @@ def inventory(request):
     if request.method == 'POST':
         entry = InventoryForm(request.POST)
         if entry.is_valid():
+            # Save the new item into the database
             entry.save()
 
-    # chart info
+            # Remove the assigned code from open codes
+            code_to_remove = request.POST.get('product_code')
+            code_object = Open_Product_Code.objects.get(pk=code_to_remove)
+            code_object.delete()
 
     return render(request, 'inventory.html', {
         "items": Inventory.objects.all(),
@@ -139,6 +137,15 @@ def inventory(request):
         "shift": Shift.objects.all(),
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all(),
+
+        "total_sales": total_sales(),
+        "product_code": Open_Product_Code.objects.all()[:1] # Grabs only the first open product code
+    })
+
+@login_required
+def sales(request):
+    return render(request, 'sale.html', {
+        "items": Sale.objects.all()
     })
 
 @login_required
@@ -160,15 +167,21 @@ def delete_inventory(request):
     })
 
 
-@login_required
+@supervisor_login_required
 def reports(request):
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
+
         "sales": Sale.objects.all()      
         })
 
 @login_required
+
+    })
+
+@supervisor_login_required
+
 def sales(request):
     if request.method == 'POST':
         pass
@@ -180,3 +193,20 @@ def sales(request):
         "color": cs_colors
     })
 
+@supervisor_login_required
+def vendors(request):
+    if request.method == 'POST':
+        if request.POST.get('addVendor') is not None:
+            entry = AddVendorForm(request.POST)
+            if entry.is_valid():
+                entry.save()
+        elif request.POST.get('deleteVendor') is not None:
+            vend_to_del = get_object_or_404(Vendor, pk=request.POST.get("vendorId"))
+            vend_to_del.delete()
+
+    return render(request, 'vendors.html', {
+        "vendors": Vendor.objects.all()
+    })
+
+def not_allowed(request):
+    raise PermissionDenied
