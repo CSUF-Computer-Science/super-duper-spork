@@ -3,7 +3,6 @@
 {% block headIncludes %}
 
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/employee.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <title>Sporkify - Employee Management</title>
 
 <script type="text/javascript">
@@ -48,38 +47,6 @@
 		</p>
 		<input type="submit" id="clockInOut" name="clockInOut" value='Clock {{ clockedIn|yesno:"Out,In" }}' />
 	</form>
-</div>
-
-<div id="laborcostContainer">
-    <canvas id="laborcostDoughnut" width="500" height="300"></canvas>
-    <script>
-        var dv = document.getElementById("laborcostDoughnut")
-        var dchart = new Chart(dv, {
-            type: 'doughnut',
-            data: {
-              labels: ["Total Sales: $", "Total Labor Costs: $"],
-              datasets: [
-                {
-                  backgroundColor: ["#3e4157f", "#d9cb77"],
-                  data: [ {{total_sales}}, {{ labor_cost|floatformat:2 }} ]
-                }
-              ]
-            },
-            options: {
-              title: {
-                display: true,
-                text: 'Total Labor vs. Sales'
-              },
-              responsive: false,
-              maintainAspectRatio: true
-            }
-        });
-        dv.onclick = function(dvt){
-            var activePoint = dchart.getElementAtEvent(dvt);
-            console.log('activePoint', activePoint)
-            window.location = '/reports'
-        };
-    </script>
 </div>
 {% endblock %}
 

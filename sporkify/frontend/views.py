@@ -34,7 +34,7 @@ def category_sales():
 
     return category_sales
  
-def colors(n):
+def colors(n): #charts -- generate random colors for given size
   ret = []
   r = int(random.random() * 256)
   g = int(random.random() * 256)
@@ -50,14 +50,22 @@ def colors(n):
     a = 0.5
     ret.append((r,g,b,a)) 
   return ret
-#end chart functions
+
 
 @login_required
 def dashboard(request):
     if request.method == 'POST':
         pass
-    return render(request, 'dashboard.html', {
-    })
+    cs = category_sales()
+    cs_colors = colors(len(cs))
+    base_context = {
+        "total_sales": total_sales(),
+        "labor_cost" : labor_costs(),
+        "total_sales": total_sales(),
+        "cat_sal": cs,
+        "color": cs_colors
+    }
+    return render(request, 'dashboard.html', base_context)
 
 @login_required
 def employee(request):
@@ -67,8 +75,6 @@ def employee(request):
     # Dictionary of stuff that should always be included in the
     # render context
     base_context = {
-        "labor_cost" : labor_costs(),
-        "total_sales": total_sales(),
         "employees": Employee.objects.all(),    # List of employees
         "shifts": Shift.objects.all().order_by('-time_in'),                    # List of all shifts
         "myShifts": Shift.objects.filter(emp_ID=emp).order_by('-time_in'),     # List of user shifts
@@ -166,27 +172,11 @@ def delete_inventory(request):
         "conditions": Condition.objects.all()
     })
 
-
 @supervisor_login_required
-def reports(request):
-    if request.method == 'POST':
-        pass
-    return render(request, 'reports.html', {
-
-        "sales": Sale.objects.all()      
-        })
-
-@supervisor_login_required
-
 def sales(request):
     if request.method == 'POST':
         pass
-    cs = category_sales()
-    cs_colors = colors(len(cs))
     return render(request, 'sales.html', {
-        "total_sales": total_sales(),
-        "cat_sal": cs,
-        "color": cs_colors
     })
 
 @supervisor_login_required
@@ -204,5 +194,14 @@ def vendors(request):
         "vendors": Vendor.objects.all()
     })
 
+
+@supervisor_login_required
+def reports(request): # Stacey's temp playground
+    if request.method == 'POST':
+        pass
+    return render(request, 'reports.html', {
+
+        "sales": Sale.objects.all()      
+        })
 def not_allowed(request):
     raise PermissionDenied
