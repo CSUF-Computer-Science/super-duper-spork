@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from backend.models import Inventory
+from backend.models import Employee, Inventory
 from backend.models import Sale
 
 

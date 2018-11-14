@@ -2,6 +2,7 @@ import calendar
 
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 from backend.models import Inventory
@@ -13,7 +14,6 @@ from backend.models import Shift
 from backend.models import Product_Type
 from backend.models import Condition
 
-from backend.forms import CreateEmployeeForm
 from backend.forms import InventoryForm
 
 #calculation functions
@@ -97,9 +97,14 @@ def employee(request):
 @login_required
 def create_employee(request):
     if request.method == 'POST':
-       form = CreateEmployeeForm(request.POST)
-       if form.is_valid():
-           form.save()
+        userName = request.POST["user"]
+        permission = request.POST["permissions"]
+        fname = request.POST["f_name"]
+        lname = request.POST["l_name"]
+        hourlyWage = request.POST["hourly_wage"]
+        pword = request.POST["password"]
+        user = User.objects.create_user(username=userName,  fname=fname, lname=lname, password=pword)
+        user.save()
     return render(request, 'createUser.html')
 
 @login_required

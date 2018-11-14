@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dashboard/', views.dashboard),
     path('employees/', views.employee),
-    path('employees/create', views.create_employee),
+    path('employees/create/', views.create_employee),
     path('inventory/', views.inventory),
     path('reports/', views.reports),
     path('sales/', views.sales),

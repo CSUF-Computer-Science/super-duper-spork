@@ -6,8 +6,7 @@
 {%endblock%}
 {%block content%}
 <h1>Sporkify</h1>
-<!--action="/add-item/" method="post">{% csrf_token %}-->
-<form id="create_user" action="//" method="post"> {% csrf_token %}
+<form id="create_user" action="/employees/create/" method="post"> {% csrf_token %}
 	<fieldset>
 		<legend>Create User</legend>
             <label for="fname">First Name:</label>
@@ -26,7 +25,10 @@
 		<br>
 			<select form="create_user">
 				<option value="Employee">Employee</option>
-				<option value="Manager">Manager</option>
+				<option value="Supervisor">Supervisor</option>
+				<option value="HR">Human Resources</option>
+				<option value="Admin">Administrator</option>
+				
 			</select>
 		<br>
             <label>Password:</label>
