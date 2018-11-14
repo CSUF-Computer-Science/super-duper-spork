@@ -176,10 +176,6 @@ def reports(request):
         "sales": Sale.objects.all()      
         })
 
-@login_required
-
-    })
-
 @supervisor_login_required
 
 def sales(request):
