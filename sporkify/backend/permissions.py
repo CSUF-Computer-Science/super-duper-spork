@@ -27,7 +27,7 @@ def permission_context_processor(request):
     if request.user.is_anonymous:
         return {}
     
-    emp = Employee.objects.get(user=request.user)
+    emp = Employee.objects.filter(user=request.user).first()
     return {
         'is_hr': false if emp is None else emp.is_hr(),
         'is_supervisor': false if emp is None else emp.is_supervisor(),
