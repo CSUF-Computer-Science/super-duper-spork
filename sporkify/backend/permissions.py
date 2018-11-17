@@ -29,7 +29,7 @@ def permission_context_processor(request):
     
     emp = Employee.objects.filter(user=request.user).first()
     return {
-        'is_hr': false if emp is None else emp.is_hr(),
-        'is_supervisor': false if emp is None else emp.is_supervisor(),
-        'is_warehouse_admin': false if emp is None else emp.is_admin(),
+        'is_hr': False if emp is None else emp.is_hr(),
+        'is_supervisor': False if emp is None else emp.is_supervisor(),
+        'is_warehouse_admin': False if emp is None else emp.is_admin(),
     }
