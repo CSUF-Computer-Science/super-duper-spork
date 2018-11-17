@@ -26,8 +26,10 @@ def admin_login_required(view_func):
 def permission_context_processor(request):
     if request.user.is_anonymous:
         return {}
+    
+    emp = Employee.objects.filter(user=request.user).first()
     return {
-        'is_hr': find_employee_or_404(request.user).is_hr(),
-        'is_supervisor': find_employee_or_404(request.user).is_supervisor(),
-        'is_warehouse_admin': find_employee_or_404(request.user).is_admin(),
+        'is_hr': False if emp is None else emp.is_hr(),
+        'is_supervisor': False if emp is None else emp.is_supervisor(),
+        'is_warehouse_admin': False if emp is None else emp.is_admin(),
     }
