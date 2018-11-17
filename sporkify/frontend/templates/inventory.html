@@ -4,9 +4,9 @@
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/inventory.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <script type="text/javascript">
-  $(document).ready(function() {
-      $('#inventoryTable').DataTable();
-  });
+    $(document).ready(function () {
+        $('#inventoryTable').DataTable();
+    });
 </script>
 {%endblock%}
 
@@ -15,7 +15,7 @@
     <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
 
         <ul>
-            <li id="titleItem" >
+            <li id="titleItem">
                 <label id="sectionTitle">Add Item</label><br>
             </li>
             <li id="bullet2_product">
@@ -70,7 +70,7 @@
         <label id="addedby">Added By<br>
             <select id="added_by" name="added_by">
                 {% for human in employee %}
-                  <option value="{{human.pk}}">{{human.f_name}}</option>
+                <option value="{{human.pk}}">{{human.f_name}}</option>
                 {% endfor %}
             </select>
         </label>
@@ -78,7 +78,7 @@
             <!--<input id="product_code" name="product_code" value=""><br>-->
             <select id="product_code" name="product_code">
                 {% for code in product_code %}
-                  <option value="{{code.pk}}">{{code.pk}}</option>
+                <option value="{{code.pk}}">{{code.pk}}</option>
                 {% endfor %}
             </select>
         </label>
@@ -88,9 +88,9 @@
 {%endblock%}
 
 {%block content%}
-  <h1>Inventory</h1>
-  <table id="inventoryTable" class="display" style="width:100%">
-      <thead>
+<h1>Inventory</h1>
+<table id="inventoryTable" class="display" style="width:100%">
+    <thead>
         <tr>
             <th>Product Code</th>
             <th>Product Type</th>
@@ -104,33 +104,47 @@
             <th>Sell</th>
             <th>Delete</th>
         </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
         {% for item in items %}
-          <tr>
-              <td>{{item.product_code}}</td>
-              <td>{{item.product_type}}</td>
-              <td>{{item.selling_site.name}}</td>
-              <td>{{item.ask_price}}</td>
-              <td>{{item.condition.cond_Name}}</td>
-              <td>{{item.vendor.comp_Name}}</td>
-              <td>{{item.pur_price}}</td>
-              <td>{{item.added_by.user.username}}</td>
-              <td>{{item.time_added}}</td>
-              <td>
-                  <form action="/sell-item/" method="POST">{% csrf_token %}
-                    <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
-                    <button type="submit" name="sellItem">Sell</button>
-                  </form>
-              </td>
-              <td>
-                  <form action="/delete-item/" method="POST">{% csrf_token %}
+        <tr>
+            <td>{{item.product_code}}</td>
+            <td>{{item.product_type}}</td>
+            <td>{{item.selling_site.name}}</td>
+            <td>{{item.ask_price}}</td>
+            <td>{{item.condition.cond_Name}}</td>
+            <td>{{item.vendor.comp_Name}}</td>
+            <td>{{item.pur_price}}</td>
+            <td>{{item.added_by.user.username}}</td>
+            <td>{{item.time_added}}</td>
+            <td>
+                    <button class="open-button" onclick="openForm()">
+            </td>
+            <td>
+                <form action="/delete-item/" method="POST">{% csrf_token %}
                     <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
                     <button type="submit" name="deleteItem">Delete</button>
-                  </form>
-              </td>
-          </tr>
+                </form>
+            </td>
+        </tr>
         {% endfor %}
     </tbody>
-  </table>
+</table>
+<div class="form-popup" id="shipmentForm">
+    <form action="/action_page.php" id="form-container">
+        <div id="moveToSoldTitle">Move Item to Sold - </div>
+        <button type="submit" class="toExisting" formaction="/addToExistingShipment/">Add To Existing Shipment</button>
+        <button type="submit" class="newShipment" formaction="/addNewShipment/">Create New Shipment</button>
+        <button class="close-button" onclick="closeForm()"></button>
+    </form>
+</div>
+<script>
+    function openForm() {
+        document.getElementById("shipmentForm").style.display="block";
+    }
+
+    function closeForm() {
+        document.getElementById("shipmentForm").style.display = "none";
+    }
+</script>
 {% endblock %}

@@ -1,11 +1,8 @@
 {% extends "base.html" %}
-
 {%block headIncludes%}
-  <link rel="stylesheet" type="text/css" href="/static/stylesheets/sales.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="#">
   <title>Sporkify - Sales</title>
-{% endblock %}
-
+{%endblock%}
 {% block content %}
     <h1>Sales History</h1>
     <table style="width:100%">
@@ -41,7 +38,7 @@
                 <td>{{item.time_archived}}</td>
                 <td><button>Edit Item</button></td>
                 <td>
-                    <form action="" method="POST">{% csrf_token %}<input type="hidden" name="Invoice Number" value="{{item.invoice_num}}" /><button
+                    <form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.past_product_code}}" /><button
                             type="submit" name="deleteItem">Delete Item</button></form>
                 </td>
             </tr>
