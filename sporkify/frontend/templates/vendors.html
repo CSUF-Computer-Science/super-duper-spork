@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{%block headIncludes%}
+  <link rel="stylesheet" type="text/css" href="/static/stylesheets/vendors.css">
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('#vendorTable').DataTable();
+    });
+  </script>
+  <title>Sporkify - Vendors</title>
+{%endblock%}
+
+{%block miniDash %}
+<div id="addVendorContainer">
+    <form id="addVendorForm" action="" method="POST">
+        {% csrf_token %}
+
+        <label for="comp_Name">Company Name:</label>
+        <input type="text" name="comp_Name" id="comp_Name" />
+
+        <label for="contact_name">Contact Name:</label>
+        <input type="text" name="contact_name" id="contact_name" />
+
+        <label for="contact_phone">Contact Phone:</label>
+        <input type="text" name="contact_phone" id="contact_phone" />
+
+        <label for="contact_email">Contact Email:</label>
+        <input type="text" name="contact_email" id="contact_email" />
+
+        <input type="submit" id="addVendor" name="addVendor" value='Add Vendor' />
+    </form>
+</div>
+{% endblock %}
+
+{% block content %}
+    <h1>Vendors</h1>
+    <table id="vendorTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Company Name</th>
+                <th>Contact Name</th>
+                <th>Contact Phone</th>
+                <th>Company Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vendor in vendors %}
+            <tr>
+                <td>{{vendor.comp_Name}}</td>
+                <td>{{vendor.contact_name}}</td>
+                <td>{{vendor.contact_phone}}</td>
+                <td><a href="mailto:{{vendor.contact_email}}">{{vendor.contact_email}}</a></td>
+                <td>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="vendorId" value="{{vendor.pk}}" />
+                        <button type="submit" name="deleteVendor">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
