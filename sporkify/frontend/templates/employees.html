@@ -4,123 +4,131 @@
 
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/employee.css">
 <title>Sporkify - Employee Management</title>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#timehistory').DataTable();
+  });
+</script>
 
 <script type="text/javascript">
-	onload = () => {
-		// Find elements with clockin tag and update them
-		// every half-second
-		setInterval(() => {
-			const curTime = new Date().getTime() / 1000;
+    onload = () => {
+        // Find elements with clockin tag and update them
+        // every half-second
+        setInterval(() => {
+            const curTime = new Date().getTime() / 1000;
 
-			const elemsToUpdate = document.querySelectorAll("[clockin]");
-			elemsToUpdate.forEach((elem) => {
-				var timeDiff = curTime - parseInt(elem.getAttribute("clockin"));
+            const elemsToUpdate = document.querySelectorAll("[clockin]");
+            elemsToUpdate.forEach((elem) => {
+                var timeDiff = curTime - parseInt(elem.getAttribute("clockin"));
 
-				const hours = Math.floor(timeDiff / 3600).toString().padStart(2, '0');
-				timeDiff %= 3600;
-				const minutes = Math.floor(timeDiff / 60).toString().padStart(2, '0');
-				const seconds = Math.floor(timeDiff % 60).toString().padStart(2, '0');
+                const hours = Math.floor(timeDiff / 3600).toString().padStart(2, '0');
+                timeDiff %= 3600;
+                const minutes = Math.floor(timeDiff / 60).toString().padStart(2, '0');
+                const seconds = Math.floor(timeDiff % 60).toString().padStart(2, '0');
 
-				elem.innerHTML = `${hours}:${minutes}:${seconds}`;
-			});
-		}, 500);
-	}
+                elem.innerHTML = `${hours}:${minutes}:${seconds}`;
+            });
+        }, 500);
+    }
 </script>
 {% endblock %}
 
 {% block miniDash %}
 <div id="timeclockContainer">
-	<form id="timeClockForm" action="" method="POST">
-		{% csrf_token %}
-		<!-- Print stuff -->
-		<p>
-		{% if clockedIn == True %}
-			You have been on the clock for <span clockin="{{ curShiftStartedAt }}">(calculating...)</span>
-		{% endif %}
+    <form id="timeClockForm" action="" method="POST">
+        {% csrf_token %}
+        <!-- Print stuff -->
+        <p>
+        {% if clockedIn == True %}
+            You have been on the clock for <span clockin="{{ curShiftStartedAt }}">(calculating...)</span>
+        {% endif %}
 
-		{% if clockedIn == False %}
-			You are not clocked in.
-			{% if timeWorked != None %}
-				Your shift lasted for {{ timeWorked }}.
-			{% endif %}
-		{% endif %}
-		</p>
-		<input type="submit" id="clockInOut" name="clockInOut" value='Clock {{ clockedIn|yesno:"Out,In" }}' />
-	</form>
+        {% if clockedIn == False %}
+            You are not clocked in.
+            {% if timeWorked != None %}
+                Your shift lasted for {{ timeWorked }}.
+            {% endif %}
+        {% endif %}
+        </p>
+        <input type="submit" id="clockInOut" name="clockInOut" value='Clock {{ clockedIn|yesno:"Out,In" }}' />
+    </form>
 </div>
 {% endblock %}
 
 {% block content %}
-		<h1>Employee Management</h1><br>
-    	<!-- User Side -->
-    	<h2>Your Timesheet</h2>
+        <h1>Employee Management</h1><br>
+        <!-- User Side -->
+        <h2>Your Timesheet</h2>
 
-    	<!-- Show Hours for the Week -->
+        <!-- Show Hours for the Week -->
         <div class="timesheet_weekly">
-        	<table style="width: 100%">
-        		<tr>
-        			<th>Clock In</th>
-        			<th>Clock Out</th>
-        			<th>Total Hours</th>
-        			<th>Total Pay</th>
-        		</tr>
-        		{% for shift in myShifts %}
-        		<tr>
-        			<td>{{shift.time_in}}</td>
-        			<td>{{shift.time_out}}</td>
-        			<td>{{shift.time_worked}}</td>
-        			<td>${{shift.money|floatformat}}</td>
-       			</tr>
-       			{% endfor %}
-        	</table>
-		</div><br><br>
-		
-		{% if is_hr %}
+            <table style="width: 100%">
+                <tr>
+                    <th>Clock In</th>
+                    <th>Clock Out</th>
+                    <th>Total Hours</th>
+                    <th>Total Pay</th>
+                </tr>
+                {% for shift in myShifts %}
+                <tr>
+                    <td>{{shift.time_in}}</td>
+                    <td>{{shift.time_out}}</td>
+                    <td>{{shift.time_worked}}</td>
+                    <td>${{shift.money|floatformat}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div><br><br>
+        
+        {% if is_hr %}
         <!-- Manager/Owner Side -->
         <h2>Manager Preview</h2>
+        <h3>All Employees</h3>
         <div class="manage">
-        	<button id="create_user">Add Employee</button>
-        	<button id="remove_user">Remove Employee</button>
-        	<table style="width: 100%">
-        		<tr>
-        			<th>First Name</th>
-        			<th>Last Name</th>
-        			<th>Hourly Wage</th>
-        			<th>Permissions</th>
-        		</tr>
+            <button id="create_user">Add Employee</button>
+            <button id="remove_user">Remove Employee</button>
+            <table style="width: 100%">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Hourly Wage</th>
+                </tr>
                 {% for employee in employees %}
-        		<tr>
-        			<td>{{employee.f_name}}</td>
-        			<td>{{employee.l_name}}</td>
-        			<td>{{employee.hourly_wage}}</td>
-        			<td>{{employee.permissions}}</td>
-        			<td><button id="edit_user">Edit Employee Info</button></td>
-       			</tr>
+                <tr>
+                    <td>{{employee.f_name}}</td>
+                    <td>{{employee.l_name}}</td>
+                    <td>{{employee.hourly_wage}}</td>
+                    <td><button id="edit_user">Edit Employee Info</button></td>
+                </tr>
                 {% endfor %}
-       		</table>
-		</div><br><br>
-		
+            </table>
+        </div><br><br>
+        
         <!-- Show Timesheet for that day (or more if possible) -->
-        <div class="timesheet_daily">
-        	<a>Daily Timesheet</a>
-        	<table style="width: 100%">
-        		<tr>
-        			<th>Employee Name</th>
-        			<th>Clock In</th>
-        			<th>Clock Out</th>
-        			<th>Total Hours</th>
-        			<th>Total Pay</th>
-        		</tr>
-        		{% for shift in shifts %}
-        		<tr>
-        			<td>{{shift.emp_ID.f_name}} {{shift.emp_ID.l_name}}</td>
-        			<td>{{shift.time_in}}</td>
-        			<td>{{shift.time_out}}</td>
-        			<td>{{shift.time_worked}}</td>
-        			<td>${{shift.money|floatformat}}</td>
-       			</tr>
-       			{% endfor %}
-        	</table>
-		</div>
-		{% endif %}
+        <div class="timesheet_history">
+            <h3>History</h3>
+            <table id="timehistory" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Clock In</th>
+                        <th>Clock Out</th>
+                        <th>Total Hours</th>
+                        <th>Total Pay</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shift in shifts %}
+                    <tr>
+                        <td>{{shift.emp_ID.f_name}} {{shift.emp_ID.l_name}}</td>
+                        <td>{{shift.time_in}}</td>
+                        <td>{{shift.time_out}}</td>
+                        <td>{{shift.time_worked}}</td>
+                        <td>${{shift.money|floatformat}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
 {% endblock %}
