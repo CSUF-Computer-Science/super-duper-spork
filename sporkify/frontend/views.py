@@ -3,6 +3,7 @@ import calendar, random
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 
@@ -22,7 +23,6 @@ def total_sales():
     for sale in Sale.objects.all():
         total_sales += sale.sel_price
     return total_sales
-
 
 def category_sales():
     category_sales = {}
@@ -51,7 +51,6 @@ def colors(n): #charts -- generate random colors for given size
     a = 0.5
     ret.append((r,g,b,a))
   return ret
-
 
 @login_required
 def dashboard(request):
@@ -233,7 +232,6 @@ def vendors(request):
     return render(request, 'vendors.html', {
         "vendors": Vendor.objects.all()
     })
-
 
 @supervisor_login_required
 def reports(request): # Stacey's temp playground
