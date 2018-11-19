@@ -27,6 +27,7 @@ urlpatterns = [
     path('delete-item/', views.delete_inventory),
     path('employees/', views.employee),
     path('inventory/', views.inventory),
+    path('logout/', views.logout),
     path('not-allowed/', views.not_allowed),
     path('reports/', views.reports),
     path('sales/', views.sales),
