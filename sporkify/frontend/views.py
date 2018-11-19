@@ -2,6 +2,7 @@ import calendar, random
 
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
@@ -119,6 +120,40 @@ def employee(request):
             raise Exception('More than one shift is open. How\'d you manage that?')
 
     return render(request, 'employees.html', base_context)
+
+@login_required
+def create_employee(request):
+    if request.method == 'POST':
+        print(request.POST)
+        userName = request.POST["uname"]
+        permission = request.POST["permissions"]
+        fname = request.POST["fname"]
+        lname = request.POST["lname"]
+        hourlyWage = request.POST["hwage"]
+        pword = request.POST["pword"]
+        
+        user = User.objects.create_user(username=userName,  first_name=fname, last_name=lname, password=pword)
+        user.save()
+
+        if(permission == "Employee"):
+            permission = 1
+        elif (permission == "HR"):
+            permission = 2
+        elif (permission == "Supervisor"):
+            permission = 3
+        else:
+            permission = 4 # ADMIN
+
+        print(permission)
+        newEmployee = Employee()
+        newEmployee.user = user#Employee(user, permission, hourlyWage, fname, lname)
+        newEmployee.f_name = fname
+        newEmployee.l_name = lname
+        newEmployee.hourly_wage = hourlyWage
+        newEmployee.save()
+        
+
+    return render(request, 'createUser.html')
 
 @login_required
 def inventory(request):

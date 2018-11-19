@@ -26,6 +26,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard),
     path('delete-item/', views.delete_inventory),
     path('employees/', views.employee),
+    path('employees/create/', views.create_employee),
     path('inventory/', views.inventory),
     path('not-allowed/', views.not_allowed),
     path('reports/', views.reports),
