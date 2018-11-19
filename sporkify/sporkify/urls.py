@@ -20,6 +20,8 @@ from frontend import views
 
 urlpatterns = [
     path('', views.inventory),
+    path('addToExistingShipment/', views.addToExistingShipment),
+    path('addNewShipment/', views.addNewShipment),
     path('add-item/', views.inventory),
     path('delete-item/', views.delete_inventory),
     path('admin/', admin.site.urls),

@@ -178,6 +178,54 @@ def delete_inventory(request):
         "conditions": Condition.objects.all()
     })
 
+@login_required
+def addToExistingShipment(request):
+   # if request.method == 'POST':
+    #   form = Inventory()
+     #   inventory = Inventory.objects.all()
+      #  item_id = request.POST.get('product_code')
+       # item = Inventory.objects.get(product_code=item_id)
+
+        # Add the released code back to Open Product Codes
+        #readd = Open_Product_Code()
+        #readd.product_code = item_id
+        #readd.save()
+
+        #item.delete()
+    return render(request, 'inventory.html', {
+        "items": Inventory.objects.all(),
+        "vendors": Vendor.objects.all(),
+        "channels": Sale_Site.objects.all(),
+        "employee": Employee.objects.all(),
+        "shift": Shift.objects.all(),
+        "product_types": Product_Type.objects.all(),
+        "conditions": Condition.objects.all()
+    })
+
+@login_required
+def addNewShipment(request):
+   # if request.method == 'POST':
+    #   form = Inventory()
+     #   inventory = Inventory.objects.all()
+      #  item_id = request.POST.get('product_code')
+       # item = Inventory.objects.get(product_code=item_id)
+
+        # Add the released code back to Open Product Codes
+        #readd = Open_Product_Code()
+        #readd.product_code = item_id
+        #readd.save()
+
+        #item.delete()
+    return render(request, 'inventory.html', {
+        "items": Inventory.objects.all(),
+        "vendors": Vendor.objects.all(),
+        "channels": Sale_Site.objects.all(),
+        "employee": Employee.objects.all(),
+        "shift": Shift.objects.all(),
+        "product_types": Product_Type.objects.all(),
+        "conditions": Condition.objects.all()
+    })
+
 @supervisor_login_required
 def sales(request):
     if request.method == 'POST':
@@ -211,3 +259,5 @@ def reports(request): # Stacey's temp playground
         })
 def not_allowed(request):
     raise PermissionDenied
+
+

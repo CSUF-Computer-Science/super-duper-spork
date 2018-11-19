@@ -38,8 +38,8 @@
                 <td>{{item.time_archived}}</td>
                 <td><button>Edit Item</button></td>
                 <td>
-                    <form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.past_product_code}}" /><button
-                            type="submit" name="deleteItem">Delete Item</button></form>
+                    <form action="" method="POST">{% csrf_token %}<input type="hidden" name="productCode" value="{{item.past_product_code}}" />
+                    <button type="submit" name="deleteItem">Delete Item</button></form>
                 </td>
             </tr>
             {% endfor %}

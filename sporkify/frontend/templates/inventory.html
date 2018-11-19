@@ -8,6 +8,24 @@
         $('#inventoryTable').DataTable();
     });
 </script>
+<script>
+    function openForm() {
+        document.getElementById("shipmentForm").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("shipmentForm").style.display = "none";
+    }
+    function openExistingShipmentForm() {
+        document.getElementById("form1").style.display = "none";
+        document.getElementById("formOpt1").style.display = "inline-block";
+    }
+    function openNewShipmentForm() {
+        document.getElementById("form1").style.display = "none";
+        document.getElementById("formOpt2").style.display = "inline-block";
+    }
+
+</script>
 {%endblock%}
 
 {%block miniDash%}
@@ -24,7 +42,8 @@
                         {% for product_type in product_types %}
                         <option value="{{product_type.pk}}">{{product_type.type_name}}</option>
                         {% endfor %}
-                    </select></label>
+                    </select>
+                </label>
             </li>
 
             <li id="bullet3_selling">
@@ -86,7 +105,53 @@
 
 </div>
 {%endblock%}
+{%block popUP%}
+<div class="form-popup" id="shipmentForm">
+    <div id="form-container">
+        <form id="form1">
+            <div id="moveToSoldTitle">Move Item to Sold: </div>
+            <button class="formchild" id="toExisting" onclick="openExistingShipmentForm()">Add To Existing Shipment</button>
+            <button class="formchild" id="newShipment" onclick="openNewShipmentForm()">Create New Shipment</button>
+            <button class="close-button" onclick="closeForm()">Cancel</button>
+        </form>
 
+        <form id="formOpt1" method="POST">{% csrf_token %}
+            <div id="existingShipmentTitle">Add To An Existing Shipment: </div>
+            <label for=trk>Tracking Number</label>
+            <input id="trackingNo" type="text" name="trk">
+            <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" /><br>
+            <button class="close-button2" type="submit" formaction="/addToExistingShipment/">Submit</button>
+        </form>
+
+        <form id="formOpt2" method="POST">{% csrf_token %}
+            <div id="addNewShipmentTitle">Add A New Shipment: </div>
+            <div>
+                <label for=trk>Tracking Number</label>
+                <input id="trackingNo" type="text" name="trk">
+            </div>
+            <div>
+                <label for=scost>Shipping Cost</label>
+                <input class="cost" id="shipCost" type="number" name="scost" placeholder="0.00">
+                <label for="mcost">Materials Cost</label>
+                <input class="cost"id="matCost" type="number" name="mcost"placeholder="0.00">
+            </div>
+            <div>
+                <label for="mused">Materials Used</label>
+                <input id="matUsed" type="text" name="mused">
+            </div>
+            <div>
+                <label for="timeOf">Time Shipped</label>
+                <input id="timeOfS" type="datetime-local" name="timeOf">
+            </div>
+            <div>
+                <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
+                <button class="close-button" type="submit" formaction="/addNewShipment/">Submit</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{%endblock%}
 {%block content%}
 <h1>Inventory</h1>
 <table id="inventoryTable" class="display" style="width:100%">
@@ -101,7 +166,7 @@
             <th>Purchase Price</th>
             <th>Added By</th>
             <th>Time Added</th>
-            <th>Sell</th>
+            <th>Mark Sold</th>
             <th>Delete</th>
         </tr>
     </thead>
@@ -118,7 +183,7 @@
             <td>{{item.added_by.user.username}}</td>
             <td>{{item.time_added}}</td>
             <td>
-                    <button class="open-button" onclick="openForm()">
+                <button class="open-button" onclick="openForm()">Mark Sold</button>
             </td>
             <td>
                 <form action="/delete-item/" method="POST">{% csrf_token %}
@@ -130,21 +195,4 @@
         {% endfor %}
     </tbody>
 </table>
-<div class="form-popup" id="shipmentForm">
-    <form action="/action_page.php" id="form-container">
-        <div id="moveToSoldTitle">Move Item to Sold - </div>
-        <button type="submit" class="toExisting" formaction="/addToExistingShipment/">Add To Existing Shipment</button>
-        <button type="submit" class="newShipment" formaction="/addNewShipment/">Create New Shipment</button>
-        <button class="close-button" onclick="closeForm()"></button>
-    </form>
-</div>
-<script>
-    function openForm() {
-        document.getElementById("shipmentForm").style.display="block";
-    }
-
-    function closeForm() {
-        document.getElementById("shipmentForm").style.display = "none";
-    }
-</script>
 {% endblock %}

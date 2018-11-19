@@ -15,7 +15,7 @@
     margin: 10px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
     background-color:#F8F8F8;
-    width: 375px;
+    width: 415px;
     height: 238px;
 }
 
@@ -177,29 +177,94 @@
 	font-size: 15px;
 }
 #shipmentForm{
+    background:rgba(0, 0, 0, 0.5);
     display:none;
     position:fixed;
-    z-index: 10000;
-    border-radius: 5px;
+    z-index: 10;
+    height:100%;
+    width:100%;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    justify-items: center;
+    vertical-align: middle;
     padding: 10px;
     margin: 10px;
-    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-    background-color:#F8F8F8;
-    width: 375px;
-    height: 238px;
+
 }
 #form-container{
-    display:flex;
+    display:inline-block;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color:#F8F8F8;
+    width: auto;
+    height: auto;
+    vertical-align: middle;
+    margin: 10px;
+    margin-top:150px;
+    padding: 10px;
+}
+#form1{
+    display:inline-flex;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
+    justify-items: center;
+    text-justify: center;
+    align-items: center;
 }
-.toExisting, .newShipment{
-    width:70px;
-    margin: 10px;
-    padding: 10px;
+#toExisting, #newShipment{
+    width:250px;
 }
 .form-popup button on-hover{
     cursor: pointer;
+}
+.close-button{
+    width:75px;
+    padding:5px;
+    margin:10px;
+}
+#moveToSoldTitle{
+    color:#d9c877;
+    font-size:16px;
+    font-weight: bold;
+    margin-top:15px;
+    margin-bottom: 5px;
+}
+.formchild{
+    margin: 10px;
+    padding: 10px;
+}
+#formOpt1{
+    display:none;
+}
+#formOpt2{
+    display:none;
+}
+.cost{
+    width:65px;
+}
+#formOpt2 div{
+    margin: 10px;
+}
+#timeOfS{
+    width: 185px;
+   
+}
+#matUsed{
+    width: 235px;
+}
+#addNewShipmentTitle, #existingShipmentTitle{
+    color:#d9c877;
+    font-size:16px;
+    font-weight: bold;
+    margin-top:15px;
+    margin-bottom: 15px;
+}
+.close-button2{
+    width:75px;
+    padding:5px;
+    margin:15px;
 }
