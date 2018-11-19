@@ -125,14 +125,35 @@ def employee(request):
 @login_required
 def create_employee(request):
     if request.method == 'POST':
-        userName = request.POST["user"]
+        print(request.POST)
+        userName = request.POST["uname"]
         permission = request.POST["permissions"]
-        fname = request.POST["f_name"]
-        lname = request.POST["l_name"]
-        hourlyWage = request.POST["hourly_wage"]
-        pword = request.POST["password"]
-        user = User.objects.create_user(username=userName,  fname=fname, lname=lname, password=pword)
+        fname = request.POST["fname"]
+        lname = request.POST["lname"]
+        hourlyWage = request.POST["hwage"]
+        pword = request.POST["pword"]
+        
+        user = User.objects.create_user(username=userName,  first_name=fname, last_name=lname, password=pword)
         user.save()
+
+        if(permission == "Employee"):
+            permission = 1
+        elif (permission == "HR"):
+            permission = 2
+        elif (permission == "Supervisor"):
+            permission = 3
+        else:
+            permission = 4 # ADMIN
+
+        print(permission)
+        newEmployee = Employee()
+        newEmployee.user = user#Employee(user, permission, hourlyWage, fname, lname)
+        newEmployee.f_name = fname
+        newEmployee.l_name = lname
+        newEmployee.hourly_wage = hourlyWage
+        newEmployee.save()
+        
+
     return render(request, 'createUser.html')
 
 @login_required
