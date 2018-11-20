@@ -7,7 +7,7 @@ from django.contrib.auth import logout
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 
-from backend.models import Condition, Employee, Inventory, Open_Product_Code, Product_Type, Sale, Sale_Site, Shift, Vendor
+from backend.models import Condition, Employee, Inventory, Open_Product_Code, Product_Type, Sale, Sale_Site, Shift, Vendor, Shipment
 from backend.forms import InventoryForm, AddVendorForm
 from backend.permissions import hr_login_required, supervisor_login_required
 
@@ -26,14 +26,18 @@ def total_sales():
 
 def category_sales():
     category_sales = {}
-
     for s in Sale.objects.all():
         if category_sales.get(s.product_type) is None:
             category_sales[s.product_type] = s.sel_price
         else:
             category_sales[s.product_type] += s.sel_price
-
     return category_sales
+
+def shipment_costs():
+    ship_cost = 0
+    for shipment in Shipment.objects.all():
+        ship_cost += shipment.shipment_cost + shipment.material_cost
+    return ship_cost
 
 def colors(n): #charts -- generate random colors for given size
   ret = []
@@ -63,7 +67,8 @@ def dashboard(request):
         "labor_cost" : labor_costs(),
         "total_sales": total_sales(),
         "cat_sal": cs,
-        "color": cs_colors
+        "color": cs_colors,
+        "ship_cost": shipment_costs()
     }
     return render(request, 'dashboard.html', base_context)
 
@@ -238,8 +243,9 @@ def reports(request): # Stacey's temp playground
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
-
-        "sales": Sale.objects.all()
+        "total_sales": total_sales(),
+        "ship_cost": shipment_costs()
         })
+
 def not_allowed(request):
     raise PermissionDenied
