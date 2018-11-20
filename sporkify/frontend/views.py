@@ -186,11 +186,11 @@ def inventory(request):
         "product_code": Open_Product_Code.objects.all()[:1] # Grabs only the first open product code
     })
 
-@login_required
-def sales(request):
-    return render(request, 'sale.html', {
-        "items": Sale.objects.all()
-    })
+# @login_required
+# def sales(request):
+#     return render(request, 'sale.html', {
+#         "items": Sale.objects.all()
+#     })
 
 @login_required
 def delete_inventory(request):
@@ -221,6 +221,7 @@ def sales(request):
     if request.method == 'POST':
         pass
     return render(request, 'sales.html', {
+        "items": Sale.objects.all()
     })
 
 @supervisor_login_required
