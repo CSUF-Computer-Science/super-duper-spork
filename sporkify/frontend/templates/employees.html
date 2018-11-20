@@ -84,34 +84,24 @@
         <!-- Manager/Owner Side -->
         <h2>Manager Preview</h2>
         <h3>All Employees</h3>
-        <div class="manage">
-<<<<<<< HEAD
-            <button id="create_user">Add Employee</button>
+      <div class="manage">
+            <form action="/employees/create/">
+                <button type="submit" id="create_user">Add Employee</button>
+            </form>
             <button id="remove_user">Remove Employee</button>
             <table style="width: 100%">
                 <tr>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Hourly Wage</th>
+                    <th>Permissions</th>
                 </tr>
-=======
-			<form action="/employees/create/">
-				<button type="submit" id="create_user">Add Employee</button>
-			</form>
-        	<button id="remove_user">Remove Employee</button>
-        	<table style="width: 100%">
-        		<tr>
-        			<th>First Name</th>
-        			<th>Last Name</th>
-        			<th>Hourly Wage</th>
-        			<th>Permissions</th>
-        		</tr>
->>>>>>> origin
                 {% for employee in employees %}
                 <tr>
                     <td>{{employee.f_name}}</td>
                     <td>{{employee.l_name}}</td>
                     <td>{{employee.hourly_wage}}</td>
+                    <td>{{employee.permissions}}</td>
                     <td><button id="edit_user">Edit Employee Info</button></td>
                 </tr>
                 {% endfor %}
