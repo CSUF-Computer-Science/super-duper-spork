@@ -102,7 +102,9 @@
                     <td>{{employee.l_name}}</td>
                     <td>{{employee.hourly_wage}}</td>
                     <td>{{employee.permissions}}</td>
-                    <td><button id="edit_user">Edit Employee Info</button></td>
+                    <form action="/employees/create/">
+                        <td><button id="edit_user">Edit Employee Info</button></td>
+                    </form>
                 </tr>
                 {% endfor %}
             </table>
