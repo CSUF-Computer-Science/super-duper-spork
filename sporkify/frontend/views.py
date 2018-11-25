@@ -74,18 +74,8 @@ def dashboard(request):
 
 @login_required
 def employee(request):
-    # print("1")
-    # print(request.user)
-    # print("2")
-    #print(request.POST.get("delete_employee_btn"))
-    # print("3")
-    # print(Employee)
-    # print("4")
-    # print(emp)
-
     emp = get_object_or_404(Employee, user=request.user)
     open_shifts = Shift.objects.filter(emp_ID=emp, time_out__isnull=True)
-
 
     # Dictionary of stuff that should always be included in the
     # render context
@@ -96,15 +86,14 @@ def employee(request):
         "clockedIn": len(open_shifts) > 0       # If current user is clocked in
     }
 
+    if base_context["clockedIn"]:
+        cur_shift = open_shifts[0]
+        base_context["curShiftStartedAt"] = calendar.timegm(cur_shift.time_in.utctimetuple())
+
     if request.method == "POST" and request.POST.get("delete_employee_btn") is not None:
         user = User.objects.get(pk=request.POST.get("employee_pk"))
         user.delete()
         return render(request, 'employees.html', base_context)
-
-
-    if base_context["clockedIn"]:
-        cur_shift = open_shifts[0]
-        base_context["curShiftStartedAt"] = calendar.timegm(cur_shift.time_in.utctimetuple())
 
     # Begin logic for the time clock
     if request.method == 'POST' and request.POST['clockInOut'] is not None:
