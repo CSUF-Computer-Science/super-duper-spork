@@ -74,8 +74,18 @@ def dashboard(request):
 
 @login_required
 def employee(request):
+    # print("1")
+    # print(request.user)
+    # print("2")
+    #print(request.POST.get("delete_employee_btn"))
+    # print("3")
+    # print(Employee)
+    # print("4")
+    # print(emp)
+
     emp = get_object_or_404(Employee, user=request.user)
     open_shifts = Shift.objects.filter(emp_ID=emp, time_out__isnull=True)
+
 
     # Dictionary of stuff that should always be included in the
     # render context
@@ -85,6 +95,12 @@ def employee(request):
         "myShifts": Shift.objects.filter(emp_ID=emp).order_by('-time_in'),     # List of user shifts
         "clockedIn": len(open_shifts) > 0       # If current user is clocked in
     }
+
+    if request.method == "POST" and request.POST.get("delete_employee_btn") is not None:
+        user = User.objects.get(pk=request.POST.get("employee_pk"))
+        user.delete()
+        return render(request, 'employees.html', base_context)
+
 
     if base_context["clockedIn"]:
         cur_shift = open_shifts[0]
@@ -151,7 +167,7 @@ def create_employee(request):
 
         print(permission)
         newEmployee = Employee()
-        newEmployee.user = user#Employee(user, permission, hourlyWage, fname, lname)
+        newEmployee.user = user
         newEmployee.f_name = fname
         newEmployee.l_name = lname
         newEmployee.hourly_wage = hourlyWage
