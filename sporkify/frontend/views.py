@@ -162,7 +162,7 @@ def create_employee(request):
 
 @login_required
 def edit_employee(request):
-    return render(request, 'editUser.html')
+    return render(request, 'editUser.html', { "user": Employee.objects.all() })
 
 @login_required
 def inventory(request):
