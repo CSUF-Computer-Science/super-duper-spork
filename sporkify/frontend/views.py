@@ -161,6 +161,10 @@ def create_employee(request):
     return render(request, 'createUser.html')
 
 @login_required
+def edit_employee(request):
+    return render(request, 'editUser.html')
+
+@login_required
 def inventory(request):
     if request.method == 'POST':
         entry = InventoryForm(request.POST)

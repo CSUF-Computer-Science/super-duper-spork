@@ -1,0 +1,41 @@
+
+{%extends "base.html"%}
+{%block headIncludes%}
+<link rel="stylesheet" type="text/css" href="#">
+<title>Edit Employee Form</title>
+<!--<script src="./editUser.js" async></script>-->
+{%endblock%}
+{%block content%}
+<h1>Sporkify</h1>
+<form id="edit_user" action="/employees/edit/" method="post"> {% csrf_token %}
+	<fieldset>
+		<legend>Edit User</legend>
+		<label for="uname"> Account name:</label>
+	  	<br>
+		<input type="username" value="" id="uname" name="uname" form="edit_user" placeholder="Enter Username" maxlength="40"></input>
+	  	<br>
+            <label for="fname">First Name:</label>
+        	<br>
+		<input type="text" value="" id="fname" name="fname" form="edit_user" placeholder="Enter First Name" maxlength="40" size="40" value=""> </input>
+	  	<br>
+            <label for="lname">Last Name:</label>
+        	<br>
+		<input type="text" value="" id="lname" name="lname" form="edit_user" placeholder="Enter Last Name"  maxlength="40" size="40"> </input>
+	  	<br>
+            <label for="hwage">Hourly Wage:</label>
+	  	<br>
+		<input type="text" value="" id="hwage" name="hwage" form="edit_user" placeholder="$0.00" maxlength="30" size="40"> </input>
+		<br>
+		<label for="permissions">Permissions:</label>
+		<br>
+		<select form="edit_user" name="permissions">
+			<option value="Employee">Employee</option>
+			<option value="Supervisor">Supervisor</option>
+			<option value="HR">Human Resources</option>
+			<option value="Admin">Administrator</option>
+		</select>
+		<br><br>
+		<input type="submit" form="edit_user" onclick="" value="Submit">
+	</fieldset>
+</form>
+{%endblock%}
