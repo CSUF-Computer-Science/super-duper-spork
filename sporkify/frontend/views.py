@@ -90,6 +90,11 @@ def employee(request):
         cur_shift = open_shifts[0]
         base_context["curShiftStartedAt"] = calendar.timegm(cur_shift.time_in.utctimetuple())
 
+    if request.method == "POST" and request.POST.get("delete_employee_btn") is not None:
+        user = User.objects.get(pk=request.POST.get("employee_pk"))
+        user.delete()
+        return render(request, 'employees.html', base_context)
+
     # Begin logic for the time clock
     if request.method == 'POST' and request.POST['clockInOut'] is not None:
         if len(open_shifts) == 0:
@@ -151,7 +156,7 @@ def create_employee(request):
 
         print(permission)
         newEmployee = Employee()
-        newEmployee.user = user#Employee(user, permission, hourlyWage, fname, lname)
+        newEmployee.user = user
         newEmployee.f_name = fname
         newEmployee.l_name = lname
         newEmployee.hourly_wage = hourlyWage
