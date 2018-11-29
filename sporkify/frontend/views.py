@@ -157,6 +157,7 @@ def create_employee(request):
         print(permission)
         newEmployee = Employee()
         newEmployee.user = user
+        newEmployee.user_type = permission
         newEmployee.f_name = fname
         newEmployee.l_name = lname
         newEmployee.hourly_wage = hourlyWage
@@ -167,7 +168,14 @@ def create_employee(request):
 
 @login_required
 def edit_employee(request):
-    return render(request, 'editUser.html', { "user": Employee.objects.all() })
+    if request.method == "POST" and request.POST.get("edit_employee_btn") is not None:
+        # user = User.objects.get(pk=request.POST.get("employee_pk"))
+        # emp = get_object_or_404(Employee, pk=request.POST.get("employee_pk"))
+        # print(user)
+        # print(emp)
+        employee_to_edit = Employee.objects.get(pk=request.POST.get("employee_pk"))
+        print(employee_to_edit.user_type)
+        return render(request, 'editUser.html', { "user": employee_to_edit})
 
 @login_required
 def inventory(request):
