@@ -133,4 +133,28 @@
         {% endfor %}
     </tbody>
   </table>
+
+  <!-- Begin experiment -->
+
+
+  <div style="height: 600px; width: 600px;">
+    <a-scene vr-mode-ui="enabled: false" embedded>
+      <script type="text/javascript">
+          var bays = ['A','B','C', 'D', 'E', 'F', 'G', 'H', 'I'];
+          var bay_length = 7.62; // = 25 ft
+          var bay_height = 2.7432; // 9 ft
+          var bay_width = 1.2192; // 4 ft
+          for (var i = 0; i < bays.length; i++) {
+            document.write("<a-box position=\" "+(i*2.5)+" "+bay_height/2+" 0\" geometry=\"depth:"+bay_length+";height:"+bay_height+";width:"+bay_width+"\"color=\"#90A44D\"></a-box>");
+            document.write("<a-text position=\" "+((i*2.5)-.25)+" 2.2 3.812 \"; width=\"12\"; value=\" "+bays[i]+" \"></a-text>");
+          }
+      </script>>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="1000" length="100" height="1000" color="#000000"></a-plane>
+      <a-sky color="gray"></a-sky>
+    </a-scene>
+  </div>
+
+
+  <!-- End experiment -->
+
 {% endblock %}
