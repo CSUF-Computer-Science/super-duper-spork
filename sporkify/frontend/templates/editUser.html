@@ -1,0 +1,71 @@
+
+{%extends "base.html"%}
+{%block headIncludes%}
+<link rel="stylesheet" type="text/css" href="#">
+<title>Edit Employee Form</title>
+<!--<script src="./editUser.js" async></script>-->
+{%endblock%}
+{%block content%}
+<h1>Sporkify</h1>
+<form id="edit_user" action="/employees/edit/" method="post"> {% csrf_token %}
+	<fieldset>
+		<legend>Edit User</legend>
+		<label for="uname"> Account name:</label>
+	  	<br>
+		<input type="username" value="{{user.user}}" id="uname" name="uname" form="edit_user" placeholder="Enter Username" maxlength="40"></input>
+	  	<br>
+            <label for="fname">First Name:</label>
+        	<br>
+		<input type="text" value="{{user.f_name}}" id="fname" name="fname" form="edit_user" placeholder="Enter First Name" maxlength="40" size="40" value=""> </input>
+	  	<br>
+            <label for="lname">Last Name:</label>
+        	<br>
+		<input type="text" value="{{user.l_name}}" id="lname" name="lname" form="edit_user" placeholder="Enter Last Name"  maxlength="40" size="40"> </input>
+	  	<br>
+            <label for="hwage">Hourly Wage:</label>
+	  	<br>
+		<input type="text" value="{{user.hourly_wage|floatformat}}" id="hwage" name="hwage" form="edit_user" placeholder="$0.00" maxlength="30" size="40"> </input>
+		<br>
+		<label for="permissions">Permissions:</label>
+		<br>
+		<select form="edit_user" name="permissions" value="Administrator">
+			{% if user.user_type == 1 %}
+				<option value="Employee" selected>Employee</option>
+			{% else %}
+			<option value="Employee">Employee</option>
+			{% endif %}
+
+			{% if user.user_type == 2 %}
+				<option value="HR" selected>Human Resources</option>
+			{% else %}
+				<option value="HR">Human Resources</option>
+			{% endif %}
+
+			{% if user.user_type == 3 %}
+				<option value="Supervisor" selected>Supervisor</option>
+			{% else %}
+				<option value="Supervisor">Supervisor</option>
+			{% endif %}
+
+			{% if user.user_type == 4 %}
+				<option value="Admin" selected>Administrator</option>
+			{% else %}
+				<option value="Admin">Administrator</option>
+			{%endif%}
+		</select>
+		<br><br>
+		<input type="submit" form="edit_user" onclick="" value="Submit">
+	</fieldset>
+</form>
+{%endblock%}
+
+<!--
+	        if(permission == "Employee"):
+            permission = 1
+        elif (permission == "HR"):
+            permission = 2
+        elif (permission == "Supervisor"):
+            permission = 3
+        else:
+            permission = 4 # ADMIN
+-->

@@ -101,7 +101,12 @@
                     <td>{{employee.l_name}}</td>
                     <td>{{employee.hourly_wage}}</td>
                     <td>{{employee.permissions}}</td>
-                    <td><button id="edit_user">Edit Employee Info</button></td>
+                    <td>
+                        <form action="/employees/edit/" method="POST"> {%csrf_token%}
+                            <input type="hidden" name="employee_pk" value="{{employee.pk}}">
+                            <input type="submit" name="edit_employee_btn" value="Edit">
+                        </form>
+                    </td>
                     <td>
                         <form action="" method="POST"> {%csrf_token%}
                             <input type="hidden" name="employee_pk" value="{{employee.pk}}">
