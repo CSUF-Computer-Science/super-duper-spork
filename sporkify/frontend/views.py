@@ -1,6 +1,6 @@
 import calendar, random
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
@@ -134,7 +134,6 @@ def employee(request):
 @login_required
 def create_employee(request):
     if request.method == 'POST':
-        print(request.POST)
         userName = request.POST["uname"]
         permission = request.POST["permissions"]
         fname = request.POST["fname"]
@@ -162,20 +161,44 @@ def create_employee(request):
         newEmployee.l_name = lname
         newEmployee.hourly_wage = hourlyWage
         newEmployee.save()
-        
-
+    
     return render(request, 'createUser.html')
 
 @login_required
 def edit_employee(request):
     if request.method == "POST" and request.POST.get("edit_employee_btn") is not None:
-        # user = User.objects.get(pk=request.POST.get("employee_pk"))
-        # emp = get_object_or_404(Employee, pk=request.POST.get("employee_pk"))
-        # print(user)
-        # print(emp)
-        employee_to_edit = Employee.objects.get(pk=request.POST.get("employee_pk"))
-        print(employee_to_edit.user_type)
+        employee_to_edit = Employee.objects.get(pk=request.POST.get("employee_pk")) 
         return render(request, 'editUser.html', { "user": employee_to_edit})
+    
+    if request.method == "POST" and request.POST.get("edit_user_submit") is not None:
+        emp_pk = request.POST.get("employee_pk")
+        emp_obj = get_object_or_404(Employee, pk=emp_pk)
+
+        user = User.objects.get(pk=emp_obj.pk)
+        
+        permission = request.POST["permissions"]
+        if(permission == "Employee"):
+            permission = 1
+        elif (permission == "HR"):
+            permission = 2
+        elif (permission == "Supervisor"):
+            permission = 3
+        else:
+            permission = 4 # ADMIN
+
+        user.username = request.POST["uname"]
+        user.first_name = request.POST["fname"]
+        user.last_name = request.POST["lname"]
+        user.save()
+
+        emp_obj.user = user
+        emp_obj.user_type = permission
+        emp_obj.hourly_wage = request.POST["hwage"]
+        emp_obj.f_name = request.POST["fname"]
+        emp_obj.l_name = request.POST["lname"]
+        emp_obj.save()
+    
+    return redirect("/employees/")
 
 @login_required
 def inventory(request):
