@@ -54,18 +54,8 @@
 			{%endif%}
 		</select>
 		<br><br>
-		<input type="submit" form="edit_user" onclick="" value="Submit">
+		<input type="hidden" name="employee_pk" value="{{user.pk}}">
+		<input type="submit" name="edit_user_submit" form="edit_user" onclick="" value="Submit">
 	</fieldset>
 </form>
 {%endblock%}
-
-<!--
-	        if(permission == "Employee"):
-            permission = 1
-        elif (permission == "HR"):
-            permission = 2
-        elif (permission == "Supervisor"):
-            permission = 3
-        else:
-            permission = 4 # ADMIN
--->
