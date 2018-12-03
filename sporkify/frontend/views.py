@@ -11,7 +11,7 @@ from backend.models import Condition, Employee, Inventory, Open_Product_Code, Pr
 from backend.forms import InventoryForm, AddVendorForm
 from backend.permissions import hr_login_required, supervisor_login_required
 
-# chart functions
+# dashboard functions
 def labor_costs():
     labor_costs = 0
     for shift in Shift.objects.all():
@@ -33,12 +33,6 @@ def category_sales():
             category_sales[s.product_type] += s.sel_price
     return category_sales
 
-def shipment_costs():
-    ship_cost = 0
-    for shipment in Shipment.objects.all():
-        ship_cost += shipment.shipment_cost + shipment.material_cost
-    return ship_cost
-
 def colors(n): #charts -- generate random colors for given size
   ret = []
   r = int(random.random() * 256)
@@ -55,6 +49,7 @@ def colors(n): #charts -- generate random colors for given size
     a = 0.5
     ret.append((r,g,b,a))
   return ret
+### end dashboard functions
 
 @login_required
 def dashboard(request):
@@ -226,12 +221,6 @@ def inventory(request):
         "product_code": Open_Product_Code.objects.all()[:1] # Grabs only the first open product code
     })
 
-# @login_required
-# def sales(request):
-#     return render(request, 'sale.html', {
-#         "items": Sale.objects.all()
-#     })
-
 @login_required
 def delete_inventory(request):
     if request.method == 'POST':
@@ -279,13 +268,33 @@ def vendors(request):
         "vendors": Vendor.objects.all()
     })
 
+
+# reports functions
+def total_shipment_costs():
+    ship_net = 0
+    for shipment in Shipment.objects.all():
+        ship_net += shipment.shipment_cost + shipment.material_cost
+    return ship_net
+def material_costs():
+    mat_cost = 0
+    for shipment in Shipment.objects.all():
+        mat_cost += shipment.material_cost
+    return mat_cost
+def shipment_costs():
+    ship_cost = 0
+    for shipment in Shipment.objects.all():
+        ship_cost += shipment.shipment_cost
+    return ship_cost
+### end reports functions
+
 @supervisor_login_required
 def reports(request): # Stacey's temp playground
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
-        "total_sales": total_sales(),
-        "ship_cost": shipment_costs()
+        "ship_net": total_sales()-total_shipment_costs(),
+        "ship_cost": shipment_costs(),
+        "material_cost": material_costs()
         })
 
 def not_allowed(request):
