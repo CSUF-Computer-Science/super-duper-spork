@@ -12,7 +12,7 @@
     <canvas id="laborcostDoughnut" width="500" height="300"></canvas>
     <script>
         var dv = document.getElementById("laborcostDoughnut")
-        var dchart = new Chart(dv, {
+        var dChart = new Chart(dv, {
             type: 'doughnut',
             data: {
               labels: ["Total Sales: $", "Total Labor Costs: $"],
@@ -33,7 +33,8 @@
             }
         });
         dv.onclick = function(dvt){
-            var activePoint = dchart.getElementAtEvent(dvt);
+            var activePoint = dChart.getElementAtEvent(dvt);
+            if(!activePoint.length) return
             console.log('activePoint', activePoint)
             window.location = '/reports'
         };
@@ -71,6 +72,12 @@
                 }
             }
         });
+        gv.onclick = function(gvt){
+            var activePoint = gsChart.getElementAtEvent(gvt);
+            if(!activePoint.length) return
+            console.log('activePoint', activePoint)
+            window.location = '/reports'
+        };
     </script>
 </div>
 <div id ="ProductTypeSalesContainer">
@@ -106,13 +113,19 @@
               }
             }
         });
+        psv.onclick = function(pvt){
+            var activePoint = psChart.getElementAtEvent(pvt);
+            if(!activePoint.length) return
+            console.log('activePoint', activePoint)
+            window.location = '/reports'
+        };
     </script>
 </div>
 <div id ="ProductTypeSalesContainer">
   <canvas id="shipmentcostDoughnut" width="500" height="300"></canvas>
   <script>
       var sv = document.getElementById("shipmentcostDoughnut")
-      var schart = new Chart(sv, {
+      var sChart = new Chart(sv, {
           type: 'doughnut',
           data: {
             labels: ["Total Sales: $", "Total Shipment: $"],
@@ -132,6 +145,12 @@
             maintainAspectRatio: true
           }
       });
+      sv.onclick = function(svt){
+            var activePoint = sChart.getElementAtEvent(svt);
+            if(!activePoint.length) return
+            console.log('activePoint', activePoint)
+            window.location = '/reports'
+        };
   </script>
 </div>
 {% endblock %}
