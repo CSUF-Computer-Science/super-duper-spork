@@ -1,19 +1,60 @@
 {% extends "base.html" %}
 		
 {% block headIncludes %}
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/report.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <title>Sporkify - Reports</title>
-
 {% endblock %}
 
 {% block content %}
 <h1>Sales Reports</h1>
-
-<h3>Shipment Costs</h3>
-Shipment Spending: {{ ship_cost }} <br>
-	Total Cost of Matierials: {{ material_cost }} <br>
-	Total Cost of Shipping: {{ ship_cost }} <br>
-Net Sales: {{ ship_net }} <br>
+<table>
+	<caption>Expenditures</caption>
+	<thead>
+		<tr>
+			<th scope="col" colspan="2">Cost of</th>
+			<th scope="col">Amount</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Shipping Materials</td>
+			<td colspan="3">${{ material_cost }}</td>
+		</tr>
+		<tr>
+			<td>Shipping Fees</td>
+			<td colspan="3">${{ ship_cost }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td>Total</td>
+			<td colspan="3">${{ ship_total }}</td>
+		</tr>
+		<tr>
+			<td>Total Net Sales after Shipping</td>
+			<td colspan="3">{{ ship_net }}</td>
+		</tr>	
+	</tfoot>
+</table>
+<br><br>
+<table>
+	<caption>Vendor Distribution</caption>
+	<thead>
+		<tr>
+			<th scope="col" colspan="2">Vendor Name</th>
+			<th scope="col">Items in Inventory</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for key, value in vendor_distro.items %}
+		<tr>
+			<td>{{key.comp_Name}}</td>
+			<td colspan="3">{{value}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 
 {% endblock %}
 

@@ -285,6 +285,15 @@ def shipment_costs():
     for shipment in Shipment.objects.all():
         ship_cost += shipment.shipment_cost
     return ship_cost
+def vendor_distro():
+    vendor_distro = {}
+    for inventory in Inventory.objects.all():
+        if inventory.vendor in vendor_distro:
+            vendor_distro[inventory.vendor] += 1
+        else:
+            vendor_distro[inventory.vendor] = 1
+    return vendor_distro
+
 ### end reports functions
 
 @supervisor_login_required
@@ -292,9 +301,11 @@ def reports(request): # Stacey's temp playground
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
-        "ship_net": total_sales()-total_shipment_costs(),
+        "ship_total": total_shipment_costs(),
         "ship_cost": shipment_costs(),
-        "material_cost": material_costs()
+        "material_cost": material_costs(),
+        "vendor_distro": vendor_distro(),
+        "labor_cost" : labor_costs()
         })
 
 def not_allowed(request):
