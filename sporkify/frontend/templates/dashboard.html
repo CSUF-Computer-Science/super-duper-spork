@@ -49,7 +49,7 @@
             type: 'horizontalBar',
             data: {
                 datasets: [{
-                    label: 'Amount (Dollars $)',
+                    label: 'Amount $:',
                     data: [ {{ total_sales|floatformat:2 }} ],
                     backgroundColor: ['rgba(255, 99, 132, 0.2)'],
                     borderColor: ['rgba(255,99,132,1)'],
@@ -87,7 +87,7 @@
         var psChart = new Chart(psv, {
             type: 'doughnut',
             data: {
-              labels: [ {% for key in cat_sal.keys %} '{{key}}', {% endfor %} ],
+              labels: [ {% for key in cat_sal.keys %} '{{key}} $', {% endfor %} ],
               datasets: [
                 {
                   backgroundColor: [ {%for c in color%} 'rgba{{c}}', {%endfor%} ],

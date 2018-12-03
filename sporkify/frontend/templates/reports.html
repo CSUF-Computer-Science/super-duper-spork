@@ -7,6 +7,32 @@
 {% endblock %}
 
 {% block content %}
+<div id="WeeklySalesContainer">
+	<canvas id="line-chart" width="500" height="300"></canvas>
+	<script>
+	new Chart(document.getElementById("line-chart"), {
+	  type: 'line',
+	  data: {
+	    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+	    datasets: [{ 
+	        data: [86,114,106,106,107,111,133,221,783,2478],
+	        label: "Last Week",
+	        borderColor: "rgb(194,224,222)",
+	        fill: false
+	      }
+	    ]
+	  },
+	  options: {
+	    title: {
+	      display: true,
+	      text: 'Weekly Sales'
+	    },
+	    responsive: false,
+	    maintainAspectRation: true
+	  }
+	});
+	</script>
+</div>
 <h1>Sales Reports</h1>
 <table>
 	<caption>Expenditures</caption>
@@ -25,16 +51,24 @@
 			<td>Shipping Fees</td>
 			<td colspan="3">${{ ship_cost }}</td>
 		</tr>
+		<tr>
+			<td>Labor</td>
+			<td colspan="3">${{ labor_cost }}</td>
+		</tr>
 	</tbody>
 	<tfoot>
 		<tr>
-			<td>Total</td>
-			<td colspan="3">${{ ship_total }}</td>
+			<td>Total Spending</td>
+			<td colspan="3">${{ spend_total }}</td>
+		</tr>	
+		<tr>
+			<td>Total Sales</td>
+			<td colspan="3">${{total_sales}}</td>
 		</tr>
 		<tr>
-			<td>Total Net Sales after Shipping</td>
-			<td colspan="3">{{ ship_net }}</td>
-		</tr>	
+			<td>Net Sales</td>
+			<td colspan="3">{{net_sales}}</td>
+		</tr>
 	</tfoot>
 </table>
 <br><br>
@@ -54,6 +88,23 @@
 		</tr>
 		{% endfor %}
 	</tbody>
+</table>
+<table>
+	<caption>Product Type Sales</caption>
+	<thead>
+		<tr>
+			<th scope="col" colspan="2">Product Type</th>
+			<th scope="col">Amount</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for key, value in cat_sales.items %}
+		<tr>
+			<td>{{key}}</td>
+			<td colspan="3">${{value}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>		
 </table>
 
 {% endblock %}

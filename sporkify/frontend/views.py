@@ -5,51 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.utils import timezone
+from datetime import datetime, timedelta
 from django.core.exceptions import PermissionDenied
 
 from backend.models import Condition, Employee, Inventory, Open_Product_Code, Product_Type, Sale, Sale_Site, Shift, Vendor, Shipment
 from backend.forms import InventoryForm, AddVendorForm
 from backend.permissions import hr_login_required, supervisor_login_required
-
-# dashboard functions
-def labor_costs():
-    labor_costs = 0
-    for shift in Shift.objects.all():
-        labor_costs += shift.money
-    return labor_costs
-
-def total_sales():
-    total_sales = 0
-    for sale in Sale.objects.all():
-        total_sales += sale.sel_price
-    return total_sales
-
-def category_sales():
-    category_sales = {}
-    for s in Sale.objects.all():
-        if category_sales.get(s.product_type) is None:
-            category_sales[s.product_type] = s.sel_price
-        else:
-            category_sales[s.product_type] += s.sel_price
-    return category_sales
-
-def colors(n): #charts -- generate random colors for given size
-  ret = []
-  r = int(random.random() * 256)
-  g = int(random.random() * 256)
-  b = int(random.random() * 256)
-  step = 256 / n
-  for i in range(n):
-    r += step
-    g += step
-    b += step
-    r = int(r) % 256
-    g = int(g) % 256
-    b = int(b) % 256
-    a = 0.5
-    ret.append((r,g,b,a))
-  return ret
-### end dashboard functions
 
 @login_required
 def dashboard(request):
@@ -268,8 +229,61 @@ def vendors(request):
         "vendors": Vendor.objects.all()
     })
 
+@supervisor_login_required
+def reports(request): # Stacey's temp playground
+    if request.method == 'POST':
+        pass
+    return render(request, 'reports.html', {
+        "weekly_items": weekly_sales(),
+        "cat_sales": category_sales(),
+        "total_sales": total_sales(),
+        "spend_total": total_shipment_costs() + labor_costs(),
+        "ship_cost": shipment_costs(),
+        "material_cost": material_costs(),
+        "vendor_distro": vendor_distro(),
+        "labor_cost": labor_costs(),
+        "net_sales": total_sales() - (total_shipment_costs() + labor_costs())
+        })
 
-# reports functions
+# reports + dashboard functions 
+def weekly_sales():
+    one_week_ago = datetime.today()-timedelta(days=7)
+    weekly_items = Sale.objects.filter(time_added__gte=one_week_ago)
+
+def labor_costs():
+    labor_costs = 0
+    for shift in Shift.objects.all():
+        labor_costs += shift.money
+    return labor_costs
+def total_sales():
+    total_sales = 0
+    for sale in Sale.objects.all():
+        total_sales += sale.sel_price
+    return total_sales
+def category_sales():
+    category_sales = {}
+    for s in Sale.objects.all():
+        if category_sales.get(s.product_type) is None:
+            category_sales[s.product_type] = s.sel_price
+        else:
+            category_sales[s.product_type] += s.sel_price
+    return category_sales
+def colors(n): #charts -- generate random colors for given size
+  ret = []
+  r = int(random.random() * 256)
+  g = int(random.random() * 256)
+  b = int(random.random() * 256)
+  step = 256 / n
+  for i in range(n):
+    r += step
+    g += step
+    b += step
+    r = int(r) % 256
+    g = int(g) % 256
+    b = int(b) % 256
+    a = 0.5
+    ret.append((r,g,b,a))
+  return ret
 def total_shipment_costs():
     ship_net = 0
     for shipment in Shipment.objects.all():
@@ -294,19 +308,7 @@ def vendor_distro():
             vendor_distro[inventory.vendor] = 1
     return vendor_distro
 
-### end reports functions
-
-@supervisor_login_required
-def reports(request): # Stacey's temp playground
-    if request.method == 'POST':
-        pass
-    return render(request, 'reports.html', {
-        "ship_total": total_shipment_costs(),
-        "ship_cost": shipment_costs(),
-        "material_cost": material_costs(),
-        "vendor_distro": vendor_distro(),
-        "labor_cost" : labor_costs()
-        })
+### end functions
 
 def not_allowed(request):
     raise PermissionDenied
