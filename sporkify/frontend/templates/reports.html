@@ -7,37 +7,8 @@
 {% endblock %}
 
 {% block content %}
-<!--Total Gross Sales, Labor vs. Gross Sales, Category Sales-->
-<!-- changed from polar area chart to bar chart-->
-<canvas id="StorageCapacity_doughnut" width="300" height="300"></canvas>
-<script>
-    var scv = document.getElementById("StorageCapacity_doughnut")
-    var scChart = new Chart(scv, {
-    type: 'doughnut',
-    data: {
-      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-      datasets: [
-        {
-          label: "Population (millions)",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: [2478,5267,734,784,433]
-        }
-      ]
-    },
-    options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      title: {
-        display: true,
-        text: 'Predicted world population (millions) in 2050'
-      }
-    }
-});
-//     psv.onclick = function(pvt){
-//     var activePoint = psChart.getSegmentsAtEvent(pvt);
-//     console.log('activePoint', activePoint)
-//     window.location = '/reports'
-// };
-</script>
+<h1>Sales</h1>
+
+
 {% endblock %}
 

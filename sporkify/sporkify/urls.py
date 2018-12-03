@@ -1,4 +1,4 @@
-"""sporkify URL Configuration
+"""sporkify URLS BEFORE GURLS Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -26,6 +26,8 @@ urlpatterns = [
     path('dashboard/', views.dashboard),
     path('delete-item/', views.delete_inventory),
     path('employees/', views.employee),
+    path('employees/create/', views.create_employee),
+    path('employees/edit/', views.edit_employee),
     path('inventory/', views.inventory),
     path('not-allowed/', views.not_allowed),
     path('reports/', views.reports),

@@ -1,12 +1,13 @@
 import calendar, random
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.utils import timezone
 from django.core.exceptions import PermissionDenied
 
-from backend.models import Condition, Employee, Inventory, Open_Product_Code, Product_Type, Sale, Sale_Site, Shift, Vendor
+from backend.models import Condition, Employee, Inventory, Open_Product_Code, Product_Type, Sale, Sale_Site, Shift, Vendor, Shipment
 from backend.forms import InventoryForm, AddVendorForm
 from backend.permissions import hr_login_required, supervisor_login_required
 
@@ -25,14 +26,18 @@ def total_sales():
 
 def category_sales():
     category_sales = {}
-
     for s in Sale.objects.all():
         if category_sales.get(s.product_type) is None:
             category_sales[s.product_type] = s.sel_price
         else:
             category_sales[s.product_type] += s.sel_price
-
     return category_sales
+
+def shipment_costs():
+    ship_cost = 0
+    for shipment in Shipment.objects.all():
+        ship_cost += shipment.shipment_cost + shipment.material_cost
+    return ship_cost
 
 def colors(n): #charts -- generate random colors for given size
   ret = []
@@ -62,7 +67,8 @@ def dashboard(request):
         "labor_cost" : labor_costs(),
         "total_sales": total_sales(),
         "cat_sal": cs,
-        "color": cs_colors
+        "color": cs_colors,
+        "ship_cost": shipment_costs()
     }
     return render(request, 'dashboard.html', base_context)
 
@@ -83,6 +89,11 @@ def employee(request):
     if base_context["clockedIn"]:
         cur_shift = open_shifts[0]
         base_context["curShiftStartedAt"] = calendar.timegm(cur_shift.time_in.utctimetuple())
+
+    if request.method == "POST" and request.POST.get("delete_employee_btn") is not None:
+        user = User.objects.get(pk=request.POST.get("employee_pk"))
+        user.delete()
+        return render(request, 'employees.html', base_context)
 
     # Begin logic for the time clock
     if request.method == 'POST' and request.POST['clockInOut'] is not None:
@@ -121,6 +132,75 @@ def employee(request):
     return render(request, 'employees.html', base_context)
 
 @login_required
+def create_employee(request):
+    if request.method == 'POST':
+        userName = request.POST["uname"]
+        permission = request.POST["permissions"]
+        fname = request.POST["fname"]
+        lname = request.POST["lname"]
+        hourlyWage = request.POST["hwage"]
+        pword = request.POST["pword"]
+        
+        user = User.objects.create_user(username=userName,  first_name=fname, last_name=lname, password=pword)
+        user.save()
+
+        if(permission == "Employee"):
+            permission = 1
+        elif (permission == "HR"):
+            permission = 2
+        elif (permission == "Supervisor"):
+            permission = 3
+        else:
+            permission = 4 # ADMIN
+
+        print(permission)
+        newEmployee = Employee()
+        newEmployee.user = user
+        newEmployee.user_type = permission
+        newEmployee.f_name = fname
+        newEmployee.l_name = lname
+        newEmployee.hourly_wage = hourlyWage
+        newEmployee.save()
+    
+    return render(request, 'createUser.html')
+
+@login_required
+def edit_employee(request):
+    if request.method == "POST" and request.POST.get("edit_employee_btn") is not None:
+        employee_to_edit = Employee.objects.get(pk=request.POST.get("employee_pk")) 
+        return render(request, 'editUser.html', { "user": employee_to_edit})
+    
+    if request.method == "POST" and request.POST.get("edit_user_submit") is not None:
+        emp_pk = request.POST.get("employee_pk")
+        emp_obj = get_object_or_404(Employee, pk=emp_pk)
+
+        user = User.objects.get(pk=emp_obj.pk)
+        
+        permission = request.POST["permissions"]
+        if(permission == "Employee"):
+            permission = 1
+        elif (permission == "HR"):
+            permission = 2
+        elif (permission == "Supervisor"):
+            permission = 3
+        else:
+            permission = 4 # ADMIN
+
+        user.username = request.POST["uname"]
+        user.first_name = request.POST["fname"]
+        user.last_name = request.POST["lname"]
+        user.save()
+
+        emp_obj.user = user
+        emp_obj.user_type = permission
+        emp_obj.hourly_wage = request.POST["hwage"]
+        emp_obj.f_name = request.POST["fname"]
+        emp_obj.l_name = request.POST["lname"]
+        emp_obj.save()
+    
+    return redirect("/employees/")
+
+@login_required
 def inventory(request):
     if request.method == 'POST':
         entry = InventoryForm(request.POST)
@@ -146,11 +226,11 @@ def inventory(request):
         "product_code": Open_Product_Code.objects.all()[:1] # Grabs only the first open product code
     })
 
-@login_required
-def sales(request):
-    return render(request, 'sale.html', {
-        "items": Sale.objects.all()
-    })
+# @login_required
+# def sales(request):
+#     return render(request, 'sale.html', {
+#         "items": Sale.objects.all()
+#     })
 
 @login_required
 def delete_inventory(request):
@@ -181,6 +261,7 @@ def sales(request):
     if request.method == 'POST':
         pass
     return render(request, 'sales.html', {
+        "items": Sale.objects.all()
     })
 
 @supervisor_login_required
@@ -203,8 +284,9 @@ def reports(request): # Stacey's temp playground
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
-
-        "sales": Sale.objects.all()
+        "total_sales": total_sales(),
+        "ship_cost": shipment_costs()
         })
+
 def not_allowed(request):
     raise PermissionDenied
