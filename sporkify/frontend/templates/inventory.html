@@ -133,4 +133,7 @@
         {% endfor %}
     </tbody>
   </table>
+  <form action="/download-csv/" method="POST"> {% csrf_token %}
+    <button name="export_csv_btn">Export CSV File</button>
+  </form>
 {% endblock %}

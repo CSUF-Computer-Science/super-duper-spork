@@ -1,6 +1,6 @@
-import calendar, random
+import calendar, random, csv
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
@@ -255,6 +255,23 @@ def delete_inventory(request):
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all()
     })
+
+@login_required
+def download_csv(request):
+    if request.method == 'POST':
+        items = Inventory.objects.all()
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition']= 'attachment; filename="inventory.csv"'
+        writer = csv.writer(response)
+
+        writer.writerow(["Product Code", "Product Type", "Selling Site", "Asking Price", "Condition", "Vendor", "Purchase Price", "Added By", "Time Added"])
+
+        for item in items:
+            print(item)
+            writer.writerow([item.product_code, item.product_type, item.selling_site, item.ask_price, item.condition, item.vendor, item.pur_price, item.added_by, item.time_added])
+        
+        return response
+
 
 @supervisor_login_required
 def sales(request):
