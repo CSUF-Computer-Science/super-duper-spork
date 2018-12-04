@@ -25,6 +25,7 @@ urlpatterns = [
     path('auth/', include('django.contrib.auth.urls')),
     path('dashboard/', views.dashboard),
     path('delete-item/', views.delete_inventory),
+    path('download-csv/', views.download_csv),
     path('employees/', views.employee),
     path('employees/create/', views.create_employee),
     path('employees/edit/', views.edit_employee),
