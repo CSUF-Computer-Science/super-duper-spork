@@ -86,7 +86,12 @@
         {% if is_hr %}
         <!-- Manager/Owner Side -->
         <h2>Manager Preview</h2>
-        <h3>All Employees <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button></h3>
+        <form action="/download-csv-employees/" method="POST"> {% csrf_token %}
+            <h3>All Employees
+                <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button>
+            </h3>
+        </form>
+
       <div class="manage">
             <form action="/employees/create/">
                 <button type="submit" id="create_user">Add Employee</button>

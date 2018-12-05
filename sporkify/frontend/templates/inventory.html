@@ -12,6 +12,24 @@
 
 {%block miniDash%}
 <div id="MiniDashContainer">
+    <form id="add_item" action="/add-product/" method="POST"> {% csrf_token %}
+        <label id="sectionTitle">Add Product Type</label>
+    </br>
+        <label for="type_name">Product Category</label>
+    </br>
+        <input type="text" name="type_name" placeholder="Enter Product Category" maxLength="75" required>
+    </br>
+        <label for="brand">Brand Name</label>
+    </br>
+        <input type="text" name="brand_name" placeholder="Enter Brand Name" maxLength="75" required>
+    </br>
+    <label for="product_weight">Product Weight</label>
+    </br>
+    <input type="text" name="product_weight" placeholder="Enter Weight in lbs." maxlength="10" required>
+    </br>
+    <input type="submit" name="add_product_type_btn">
+    </form>
+
     <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
 
         <ul>

@@ -330,9 +330,7 @@ def download_csv_vendors(request):
 
 @login_required
 def download_csv_timesheet(request):
-    print("Outside if statement")
     if request.method == 'POST':
-        print("inside if statement")
         shifts = Shift.objects.all()
         response = HttpResponse(content_type="text/csv")
         response['Content-Disposition']= 'attachment; filename="timesheet.csv'
@@ -341,7 +339,35 @@ def download_csv_timesheet(request):
         writer.writerow(["Clock In", "Clock Out", "Total Hours", "Total Pay"])
         
         for shift in shifts:
-            writer.writerow([shift.time_in, shift.time_out, shift.time_worked, '$ ' + str(shift.money)])
+            writer.writerow([shift.time_in, shift.time_out, shift.time_worked, '$' + str(shift.money)])
+        return response
+
+    return redirect("/employees/")
+
+@login_required
+def download_csv_employees(request):
+    if request.method == 'POST':
+        employees = Employee.objects.all()
+        response = HttpResponse(content_type="text/csv")
+        response['Content-Disposition']= 'attachment; filename="staff.csv'
+        writer = csv.writer(response)
+
+        writer.writerow(["Username", "First Name", "Last Name", "Hourly Wage", "Permissions"])
+        
+        for employee in employees:
+            user = User.objects.get(pk=employee.pk)
+
+            permission = employee.user_type
+            if(employee.user_type == 1):
+                permission = "Employee"
+            elif (permission == 2):
+                permission = "HR"
+            elif (permission == 3):
+                permission = "Supervisor"
+            else:
+                permission = "Admin" #4
+
+            writer.writerow([user.username, user.first_name, user.last_name, '$'+str(employee.hourly_wage), permission])
         return response
 
     return redirect("/employees/")
