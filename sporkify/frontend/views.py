@@ -272,6 +272,8 @@ def download_csv(request):
         
         return response
 
+    return redirect("/inventory/")
+
 
 @supervisor_login_required
 def sales(request):
@@ -323,3 +325,23 @@ def download_csv_vendors(request):
             writer.writerow([vendor.comp_Name, vendor.contact_name, vendor.contact_phone, vendor.contact_email])
 
         return response
+
+    return redirect("/vendors/")
+
+@login_required
+def download_csv_timesheet(request):
+    print("Outside if statement")
+    if request.method == 'POST':
+        print("inside if statement")
+        shifts = Shift.objects.all()
+        response = HttpResponse(content_type="text/csv")
+        response['Content-Disposition']= 'attachment; filename="timesheet.csv'
+        writer = csv.writer(response)
+
+        writer.writerow(["Clock In", "Clock Out", "Total Hours", "Total Pay"])
+        
+        for shift in shifts:
+            writer.writerow([shift.time_in, shift.time_out, shift.time_worked, '$ ' + str(shift.money)])
+        return response
+
+    return redirect("/employees/")

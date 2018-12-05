@@ -34,5 +34,7 @@ urlpatterns = [
     path('reports/', views.reports),
     path('sales/', views.sales),
     path('vendors/', views.vendors),
-    path('download-csv-vendors/', views.download_csv_vendors)
+    path('download-csv-vendors/', views.download_csv_vendors),
+    path('download-csv-timesheet/', views.download_csv_timesheet)
+
 ]

@@ -58,8 +58,11 @@
 {% block content %}
         <h1>Employee Management</h1><br>
         <!-- User Side -->
-        <h2>Your Timesheet</h2>
-
+        <form action="/download-csv-timesheet/" method="POST"> {% csrf_token %}
+            <h2>Your Timesheet 
+                <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button>
+            </h2>
+        </form>
         <!-- Show Hours for the Week -->
         <div class="timesheet_weekly">
             <table style="width: 100%">
@@ -83,7 +86,7 @@
         {% if is_hr %}
         <!-- Manager/Owner Side -->
         <h2>Manager Preview</h2>
-        <h3>All Employees</h3>
+        <h3>All Employees <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button></h3>
       <div class="manage">
             <form action="/employees/create/">
                 <button type="submit" id="create_user">Add Employee</button>
@@ -104,13 +107,13 @@
                     <td>
                         <form action="/employees/edit/" method="POST"> {%csrf_token%}
                             <input type="hidden" name="employee_pk" value="{{employee.pk}}">
-                            <input type="submit" name="edit_employee_btn" value="Edit">
+                            <button type="submit" name="edit_employee_btn">Edit</button>
                         </form>
                     </td>
                     <td>
                         <form action="" method="POST"> {%csrf_token%}
                             <input type="hidden" name="employee_pk" value="{{employee.pk}}">
-                            <input type="submit" name="delete_employee_btn" value="Delete">
+                            <button type="submit" name="delete_employee_btn">Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -120,7 +123,7 @@
         
         <!-- Show Timesheet for that day (or more if possible) -->
         <div class="timesheet_history">
-            <h3>History</h3>
+            <h3>History <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button></h3>
             <table id="timehistory" style="width: 100%">
                 <thead>
                     <tr>
