@@ -18,7 +18,7 @@
               labels: ["Total Sales: $", "Total Labor Costs: $"],
               datasets: [
                 {
-                  backgroundColor: ["#3e4157f", "#d9cb77"],
+                  backgroundColor: ["#90a44d", "#a8a8a8"],
                   data: [ {{total_sales}}, {{ labor_cost|floatformat:2 }} ]
                 }
               ]
@@ -26,6 +26,7 @@
             options: {
               title: {
                 display: true,
+                fontFamily: 'Trebuchet MS',
                 text: 'Total Labor vs. Sales'
               },
               responsive: false,
@@ -51,14 +52,15 @@
                 datasets: [{
                     label: 'Amount $:',
                     data: [ {{ total_sales|floatformat:2 }} ],
-                    backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                    borderColor: ['rgba(255,99,132,1)'],
+                    backgroundColor: ['rgba(0,0,0,0.5'], //change to rgba with transparency
+                    borderColor: ['rgba(0,0,0,1'],
                     borderWidth: 1
                 }]
             },
             options: {
                 title: {
                     display: true,
+                    fontFamily: 'Trebuchet MS',
                     text: 'Total Sales Collected'
                 },
                 responsive: false,
@@ -100,6 +102,7 @@
             options: {
               title: {
                 display: true,
+                fontFamily: 'Trebuchet MS',
                 text: 'Product Type Sales (Dollars)'
               },
               legend: {
@@ -131,7 +134,7 @@
             labels: ["Total Sales: $", "Total Shipment: $"],
             datasets: [
               {
-                backgroundColor: ["#0099cc", "#00131a"],
+                backgroundColor: ["#a8a8a8", "#bfe1dd"],
                 data: [ {{total_sales}}, {{ ship_cost|floatformat:2 }} ]
               }
             ]
@@ -139,6 +142,7 @@
           options: {
             title: {
               display: true,
+              fontFamily: 'Trebuchet MS',
               text: 'Shipment Cost vs. Total Sales'
             },
             responsive: false,
