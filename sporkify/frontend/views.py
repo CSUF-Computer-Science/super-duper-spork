@@ -1,6 +1,6 @@
-import calendar, random
+import calendar, random, csv
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
@@ -256,6 +256,24 @@ def delete_inventory(request):
         "conditions": Condition.objects.all()
     })
 
+@login_required
+def download_csv(request):
+    if request.method == 'POST':
+        items = Inventory.objects.all()
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition']= 'attachment; filename="inventory.csv"'
+        writer = csv.writer(response)
+
+        writer.writerow(["Product Code", "Product Type", "Selling Site", "Asking Price", "Condition", "Vendor", "Purchase Price", "Added By", "Time Added"])
+
+        for item in items:
+            writer.writerow([item.product_code, item.product_type, item.selling_site.name, '$'+str(item.ask_price), item.condition.cond_Name, item.vendor.comp_Name, '$'+str(item.pur_price), item.added_by.user.username, item.time_added])
+        
+        return response
+
+    return redirect("/inventory/")
+
+
 @supervisor_login_required
 def sales(request):
     if request.method == 'POST':
@@ -290,3 +308,65 @@ def reports(request): # Stacey's temp playground
 
 def not_allowed(request):
     raise PermissionDenied
+
+#CSV Download
+@login_required
+def download_csv_vendors(request):
+    if request.method == 'POST':
+        vendors = Vendor.objects.all()
+        response = HttpResponse(content_type="text/csv")
+        response['Content-Disposition']= 'attachment; filename="vendors.csv'
+        writer = csv.writer(response)
+
+        writer.writerow(["Company Name", "Contact Name", "Contact Phone", "Contact Email"])
+        
+        for vendor in vendors:
+            writer.writerow([vendor.comp_Name, vendor.contact_name, vendor.contact_phone, vendor.contact_email])
+
+        return response
+
+    return redirect("/vendors/")
+
+@login_required
+def download_csv_timesheet(request):
+    if request.method == 'POST':
+        shifts = Shift.objects.all()
+        response = HttpResponse(content_type="text/csv")
+        response['Content-Disposition']= 'attachment; filename="timesheet.csv'
+        writer = csv.writer(response)
+
+        writer.writerow(["Clock In", "Clock Out", "Total Hours", "Total Pay"])
+        
+        for shift in shifts:
+            writer.writerow([shift.time_in, shift.time_out, shift.time_worked, '$' + str(shift.money)])
+        return response
+
+    return redirect("/employees/")
+
+@login_required
+def download_csv_employees(request):
+    if request.method == 'POST':
+        employees = Employee.objects.all()
+        response = HttpResponse(content_type="text/csv")
+        response['Content-Disposition']= 'attachment; filename="staff.csv'
+        writer = csv.writer(response)
+
+        writer.writerow(["Username", "First Name", "Last Name", "Hourly Wage", "Permissions"])
+        
+        for employee in employees:
+            user = User.objects.get(pk=employee.pk)
+
+            permission = employee.user_type
+            if(employee.user_type == 1):
+                permission = "Employee"
+            elif (permission == 2):
+                permission = "HR"
+            elif (permission == 3):
+                permission = "Supervisor"
+            else:
+                permission = "Admin" #4
+
+            writer.writerow([user.username, user.first_name, user.last_name, '$'+str(employee.hourly_wage), permission])
+        return response
+
+    return redirect("/employees/")
