@@ -307,3 +307,19 @@ def reports(request): # Stacey's temp playground
 
 def not_allowed(request):
     raise PermissionDenied
+
+#CSV Download
+@login_required
+def download_csv_vendors(request):
+    if request.method == 'POST':
+        vendors = Vendor.objects.all()
+        response = HttpResponse(content_type="text/csv")
+        response['Content-Disposition']= 'attachment; filename="vendors.csv'
+        writer = csv.writer(response)
+
+        writer.writerow(["Company Name", "Contact Name", "Contact Phone", "Contact Email"])
+        
+        for vendor in vendors:
+            writer.writerow([vendor.comp_Name, vendor.contact_name, vendor.contact_phone, vendor.contact_email])
+
+        return response

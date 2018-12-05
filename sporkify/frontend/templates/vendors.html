@@ -32,7 +32,11 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Vendors</h1>
+    <form action="/download-csv-vendors/" method=POST> {% csrf_token %}
+        <h1>Vendors 
+        <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button>
+        </h1>
+    </form>
     <table id="vendorTable" class="display" style="width:100%">
         <thead>
             <tr>
