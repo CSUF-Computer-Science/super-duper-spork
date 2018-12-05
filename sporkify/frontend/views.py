@@ -267,8 +267,7 @@ def download_csv(request):
         writer.writerow(["Product Code", "Product Type", "Selling Site", "Asking Price", "Condition", "Vendor", "Purchase Price", "Added By", "Time Added"])
 
         for item in items:
-            print(item)
-            writer.writerow([item.product_code, item.product_type, item.selling_site, item.ask_price, item.condition, item.vendor, item.pur_price, item.added_by, item.time_added])
+            writer.writerow([item.product_code, item.product_type, item.selling_site.name, '$'+str(item.ask_price), item.condition.cond_Name, item.vendor.comp_Name, '$'+str(item.pur_price), item.added_by.user.username, item.time_added])
         
         return response
 
