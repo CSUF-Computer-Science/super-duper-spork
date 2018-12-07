@@ -128,7 +128,11 @@
         
         <!-- Show Timesheet for that day (or more if possible) -->
         <div class="timesheet_history">
-            <h3>History <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button></h3>
+            <form action="/download-csv-history/" method="POST"> {% csrf_token %}
+                <h3>History
+                    <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button>
+                </h3>
+            </form>
             <table id="timehistory" style="width: 100%">
                 <thead>
                     <tr>
