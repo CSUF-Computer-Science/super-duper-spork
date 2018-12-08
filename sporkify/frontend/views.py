@@ -1,4 +1,4 @@
-import calendar, random, csv
+import calendar, random, csv, datetime
 
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -16,14 +16,14 @@ from backend.permissions import hr_login_required, supervisor_login_required
 def dashboard(request):
     if request.method == 'POST':
         pass
-    cs = category_sales()
-    cs_colors = colors(len(cs))
+    ps = product_sales()
+    ps_colors = colors(len(ps))
     base_context = {
         "total_sales": total_sales(),
         "labor_cost" : labor_costs(),
         "total_sales": total_sales(),
-        "cat_sal": cs,
-        "color": cs_colors,
+        "cat_sal": ps,
+        "color": ps_colors,
         "ship_cost": shipment_costs()
     }
     return render(request, 'dashboard.html', base_context)
@@ -248,12 +248,16 @@ def vendors(request):
     })
 
 @supervisor_login_required
-def reports(request): # Stacey's temp playground
+def reports(request): 
     if request.method == 'POST':
         pass
     return render(request, 'reports.html', {
-        "weekly_items": weekly_sales(),
-        "cat_sales": category_sales(),
+        # "weekly_sales": weekly_sales(),
+        "weekly_dates": dates(1,8),
+        "weekly_sales": report_sales(1,8),
+        "monthly_dates": dates(1, 30),
+        "monthly_sales": report_sales(1, 30),
+        "cat_sales": product_sales(),
         "total_sales": total_sales(),
         "spend_total": total_shipment_costs() + labor_costs(),
         "ship_cost": shipment_costs(),
@@ -263,10 +267,53 @@ def reports(request): # Stacey's temp playground
         "net_sales": total_sales() - (total_shipment_costs() + labor_costs())
         })
 
+def not_allowed(request):
+    raise PermissionDenied
+
 # reports + dashboard functions 
-def weekly_sales():
-    one_week_ago = datetime.today()-timedelta(days=7)
-    weekly_items = Sale.objects.filter(time_added__gte=one_week_ago)
+def report_sales(first, last):
+    keys = []
+    for i in range(first, last):
+        keys.append(i)
+    report_sales = {}
+
+    #default all values to 0
+    report_sales = report_sales.fromkeys(keys, 0)
+    
+    for i in range(first,last):
+        one_week_ago = timezone.now()-timedelta(days=i)
+        report_items = Sale.objects.filter(time_added__gte=one_week_ago)
+
+        day = first
+        while (day <= last):
+            day_items = report_items.filter(time_added__week_day=day)
+            # length = day_items.count()
+            # if length is 1:
+            #     item = day_items.all()
+            #     weekly_sales[day] = item.sel_price
+            # else:
+            for item in day_items.all():
+                if item is not None :
+                    if day in report_sales:
+                        report_sales[day] += item.sel_price
+                    else:
+                        report_sales[day] = item.sel_price
+                else:
+                    report_sales[day] = 0
+
+            day += 1
+
+    return report_sales
+
+def dates(first, last):
+    dates = []
+    for i in range(first, last):
+        day = timezone.now()-timedelta(days=i)
+        formatted = day.strftime("%a %m/%d")
+        dates.append(formatted)
+    
+    return dates
+
 
 def labor_costs():
     labor_costs = 0
@@ -278,7 +325,7 @@ def total_sales():
     for sale in Sale.objects.all():
         total_sales += sale.sel_price
     return total_sales
-def category_sales():
+def product_sales():
     category_sales = {}
     for s in Sale.objects.all():
         if category_sales.get(s.product_type) is None:
@@ -302,6 +349,7 @@ def colors(n): #charts -- generate random colors for given size
     a = 0.5
     ret.append((r,g,b,a))
   return ret
+
 def total_shipment_costs():
     ship_net = 0
     for shipment in Shipment.objects.all():
@@ -326,10 +374,7 @@ def vendor_distro():
             vendor_distro[inventory.vendor] = 1
     return vendor_distro
 
-### end functions
-
-def not_allowed(request):
-    raise PermissionDenied
+# end functions
 
 #CSV Download
 @login_required
