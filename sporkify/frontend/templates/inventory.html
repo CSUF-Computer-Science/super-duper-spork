@@ -90,7 +90,7 @@
 {%block content%}
   <form action="/download-csv/" method="POST"> {% csrf_token %}
     <h1>Inventory
-        <button name="export_csv_btn"><i class="fas fa-file-export"></i></button>
+        <button class="csv_btn" name="export_csv_btn"><i class="fas fa-file-export"></i></button>
     </h1>
   </form>
   <table id="inventoryTable" class="display" style="width:100%">
