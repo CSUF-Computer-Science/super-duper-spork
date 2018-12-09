@@ -151,7 +151,7 @@
                     <option value="{{human.pk}}">{{human.user_name}}</option>
                     {% endfor %}
                 </select>
-                <input type="hidden" id="p_code" name="product_code" value=" " />
+                <input type="hidden" id="p_code" name="product_code" value="" />
                 <input type="hidden" id="s_time" name="time_shipped" value="" />
                 <button class="close-button" type="submit" formaction="/addNewShipment/">Submit</button>
             </div>
@@ -191,7 +191,7 @@
             <td>{{item.added_by.user.username}}</td>
             <td>{{item.time_added}}</td>
             <td>
-                <button class="open-button" onclick="openForm({{item.product_code}})">Mark Sold</button>
+                <button class="open-button" onclick="openForm('{{item.product_code}}')">Mark Sold</button>
             </td>
             <td>
                 <form action="/delete-item/" method="POST">{% csrf_token %}
