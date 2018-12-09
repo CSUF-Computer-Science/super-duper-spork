@@ -30,14 +30,11 @@
 </div>
 {% endblock %}
 {% block content %}
+    <form action="/download-csv-vendors/" method="POST"> {% csrf_token %}    
     <h1>Vendors
-    <form action="/download-csv-vendors/" method="POST"> {% csrf_token %}
         <button class="csv_btn" title="Export to CSV"><i class="fas fa-file-export"></i></button>
-    </form>
-    <form action="/upload-csv-vendors/" method="POST"> {% csrf_token %}
-        <button class="csv_btn" title="Upload CSV"><i class="fas fa-upload"></i><input type="file"></button>
-    </form>
     </h1>
+    </form>
     <table id="vendorTable" class="display" style="width:100%">
         <thead>
             <tr>
@@ -66,4 +63,10 @@
             {% endfor %}
         </tbody>
     </table>
+    <form action="/upload-csv-vendors/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <label for="file">Upload CSV:</label>
+        <input type="file" name="file">
+        </br>
+        <input type="submit">
+    </form>
 {% endblock %}

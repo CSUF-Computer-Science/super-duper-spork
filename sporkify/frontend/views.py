@@ -1,4 +1,4 @@
-import calendar, random, csv
+import calendar, random, csv, io
 
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -390,7 +390,18 @@ def download_csv_history(request):
 @login_required
 def upload_csv_vendors(request):
     if request.method == 'POST':
-        print("test")
+        csv_file = request.FILES['file']
+        file_contents = csv_file.read().decode('UTF-8')
+        io_str = io.StringIO(file_contents)
+        header = next(io_str)
 
-    print("test again")
+        entry = csv.reader(io_string, delimiter=',')
+        for column in entry:
+            Vendor.objects.update_or_create(
+                comp_Name = column[0],
+                contact_name = column[1],
+                contact_phone = column[2],
+                contact_email = column[3]
+            )
+
     return redirect('/vendors/')
