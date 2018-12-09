@@ -58,8 +58,10 @@
 
 .fa-file-export {
     color: powderblue;
+    opacity: 0.5;
 }
 
 .fa-file-export:hover {
-    color: dodgerblue;
+    color: powderblue;
+    opacity: 1.0;
 }
