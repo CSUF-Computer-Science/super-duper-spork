@@ -251,12 +251,14 @@ def vendors(request):
 def reports(request): 
     if request.method == 'POST':
         pass
+    now = timezone.now()
+    month_range = calendar.monthrange(now.year, now.month)[1]
     return render(request, 'reports.html', {
         # "weekly_sales": weekly_sales(),
-        "weekly_dates": dates(1,8),
-        "weekly_sales": report_sales(1,8),
-        "monthly_dates": dates(1, 30),
-        "monthly_sales": report_sales(1, 30),
+        "weekly_dates": dates(8, 'w'),
+        "weekly_sales": report_sales(8, 'w'),
+        "monthly_dates": dates(month_range, 'm'),
+        "monthly_sales": report_sales(month_range, 'm'),
         "cat_sales": product_sales(),
         "total_sales": total_sales(),
         "spend_total": total_shipment_costs() + labor_costs(),
@@ -271,21 +273,38 @@ def not_allowed(request):
     raise PermissionDenied
 
 # reports + dashboard functions 
-def report_sales(first, last):
+def get_startofweek(): #get Sunday of current week
+    weekday = timezone.now().weekday()
+    if weekday != 1:
+        first_day = timezone.now()-timedelta(days=weekday+1)
+        return first_day
+    return weekday
+
+def get_startofmonth(): #get first day of current month
+    dayofmonth = timezone.now().day
+    if dayofmonth != 1:
+        first_day = timezone.now()-timedelta(days=dayofmonth-1)
+        return first_day
+    return dayofmonth
+
+def report_sales(end, indicator):
     keys = []
-    for i in range(first, last):
+    for i in range(1, end):
         keys.append(i)
     report_sales = {}
-
     #default all values to 0
     report_sales = report_sales.fromkeys(keys, 0)
-    
-    for i in range(first,last):
-        one_week_ago = timezone.now()-timedelta(days=i)
-        report_items = Sale.objects.filter(time_added__gte=one_week_ago)
+    if indicator == 'w':
+        start_day = get_startofweek()
+    else:
+        start_day = get_startofmonth()
 
-        day = first
-        while (day <= last):
+    for i in range(0,end-1):
+        today = start_day + timedelta(days=i)
+        report_items = Sale.objects.filter(time_added__gte=today)
+
+        day = 1
+        while (day <= end-1):
             day_items = report_items.filter(time_added__week_day=day)
             # length = day_items.count()
             # if length is 1:
@@ -305,10 +324,15 @@ def report_sales(first, last):
 
     return report_sales
 
-def dates(first, last):
+def dates(end, indicator):
     dates = []
-    for i in range(first, last):
-        day = timezone.now()-timedelta(days=i)
+    if indicator == 'w':
+        start_day = get_startofweek()
+        print(start_day)
+    else:
+        start_day = get_startofmonth()
+    for i in range(0, end-1):
+        day = start_day + timedelta(days=i)
         formatted = day.strftime("%a %m/%d")
         dates.append(formatted)
     
