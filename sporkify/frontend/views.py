@@ -35,21 +35,22 @@ def category_sales():
     return category_sales
 
 def colors(n): #charts -- generate random colors for given size
-  ret = []
-  r = int(random.random() * 256)
-  g = int(random.random() * 256)
-  b = int(random.random() * 256)
-  step = 256 / n
-  for i in range(n):
-    r += step
-    g += step
-    b += step
-    r = int(r) % 256
-    g = int(g) % 256
-    b = int(b) % 256
-    a = 0.5
-    ret.append((r,g,b,a))
-  return ret
+    ret = []
+    if n!=0:
+        r = int(random.random() * 256)
+        g = int(random.random() * 256)
+        b = int(random.random() * 256)
+        step = 256 / n
+        for i in range(n):
+            r += step
+            g += step
+            b += step
+            r = int(r) % 256
+            g = int(g) % 256
+            b = int(b) % 256
+            a = 0.5
+            ret.append((r,g,b,a))
+    return ret
 
 
 @login_required

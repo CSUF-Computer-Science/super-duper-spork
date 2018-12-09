@@ -19,7 +19,7 @@ from django.urls import path, include
 from frontend import views
 
 urlpatterns = [
-    path('', views.inventory),
+    path('', views.dashboard),
     path('addToExistingShipment/', views.addToExistingShipment),
     path('addNewShipment/', views.addNewShipment),
     path('add-item/', views.inventory),
