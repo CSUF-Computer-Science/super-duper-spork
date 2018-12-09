@@ -386,3 +386,11 @@ def download_csv_history(request):
         return response
 
     return redirect("/employees/")
+
+@login_required
+def upload_csv_vendors(request):
+    if request.method == 'POST':
+        print("test")
+
+    print("test again")
+    return redirect('/vendors/')

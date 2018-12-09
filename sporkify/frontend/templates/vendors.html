@@ -13,7 +13,6 @@
 <div id="addVendorContainer">
     <form id="addVendorForm" action="" method="POST">
         {% csrf_token %}
-
         <label for="comp_Name">Company Name:</label>
         <input type="text" name="comp_Name" id="comp_Name" />
 
@@ -30,13 +29,15 @@
     </form>
 </div>
 {% endblock %}
-
 {% block content %}
+    <h1>Vendors
     <form action="/download-csv-vendors/" method="POST"> {% csrf_token %}
-        <h1>Vendors 
-        <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button>
-        </h1>
+        <button class="csv_btn" title="Export to CSV"><i class="fas fa-file-export"></i></button>
     </form>
+    <form action="/upload-csv-vendors/" method="POST"> {% csrf_token %}
+        <button class="csv_btn" title="Upload CSV"><i class="fas fa-upload"></i><input type="file"></button>
+    </form>
+    </h1>
     <table id="vendorTable" class="display" style="width:100%">
         <thead>
             <tr>
