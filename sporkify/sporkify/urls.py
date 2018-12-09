@@ -37,6 +37,7 @@ urlpatterns = [
     path('download-csv-vendors/', views.download_csv_vendors),
     path('download-csv-timesheet/', views.download_csv_timesheet),
     path('download-csv-employees/', views.download_csv_employees),
-    path('download-csv-history/', views.download_csv_history)
+    path('download-csv-history/', views.download_csv_history),
+    path('upload-csv-vendors/', views.upload_csv_vendors)
 
 ]

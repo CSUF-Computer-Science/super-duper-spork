@@ -60,7 +60,7 @@
         <!-- User Side -->
         <form action="/download-csv-timesheet/" method="POST"> {% csrf_token %}
             <h2>Your Timesheet 
-                <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button>
+                <button class="csv_btn" title="Export to CSSV"><i class="fas fa-file-export"></i></button>
             </h2>
         </form>
         <!-- Show Hours for the Week -->
@@ -88,7 +88,7 @@
         <h2>Manager Preview</h2>
         <form action="/download-csv-employees/" method="POST"> {% csrf_token %}
             <h3>All Employees
-                <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button>
+                <button class="csv_btn" title="Export to CSV"><i class="fas fa-file-export"></i></button>
             </h3>
         </form>
 
@@ -112,13 +112,13 @@
                     <td>
                         <form action="/employees/edit/" method="POST"> {%csrf_token%}
                             <input type="hidden" name="employee_pk" value="{{employee.pk}}">
-                            <button type="submit" name="edit_employee_btn">Edit</button>
+                            <button type="submit" name="edit_employee_btn"><i class="fas fa-user-edit"></i> Edit</button>
                         </form>
                     </td>
                     <td>
                         <form action="" method="POST"> {%csrf_token%}
                             <input type="hidden" name="employee_pk" value="{{employee.pk}}">
-                            <button type="submit" name="delete_employee_btn">Delete</button>
+                            <button type="submit" name="delete_employee_btn"><i class="fas fa-skull-crossbones"></i> Delete</button>
                         </form>
                     </td>
                 </tr>
@@ -128,11 +128,13 @@
         
         <!-- Show Timesheet for that day (or more if possible) -->
         <div class="timesheet_history">
-            <form action="/download-csv-history/" method="POST"> {% csrf_token %}
-                <h3>History
-                    <button title="Export Table to CSV File"><i class="fas fa-file-export"></i></button>
-                </h3>
-            </form>
+                <form action="/download-csv-history/" method="POST"> {% csrf_token %}
+                    <h3>History
+                        <button class="csv_btn" title="Export to CSV">
+                            <i class="fas fa-file-export"></i>
+                        </button>
+                    </h3>
+                </form>
             <table id="timehistory" style="width: 100%">
                 <thead>
                     <tr>
