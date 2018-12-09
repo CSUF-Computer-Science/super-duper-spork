@@ -461,3 +461,19 @@ def download_csv_employees(request):
         return response
 
     return redirect("/employees/")
+
+@login_required
+def download_csv_history(request):
+    if request.method == 'POST':
+        shifts = Shift.objects.all()
+        response = HttpResponse(content_type="text/csv")
+        response['Content-Disposition']= 'attachment; filename="history.csv'
+        writer = csv.writer(response)
+
+        writer.writerow(["Employee Name", "Clock In", "Clock Out", "Total Hours", "Total Pay"])
+        
+        for shift in shifts:
+            writer.writerow([shift.emp_ID.f_name, shift.time_in, shift.time_out, shift.time_worked, '$' + str(shift.money)])
+        return response
+
+    return redirect("/employees/")
