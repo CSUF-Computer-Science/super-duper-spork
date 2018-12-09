@@ -306,11 +306,6 @@ def report_sales(end, indicator):
         day = 1
         while (day <= end-1):
             day_items = report_items.filter(time_added__week_day=day)
-            # length = day_items.count()
-            # if length is 1:
-            #     item = day_items.all()
-            #     weekly_sales[day] = item.sel_price
-            # else:
             for item in day_items.all():
                 if item is not None :
                     if day in report_sales:
