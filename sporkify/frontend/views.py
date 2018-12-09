@@ -1,73 +1,29 @@
-import calendar, random, csv
+import calendar, random, csv, datetime
 
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.utils import timezone
+from datetime import datetime, timedelta
 from django.core.exceptions import PermissionDenied
 
 from backend.models import Condition, Employee, Inventory, Open_Product_Code, Product_Type, Sale, Sale_Site, Shift, Vendor, Shipment
 from backend.forms import InventoryForm, AddVendorForm
 from backend.permissions import hr_login_required, supervisor_login_required
 
-# chart functions
-def labor_costs():
-    labor_costs = 0
-    for shift in Shift.objects.all():
-        labor_costs += shift.money
-    return labor_costs
-
-def total_sales():
-    total_sales = 0
-    for sale in Sale.objects.all():
-        total_sales += sale.sel_price
-    return total_sales
-
-def category_sales():
-    category_sales = {}
-    for s in Sale.objects.all():
-        if category_sales.get(s.product_type) is None:
-            category_sales[s.product_type] = s.sel_price
-        else:
-            category_sales[s.product_type] += s.sel_price
-    return category_sales
-
-def shipment_costs():
-    ship_cost = 0
-    for shipment in Shipment.objects.all():
-        ship_cost += shipment.shipment_cost + shipment.material_cost
-    return ship_cost
-
-def colors(n): #charts -- generate random colors for given size
-  ret = []
-  r = int(random.random() * 256)
-  g = int(random.random() * 256)
-  b = int(random.random() * 256)
-  step = 256 / n
-  for i in range(n):
-    r += step
-    g += step
-    b += step
-    r = int(r) % 256
-    g = int(g) % 256
-    b = int(b) % 256
-    a = 0.5
-    ret.append((r,g,b,a))
-  return ret
-
 @login_required
 def dashboard(request):
     if request.method == 'POST':
         pass
-    cs = category_sales()
-    cs_colors = colors(len(cs))
+    ps = product_sales()
+    ps_colors = colors(len(ps))
     base_context = {
         "total_sales": total_sales(),
         "labor_cost" : labor_costs(),
         "total_sales": total_sales(),
-        "cat_sal": cs,
-        "color": cs_colors,
+        "cat_sal": ps,
+        "color": ps_colors,
         "ship_cost": shipment_costs()
     }
     return render(request, 'dashboard.html', base_context)
@@ -226,12 +182,6 @@ def inventory(request):
         "product_code": Open_Product_Code.objects.all()[:1] # Grabs only the first open product code
     })
 
-# @login_required
-# def sales(request):
-#     return render(request, 'sale.html', {
-#         "items": Sale.objects.all()
-#     })
-
 @login_required
 def delete_inventory(request):
     if request.method == 'POST':
@@ -298,16 +248,157 @@ def vendors(request):
     })
 
 @supervisor_login_required
-def reports(request): # Stacey's temp playground
+def reports(request): 
     if request.method == 'POST':
         pass
+    now = timezone.now()
+    month_range = calendar.monthrange(now.year, now.month)[1]
     return render(request, 'reports.html', {
+        # "weekly_sales": weekly_sales(),
+        "weekly_dates": dates(8, 'w'),
+        "weekly_sales": report_sales(8, 'w'),
+        "monthly_dates": dates(month_range, 'm'),
+        "monthly_sales": report_sales(month_range, 'm'),
+        "cat_sales": product_sales(),
         "total_sales": total_sales(),
-        "ship_cost": shipment_costs()
+        "spend_total": total_shipment_costs() + labor_costs(),
+        "ship_cost": shipment_costs(),
+        "material_cost": material_costs(),
+        "vendor_distro": vendor_distro(),
+        "labor_cost": labor_costs(),
+        "net_sales": total_sales() - (total_shipment_costs() + labor_costs())
         })
 
 def not_allowed(request):
     raise PermissionDenied
+
+# reports + dashboard functions 
+def get_startofweek(): #get Sunday of current week
+    weekday = timezone.now().weekday()
+    if weekday != 1:
+        first_day = timezone.now()-timedelta(days=weekday+1)
+        return first_day
+    return weekday
+
+def get_startofmonth(): #get first day of current month
+    dayofmonth = timezone.now().day
+    if dayofmonth != 1:
+        first_day = timezone.now()-timedelta(days=dayofmonth-1)
+        return first_day
+    return dayofmonth
+
+def report_sales(end, indicator):
+    keys = []
+    for i in range(1, end):
+        keys.append(i)
+    report_sales = {}
+    #default all values to 0
+    report_sales = report_sales.fromkeys(keys, 0)
+    if indicator == 'w':
+        start_day = get_startofweek()
+    else:
+        start_day = get_startofmonth()
+
+    for i in range(0,end-1):
+        today = start_day + timedelta(days=i)
+        report_items = Sale.objects.filter(time_added__gte=today)
+
+        day = 1
+        while (day <= end-1):
+            day_items = report_items.filter(time_added__week_day=day)
+            # length = day_items.count()
+            # if length is 1:
+            #     item = day_items.all()
+            #     weekly_sales[day] = item.sel_price
+            # else:
+            for item in day_items.all():
+                if item is not None :
+                    if day in report_sales:
+                        report_sales[day] += item.sel_price
+                    else:
+                        report_sales[day] = item.sel_price
+                else:
+                    report_sales[day] = 0
+
+            day += 1
+
+    return report_sales
+
+def dates(end, indicator):
+    dates = []
+    if indicator == 'w':
+        start_day = get_startofweek()
+        print(start_day)
+    else:
+        start_day = get_startofmonth()
+    for i in range(0, end-1):
+        day = start_day + timedelta(days=i)
+        formatted = day.strftime("%a %m/%d")
+        dates.append(formatted)
+    
+    return dates
+
+
+def labor_costs():
+    labor_costs = 0
+    for shift in Shift.objects.all():
+        labor_costs += shift.money
+    return labor_costs
+def total_sales():
+    total_sales = 0
+    for sale in Sale.objects.all():
+        total_sales += sale.sel_price
+    return total_sales
+def product_sales():
+    category_sales = {}
+    for s in Sale.objects.all():
+        if category_sales.get(s.product_type) is None:
+            category_sales[s.product_type] = s.sel_price
+        else:
+            category_sales[s.product_type] += s.sel_price
+    return category_sales
+def colors(n): #charts -- generate random colors for given size
+  ret = []
+  r = int(random.random() * 256)
+  g = int(random.random() * 256)
+  b = int(random.random() * 256)
+  step = 256 / n
+  for i in range(n):
+    r += step
+    g += step
+    b += step
+    r = int(r) % 256
+    g = int(g) % 256
+    b = int(b) % 256
+    a = 0.5
+    ret.append((r,g,b,a))
+  return ret
+
+def total_shipment_costs():
+    ship_net = 0
+    for shipment in Shipment.objects.all():
+        ship_net += shipment.shipment_cost + shipment.material_cost
+    return ship_net
+def material_costs():
+    mat_cost = 0
+    for shipment in Shipment.objects.all():
+        mat_cost += shipment.material_cost
+    return mat_cost
+def shipment_costs():
+    ship_cost = 0
+    for shipment in Shipment.objects.all():
+        ship_cost += shipment.shipment_cost
+    return ship_cost
+def vendor_distro():
+    vendor_distro = {}
+    for inventory in Inventory.objects.all():
+        if inventory.vendor in vendor_distro:
+            vendor_distro[inventory.vendor] += 1
+        else:
+            vendor_distro[inventory.vendor] = 1
+    return vendor_distro
+
+# end functions
 
 #CSV Download
 @login_required
