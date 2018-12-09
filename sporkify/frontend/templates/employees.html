@@ -42,13 +42,13 @@
         <!-- Print stuff -->
         <p>
         {% if clockedIn == True %}
-            You have been on the clock for <span clockin="{{ curShiftStartedAt }}">(calculating...)</span>
+            You have been on the clock for <i class="far fa-clock"></i> <span clockin="{{ curShiftStartedAt }}">(calculating...)</span>
         {% endif %}
 
         {% if clockedIn == False %}
             You are not clocked in.
             {% if timeWorked != None %}
-                Your shift lasted for {{ timeWorked }}.
+                Your shift lasted for <br> <i class="far fa-clock"></i> {{ timeWorked }}.
             {% endif %}
         {% endif %}
         </p>
@@ -58,7 +58,7 @@
 {% endblock %}
 
 {% block content %}
-        <h1>Employee Management</h1><br>
+        <h1>Employee Management</h1>
         <!-- User Side -->
         <form action="/download-csv-timesheet/" method="POST"> {% csrf_token %}
             <h2>Your Timesheet 
@@ -108,7 +108,7 @@
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Hourly Wage</th>
-                        <th>Permissions</th>
+                        <th>Permission</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -119,7 +119,17 @@
                         <td>{{employee.f_name}}</td>
                         <td>{{employee.l_name}}</td>
                         <td>{{employee.hourly_wage}}</td>
-                        <td>{{employee.permissions}}</td>
+                        <td>
+                            {% if employee.user_type == 1 %}
+                                Employee
+                            {% elif employee.user_type == 2 %}
+                                Supervisor
+                            {% elif employee.user_type == 3 %}
+                                Human Resources
+                            {% else %}
+                                Administrator
+                            {% endif %}
+                        </td>
                         <td>
                             <form action="/employees/edit/" method="POST"> {%csrf_token%}
                                 <input type="hidden" name="employee_pk" value="{{employee.pk}}">
