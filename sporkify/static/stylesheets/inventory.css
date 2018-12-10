@@ -15,8 +15,8 @@
     margin: 10px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
     background-color:#F8F8F8;
-    width: 375px;
-    height: 238px;
+    width: 430px;
+    height: 270px;
 }
 
 #sectionTitle{
@@ -176,6 +176,96 @@
 	border: 1px solid rgb(165,165,165);
 	font-size: 15px;
 }
+#shipmentForm{
+    background:rgba(0, 0, 0, 0.5);
+    display:none;
+    position:absolute;
+    z-index: 1000;
+    height:2000px;
+    width:100%;
+    text-align: center;
+   
+
+}
+#ship_by, #p_code, #p_code2, #ship_by2{
+        display:none;
+}
+#form-container{
+    display:inline-block;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color:#F8F8F8;
+    width: auto;
+    height: auto;
+    top:600px;
+    position: relative;
+    margin: 0 auto;
+    padding: 8px;
+}
+#form1{
+    display:inline-flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    text-justify: center;
+    align-items: center;
+
+}
+#toExisting, #newShipment{
+    width:250px;
+}
+.form-popup button on-hover{
+    cursor: pointer;
+}
+.close-button{
+    width:75px;
+    padding:5px;
+    margin:10px;
+}
+#moveToSoldTitle{
+    color:#d9c877;
+    font-size:16px;
+    font-weight: bold;
+    margin-top:15px;
+    margin-bottom: 5px;
+}
+.formchild{
+    margin: 10px;
+    padding: 10px;
+}
+#formOpt1{
+    display:none;
+}
+#formOpt2{
+    display:none;
+}
+.cost{
+    width:65px;
+}
+#formOpt2 div{
+    margin: 10px;
+}
+#timeOfS{
+    width: 185px;
+   
+}
+#matUsed{
+    width: 235px;
+}
+#addNewShipmentTitle, #existingShipmentTitle{
+    color:#d9c877;
+    font-size:16px;
+    font-weight: bold;
+    margin-top:15px;
+    margin-bottom: 15px;
+}
+.close-button2{
+    width:75px;
+    padding:5px;
+    margin:15px;
+}
 
 /*Export CSV Buttons*/
 .csv_btn {
@@ -208,9 +298,8 @@
     margin: 10px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
     background-color:#F8F8F8;
-
-    width: 515px;
-    height: 175px;
+    width: 540px;
+    height: 250px;
 }
 
 #or{
@@ -218,8 +307,4 @@
     padding-left: 5%;
     padding-right: 5%;
     text-align: center;
-}
-
-#csv_upload{
-    
 }
