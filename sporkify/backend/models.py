@@ -18,6 +18,14 @@ class Vendor(models.Model):
     contact_phone = models.CharField(max_length=50)
     contact_email = models.EmailField(max_length=254)
 
+class Sale_Site(models.Model):
+    name = models.CharField(max_length=100, primary_key=True, unique=True)
+    domain = models.URLField(max_length=200)
+
+class Condition(models.Model):
+    cond_Name = models.CharField(max_length=30, unique=True, primary_key=True)
+
+
 class Inventory(models.Model):
     product_code = models.CharField(primary_key=True, unique=True, max_length=9)
     selling_site = models.ForeignKey('Sale_Site' , on_delete = models.SET_NULL, null=True)
@@ -33,12 +41,17 @@ class Inventory(models.Model):
         self.time_added = timezone.now()
         self.save()
 
-class Sale_Site(models.Model):
-    name = models.CharField(max_length=100, primary_key=True, unique=True)
-    domain = models.URLField(max_length=200)
+class Shipment(models.Model):
+    tracking_number = models.CharField(max_length=100, primary_key=True, unique=True)
+    shipment_cost = models.FloatField()
+    materials_used = models.TextField()
+    material_cost = models.FloatField()
+    user_shipped = models.ForeignKey(User, on_delete = models.SET_NULL, null=True)
+    time_shipped = models.DateTimeField()
 
-class Condition(models.Model):
-    cond_Name = models.CharField(max_length=30, unique=True, primary_key=True)
+    def create(self):
+        self.time_shipped = timezone.now()
+        self.save()
 
 class Sale(models.Model):
     invoice_num = models.AutoField(primary_key=True, unique=True)
@@ -53,6 +66,7 @@ class Sale(models.Model):
     added_by = models.IntegerField()
     time_added = models.DateTimeField()
     shipment_number = models.CharField(max_length=100)
+    archived_by=models.IntegerField()
     time_archived = models.DateTimeField()
 
     def create(self):
@@ -120,14 +134,4 @@ class Shift(models.Model):
     def money(self):
         return (self.time_worked.total_seconds() / 3600) * self.hourly_wage
 
-class Shipment(models.Model):
-    tracking_number = models.CharField(max_length=100, primary_key=True, unique=True)
-    shipment_cost = models.FloatField()
-    materials_used = models.TextField()
-    material_cost = models.FloatField()
-    user_shipped = models.ForeignKey(User, on_delete = models.SET_NULL, null=True)
-    time_shipped = models.DateTimeField()
 
-    def create(self):
-        self.time_shipped = timezone.now()
-        self.save()
