@@ -164,6 +164,7 @@
 .fa-file-export:hover {
     color: powderblue;
     opacity: 1.0;
+    cursor: pointer;
 }
 
 /*Form buttons*/
