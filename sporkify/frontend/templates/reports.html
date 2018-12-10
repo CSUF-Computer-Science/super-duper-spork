@@ -1,43 +1,161 @@
 {% extends "base.html" %}
 		
 {% block headIncludes %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <title>Sporkify - Reports</title>
-
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/report.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#productTypeTable').DataTable();
+      $('#vendorTable').DataTable();
+  });
+</script>
 {% endblock %}
 
 {% block content %}
-<!--Total Gross Sales, Labor vs. Gross Sales, Category Sales-->
-<!-- changed from polar area chart to bar chart-->
-<canvas id="StorageCapacity_doughnut" width="300" height="300"></canvas>
-<script>
-    var scv = document.getElementById("StorageCapacity_doughnut")
-    var scChart = new Chart(scv, {
-    type: 'doughnut',
-    data: {
-      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-      datasets: [
-        {
-          label: "Population (millions)",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: [2478,5267,734,784,433]
-        }
-      ]
-    },
-    options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      title: {
-        display: true,
-        text: 'Predicted world population (millions) in 2050'
-      }
-    }
-});
-//     psv.onclick = function(pvt){
-//     var activePoint = psChart.getSegmentsAtEvent(pvt);
-//     console.log('activePoint', activePoint)
-//     window.location = '/reports'
-// };
-</script>
+<h1>Sales Reports</h1>
+<div id="WeeklySalesContainer">
+	<canvas id="weekly-line" width=700" height="300"></canvas>
+	<script>
+	new Chart(document.getElementById("weekly-line"), {
+	  type: 'line',
+	  data: {
+	    labels: [{% for date in weekly_dates %} '{{date}}', {% endfor %}],
+	    datasets: [{ 
+	        data: [ {% for value in weekly_sales.values %} {{value}}, {% endfor %} ],
+	        label: "Amount $",
+	        borderColor: "#bfe1dd",
+	        fill: false
+	      }
+	    ]
+	  },
+	  options: {
+	  	scales: {
+	  		yAxes: [{
+	  			ticks: {
+	  				min: 0,
+	  			}
+	  		}]
+	  	},
+	    title: {
+	      display: true,
+	      fontFamily: 'Trebuchet MS',
+	      text: 'Weekly Sales'
+	    },
+	    responsive: false,
+	    maintainAspectRation: true
+	  }
+	});
+	</script>
+</div>
+<br><br>
+<div id="MonthlySalesContainer">
+	<canvas id="monthly-line" width=700" height="300"></canvas>
+	<script>
+	new Chart(document.getElementById("monthly-line"), {
+	  type: 'line',
+	  data: {
+	    labels: [{% for date in monthly_dates %} '{{date}}', {% endfor %}],
+	    datasets: [{ 
+	        data: [ {% for value in monthly_sales.values %} {{value}}, {% endfor %} ],
+	        label: "Amount $",
+	        borderColor: "#bfe1dd",
+	        fill: false
+	      }
+	    ]
+	  },
+	  options: {
+	  	scales: {
+	  		yAxes: [{
+	  			ticks: {
+	  				min: 0,
+	  			}
+	  		}]
+	  	},
+	    title: {
+	      display: true,
+	      fontFamily: 'Trebuchet MS',
+	      text: 'Monthly Sales'
+	    },
+	    responsive: false,
+	    maintainAspectRation: true
+	  }
+	});
+	</script>
+</div>
+<table>
+	<caption>Total Expenditures Report</caption>
+	<thead>
+		<tr>
+			<th scope="col" colspan="2">Cost of</th>
+			<th scope="col">Amount</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Shipping Materials</td>
+			<td colspan="3">${{ material_cost }}</td>
+		</tr>
+		<tr>
+			<td>Shipping Fees</td>
+			<td colspan="3">${{ ship_cost }}</td>
+		</tr>
+		<tr>
+			<td>Labor</td>
+			<td colspan="3">${{ labor_cost }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td>Total Spending</td>
+			<td colspan="3">${{ spend_total }}</td>
+		</tr>	
+		<tr>
+			<td>Total Sales</td>
+			<td colspan="3">${{total_sales}}</td>
+		</tr>
+		<tr>
+			<td>Net Sales</td>
+			<td colspan="3">{{net_sales}}</td>
+		</tr>
+	</tfoot>
+</table>
+<br><br>
+<table id="vendorTable" style="width: 100%">
+	<caption>Vendor Distribution</caption>
+	<thead>
+		<tr>
+			<th>Vendor Name</th>
+			<th>Items in Inventory</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for key, value in vendor_distro.items %}
+		<tr>
+			<td>{{key.comp_Name}}</td>
+			<td>{{value}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<br><br>
+<table id="productTypeTable" style="width: 100%">
+	<caption>Product Type Sales</caption>
+	<thead>
+		<tr>
+			<th>Product Type</th>
+			<th>Amount</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for key, value in cat_sales.items %}
+		<tr>
+			<td>{{key}}</td>
+			<td>${{value}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>		
+</table>
+
 {% endblock %}
 

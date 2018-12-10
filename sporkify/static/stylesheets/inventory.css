@@ -2,7 +2,7 @@
 #miniDashContainer{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     width: 90%;
     margin: 10px;
 }
@@ -15,8 +15,8 @@
     margin: 10px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
     background-color:#F8F8F8;
-    width: 415px;
-    height: 238px;
+    width: 430px;
+    height: 270px;
 }
 
 #sectionTitle{
@@ -262,4 +262,47 @@
     width:75px;
     padding:5px;
     margin:15px;
+}
+
+/*Export CSV Buttons*/
+.csv_btn {
+    border: none;
+    background: none;
+}
+
+.fa-file-export {
+    color: powderblue;
+    opacity: 0.50;
+}
+
+.fa-file-export:hover {
+    color: powderblue;
+    opacity: 1;
+}
+
+/*Add Product Type Form*/
+#add_product_type {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 90%;
+    margin: 10px;
+
+    justify-content: flex-start;
+    align-content: top;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color:#F8F8F8;
+
+    width: 540px;
+    height: 250px;
+}
+
+#or{
+    padding-top: 13%;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: center;
 }

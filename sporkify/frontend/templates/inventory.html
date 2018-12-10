@@ -11,8 +11,8 @@
 <script>
     function openForm(product_code) {
         document.getElementById("shipmentForm").style.display = "block";
-        document.getElementById("p_code")=product_code;
-        document.getElementById("p_code2")=product_code;
+        document.getElementById("p_code") = product_code;
+        document.getElementById("p_code2") = product_code;
     }
 
     function closeForm() {
@@ -31,7 +31,9 @@
 {%endblock%}
 
 {%block miniDash%}
+
 <div id="MiniDashContainer">
+
     <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
 
         <ul>
@@ -105,6 +107,40 @@
         </label>
     </form>
 
+
+    <div id="add_product_type">
+        <form action="/add-product-type/" method="POST">{% csrf_token %}
+            <label id="sectionTitle">Add Product Type</label>
+            </br>
+            <label>Product Type Name</label>
+            </br>
+            <input type="text" name="product_type_name" placeholder="Enter Product Type" maxlength="75" required>
+            </br>
+            <label>Weight</label>
+            </br>
+            <input type="text" name="product_weight" placeholder="Enter weight in lbs." maxlength="15" required>
+            </br>
+            <label>Brand</label>
+            </br>
+            <input type="text" name="product_brand" placeholder="Enter Brand Name" maxlength="75" required>
+            </br>
+            <input type="submit" value="Submit" name="add_product_type">
+            <input type="submit" value="Clear">
+        </form>
+        <div id="or">
+            <p>OR</p>
+        </div>
+
+        <form id="csv_upload" action="/upload-csv-product-type/" method="POST" enctype="multipart/form-data">{%csrf_token%}
+            <label id="sectionTitle">Upload File of Product Types</label>
+            <input type="file">
+            </br>
+            </br>
+            <input type="submit">
+        </form>
+
+    </div>
+
 </div>
 {%endblock%}
 {%block popUP%}
@@ -161,7 +197,11 @@
 </div>
 {%endblock%}
 {%block content%}
-<h1>Inventory</h1>
+<form action="/download-csv/" method="POST"> {% csrf_token %}
+    <h1>Inventory
+        <button class="csv_btn" title="Export to CSV" name="export_csv_btn"><i class="fas fa-file-export"></i></button>
+    </h1>
+</form>
 <table id="inventoryTable" class="display" style="width:100%">
     <thead>
         <tr>

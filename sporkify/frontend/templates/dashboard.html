@@ -12,13 +12,13 @@
     <canvas id="laborcostDoughnut" width="500" height="300"></canvas>
     <script>
         var dv = document.getElementById("laborcostDoughnut")
-        var dchart = new Chart(dv, {
+        var dChart = new Chart(dv, {
             type: 'doughnut',
             data: {
               labels: ["Total Sales: $", "Total Labor Costs: $"],
               datasets: [
                 {
-                  backgroundColor: ["#3e4157f", "#d9cb77"],
+                  backgroundColor: ["#90a44d", "#a8a8a8"],
                   data: [ {{total_sales}}, {{ labor_cost|floatformat:2 }} ]
                 }
               ]
@@ -26,6 +26,7 @@
             options: {
               title: {
                 display: true,
+                fontFamily: 'Trebuchet MS',
                 text: 'Total Labor vs. Sales'
               },
               responsive: false,
@@ -33,79 +34,127 @@
             }
         });
         dv.onclick = function(dvt){
-            var activePoint = dchart.getElementAtEvent(dvt);
+            var activePoint = dChart.getElementAtEvent(dvt);
+            if(!activePoint.length) return
             console.log('activePoint', activePoint)
             window.location = '/reports'
         };
     </script>
 </div>
-    <div id="grossSalesContainer">
-        <canvas id="grossSalesBar" width="400" height="200"></canvas>
-        <script>
-            var gv = document.getElementById("grossSalesBar")
-            var gtx = gv.getContext('2d');
-            var gsChart = new Chart(gtx, {
-                type: 'horizontalBar',
-                data: {
-                    datasets: [{
-                        label: 'Amount (Dollars $)',
-                        data: [ {{ total_sales|floatformat:2 }} ],
-                        backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-                        borderColor: ['rgba(255,99,132,1)'],
-                        borderWidth: 1
+<div id="grossSalesContainer">
+    <canvas id="grossSalesBar" width="400" height="200"></canvas>
+    <script>
+        var gv = document.getElementById("grossSalesBar")
+        var gtx = gv.getContext('2d');
+        var gsChart = new Chart(gtx, {
+            type: 'horizontalBar',
+            data: {
+                datasets: [{
+                    label: 'Amount $:',
+                    data: [ {{ total_sales|floatformat:2 }} ],
+                    backgroundColor: ['rgba(0,0,0,0.5'], //change to rgba with transparency
+                    borderColor: ['rgba(0,0,0,1'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    fontFamily: 'Trebuchet MS',
+                    text: 'Total Sales Collected'
+                },
+                responsive: false,
+                maintainAspectRatio: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
                     }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: 'Total Sales Collected'
-                    },
-                    responsive: false,
-                    maintainAspectRatio: true,
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    }
                 }
-            });
-        </script>
-    </div>
-    <div id ="ProductTypeSalesContainer">
-        <canvas id="ProductType_doughnut" width="300" height="300"></canvas>
-        <script>
-            var psv = document.getElementById("ProductType_doughnut")
-            var psChart = new Chart(psv, {
-                type: 'doughnut',
-                data: {
-                  labels: [ {% for key in cat_sal.keys %} '{{key}}', {% endfor %} ],
-                  datasets: [
-                    {
-                      backgroundColor: [ {%for c in color%} 'rgba{{c}}', {%endfor%} ],
-                      data: [ {% for value in cat_sal.values %} {{value}}, {% endfor %} ],
-                      borderColor: "grey",
-                      borderWidth: 1
-                    }
-                  ]
-                },
-                options: {
-                  title: {
-                    display: true,
-                    text: 'Product Type Sales (Dollars)'
-                  },
-                  legend: {
-                    display: true,
-                    position: 'bottom'
-                  },
-                  responsive: false,
-                  maintainAspectRatio: true,
-                  ticks: {
-                    beginAtZero: true
-                  }
+            }
+        });
+        gv.onclick = function(gvt){
+            var activePoint = gsChart.getElementAtEvent(gvt);
+            if(!activePoint.length) return
+            console.log('activePoint', activePoint)
+            window.location = '/reports'
+        };
+    </script>
+</div>
+<div id ="ProductTypeSalesContainer">
+    <canvas id="ProductType_doughnut" width="300" height="300"></canvas>
+    <script>
+        var psv = document.getElementById("ProductType_doughnut")
+        var psChart = new Chart(psv, {
+            type: 'doughnut',
+            data: {
+              labels: [ {% for key in cat_sal.keys %} '{{key}} $', {% endfor %} ],
+              datasets: [
+                {
+                  backgroundColor: [ {%for c in color%} 'rgba{{c}}', {%endfor%} ],
+                  data: [ {% for value in cat_sal.values %} {{value}}, {% endfor %} ],
+                  borderColor: "grey",
+                  borderWidth: 1
                 }
-            });
-        </script>
-    </div>
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                fontFamily: 'Trebuchet MS',
+                text: 'Product Type Sales (Dollars)'
+              },
+              legend: {
+                display: true,
+                position: 'bottom'
+              },
+              responsive: false,
+              maintainAspectRatio: true,
+              ticks: {
+                beginAtZero: true
+              }
+            }
+        });
+        psv.onclick = function(pvt){
+            var activePoint = psChart.getElementAtEvent(pvt);
+            if(!activePoint.length) return
+            console.log('activePoint', activePoint)
+            window.location = '/reports'
+        };
+    </script>
+</div>
+<div id ="ProductTypeSalesContainer">
+  <canvas id="shipmentcostDoughnut" width="500" height="300"></canvas>
+  <script>
+      var sv = document.getElementById("shipmentcostDoughnut")
+      var sChart = new Chart(sv, {
+          type: 'doughnut',
+          data: {
+            labels: ["Total Sales: $", "Total Shipment: $"],
+            datasets: [
+              {
+                backgroundColor: ["#a8a8a8", "#bfe1dd"],
+                data: [ {{total_sales}}, {{ ship_cost|floatformat:2 }} ]
+              }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              fontFamily: 'Trebuchet MS',
+              text: 'Shipment Cost vs. Total Sales'
+            },
+            responsive: false,
+            maintainAspectRatio: true
+          }
+      });
+      sv.onclick = function(svt){
+            var activePoint = sChart.getElementAtEvent(svt);
+            if(!activePoint.length) return
+            console.log('activePoint', activePoint)
+            window.location = '/reports'
+        };
+  </script>
+</div>
 {% endblock %}
