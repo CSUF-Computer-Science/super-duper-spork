@@ -59,6 +59,11 @@ a{
   text-decoration: none;
   font-size: 20px;
 }
+a:hover{
+  color:white;
+  text-decoration: underline;
+  font-size: 20px;
+}
 .dashB{
   grid-area: a;
   align-self: flex-end;
@@ -73,7 +78,28 @@ a{
   text-align: left;
   margin-right: 40px;
   padding-bottom: 50px;
-
+  cursor: pointer;
+}
+.inVent:hover .dropdown3-content {
+  border-radius: 10px!important;
+  background-color: black;
+  display: block;
+}
+.dropdown3-content {
+  display: none;
+  position: absolute;
+  border-radius: 10px;
+  background-color: black;
+  width: 200px;
+  margin-right:10px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+.dropdown3-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: inline-block;
 }
 .saleS{
   grid-area: c;
@@ -81,7 +107,28 @@ a{
   text-align: left;
   margin-right: 40px;
   padding-bottom: 50px;
-
+  cursor: pointer;
+}
+.saleS:hover .dropdown2-content {
+  border-radius: 10px!important;
+  background-color: black;
+  display: block;
+}
+.dropdown2-content {
+  display: none;
+  position: absolute;
+  border-radius: 10px;
+  background-color: black;
+  width: 170px;
+  margin-right:10px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+.dropdown2-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: inline-block;
 }
 .emploY{
   grid-area: d;

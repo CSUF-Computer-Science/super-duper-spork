@@ -456,8 +456,7 @@ def addToExistingShipment(request):
         nSale.condition = inventoryItem.condition.cond_Name
         nSale.pur_price = inventoryItem.pur_price
         nSale.sel_price = inventoryItem.ask_price
-        nSale.product_type = inventoryItem.product_type.brand + \
-            "_"+inventoryItem.product_type.type_name
+        nSale.product_type = inventoryItem.product_type.brand +"_"+inventoryItem.product_type.type_name
         nSale.added_by = inventoryItem.added_by
         nSale.time_added = inventoryItem.time_added
         nSale.archived_by = request.POST.get('user_shipped')
@@ -487,8 +486,8 @@ def addNewShipment(request):
         nShipment.materials_used = request.POST.get('materials_used')
         nShipment.user_shipped = request.POST.get(user_shipped)
         nShipment.time_shipped = request.POST.get(time_shipped)
-    if nShipment.is_valid():
-        nShipment.save()
+        if nShipment.is_valid():
+            nShipment.save()
 
         nSale = Sale()
         nSale.shipment_number = nShipment.tracking_number
