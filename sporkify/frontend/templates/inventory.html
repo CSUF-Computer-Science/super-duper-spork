@@ -10,40 +10,14 @@
   function prepare_map(value) {
     console.log(value[0]);
     var alphabet = {
-    A: 1,
-    B: 2,
-    C: 3,
-    D: 4,
-    E: 5,
-    F: 6,
-    G: 7,
-    H: 8,
-    I: 9,
-    J: 10,
-    K: 11,
-    L: 12,
-    M: 13,
-    N: 14,
-    O: 15,
-    P: 16,
-    Q: 17,
-    R: 18,
-    S: 19,
-    T: 20,
-    U: 21,
-    V: 22,
-    W: 23,
-    X: 24,
-    Y: 25,
-    Z: 26,
+    A: 1, B: 2, C: 3, D: 4,
+    E: 5, F: 6, G: 7, H: 8,
+    I: 9, J: 10, K: 11, L: 12,
+    M: 13, N: 14, O: 15, P: 16,
+    Q: 17, R: 18, S: 19, T: 20,
+    U: 21, V: 22, W: 23, X: 24,
+    Y: 25, Z: 26,
     };
-    /*var afr_animation = document.querySelector('a-animation');
-    var new_pos = 13-alphabet[value[0]];
-    new_pos = new_pos + .5;
-    new_pos = new_pos * -1;
-    new_pos = new_pos * 2.5;
-    new_pos = String(new_pos + " 0 -3");
-    afr_animation.setAttribute('to', new_pos);*/
     var afr_animation = document.querySelector('a-animation');
     var new_pos = (13-alphabet[value[0]]+.5)*(-1)*2.5;
     new_pos = String(new_pos + " 0 -3");
@@ -53,7 +27,6 @@
       document.getElementById("shipmentForm").style.display = "block";
       document.getElementsById("p_code").value = product_code;
   }
-
   function closeForm() {
       document.getElementById("shipmentForm").style.display = "none";
   }
@@ -263,7 +236,6 @@
     </thead>
     <tbody>
         {% for item in items %}
-<<<<<<< HEAD
           <tr>
               <td>
                 <button id="mapOpener" type="button" value="{{item.product_code}}" onclick="prepare_map(value)">{{item.product_code}}</button>
@@ -277,43 +249,20 @@
               <td>{{item.added_by.user.username}}</td>
               <td>{{item.time_added}}</td>
               <td>
-                  <form action="/sell-item/" method="POST">{% csrf_token %}
-                    <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
-                    <button type="submit" name="sellItem">Sell</button>
-                  </form>
+                  <button class="open-button" onclick="openForm('{{item.product_code}}')">Mark Sold</button>
               </td>
               <td>
                   <form action="/delete-item/" method="POST">{% csrf_token %}
-=======
-        <tr>
-            <td>{{item.product_code}}</td>
-            <td>{{item.product_type}}</td>
-            <td>{{item.selling_site.name}}</td>
-            <td>{{item.ask_price}}</td>
-            <td>{{item.condition.cond_Name}}</td>
-            <td>{{item.vendor.comp_Name}}</td>
-            <td>{{item.pur_price}}</td>
-            <td>{{item.added_by.user.username}}</td>
-            <td>{{item.time_added}}</td>
-            <td>
-                <button class="open-button" onclick="openForm('{{item.product_code}}')">Mark Sold</button>
-            </td>
-            <td>
-                <form action="/delete-item/" method="POST">{% csrf_token %}
->>>>>>> master
-                    <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
-                    <button type="submit" name="deleteItem">Delete</button>
-                </form>
-            </td>
-        </tr>
+                      <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
+                      <button type="submit" name="deleteItem">Delete</button>
+                  </form>
+              </td>
+            </tr>
         {% endfor %}
     </tbody>
-<<<<<<< HEAD
   </table>
 
   <!-- Begin experiment -->
-
-
   <div style="height: 600px; width: 600px;">
     <a-scene vr-mode-ui="enabled: false" embedded>
       <a-entity>
@@ -334,12 +283,5 @@
       <a-sky color="gray"></a-sky>
     </a-scene>
   </div>
-
-
   <!-- End experiment -->
-
 {% endblock %}
-=======
-</table>
-{% endblock %}
->>>>>>> master
