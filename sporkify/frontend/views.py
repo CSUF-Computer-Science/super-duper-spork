@@ -326,9 +326,10 @@ def create_employee(request):
         lname = request.POST["lname"]
         hourlyWage = request.POST["hwage"]
         pword = request.POST["pword"]
+        email = request.POST["email"]
 
         user = User.objects.create_user(
-            username=userName,  first_name=fname, last_name=lname, password=pword)
+            username=userName,  first_name=fname, last_name=lname, password=pword, email=email)
         user.save()
 
         if(permission == "Employee"):
