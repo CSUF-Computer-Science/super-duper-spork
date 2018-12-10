@@ -245,12 +245,7 @@ def dashboard(request):
     ps_colors = colors(len(ps))
     base_context = {
         "total_sales": total_sales(),
-<<<<<<< HEAD
-        "labor_cost": labor_costs(),
-        "total_sales": total_sales(),
-=======
         "labor_cost" : labor_costs(),
->>>>>>> master
         "cat_sal": ps,
         "color": ps_colors,
         "ship_cost": shipment_costs()
@@ -352,13 +347,8 @@ def create_employee(request):
         newEmployee.l_name = lname
         newEmployee.hourly_wage = hourlyWage
         newEmployee.save()
-<<<<<<< HEAD
-
-    return render(request, 'createUser.html')
-=======
     
     return redirect('/employees/')
->>>>>>> master
 
 
 @login_required
@@ -611,24 +601,14 @@ def reports(request):
         "vendor_distro": vendor_distro(),
         "labor_cost": labor_costs(),
         "net_sales": total_sales() - (total_shipment_costs() + labor_costs())
-<<<<<<< HEAD
-    })
-
-=======
     }
     return render(request, 'reports.html', base_context)
->>>>>>> master
 
 def not_allowed(request):
     raise PermissionDenied
 
-<<<<<<< HEAD
-
-# CSV Download
-=======
 
 #CSV Download
->>>>>>> master
 @login_required
 def download_csv_vendors(request):
     if request.method == 'POST':
