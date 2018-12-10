@@ -7,6 +7,44 @@
   $(document).ready(function() {
       $('#inventoryTable').DataTable();
   });
+  function prepare_map(value) {
+    console.log(value[0]);
+    var alphabet = {
+    A: 1,
+    B: 2,
+    C: 3,
+    D: 4,
+    E: 5,
+    F: 6,
+    G: 7,
+    H: 8,
+    I: 9,
+    J: 10,
+    K: 11,
+    L: 12,
+    M: 13,
+    N: 14,
+    O: 15,
+    P: 16,
+    Q: 17,
+    R: 18,
+    S: 19,
+    T: 20,
+    U: 21,
+    V: 22,
+    W: 23,
+    X: 24,
+    Y: 25,
+    Z: 26,
+    };
+    var afr_animation = document.querySelector('a-animation');
+    var new_pos = 13-alphabet[value[0]];
+    new_pos = new_pos + .5;
+    new_pos = new_pos * -1;
+    new_pos = new_pos * 2.5;
+    new_pos = String(new_pos + " 0 -3");
+    afr_animation.setAttribute('to', new_pos);
+  }
 </script>
 {%endblock%}
 
@@ -112,7 +150,9 @@
       <tbody>
         {% for item in items %}
           <tr>
-              <td>{{item.product_code}}</td>
+              <td>
+                <button id="mapOpener" type="button" value="{{item.product_code}}" onclick="prepare_map(value)">{{item.product_code}}</button>
+              </td>
               <td>{{item.product_type}}</td>
               <td>{{item.selling_site.name}}</td>
               <td>{{item.ask_price}}</td>
@@ -145,7 +185,7 @@
     <a-scene vr-mode-ui="enabled: false" embedded>
       <a-entity>
         <a-entity position="31.2 6 10" rotation="-38 0 0" camera look-controls="enabled: false; touchEnabled: false; hmdEnabled: false"></a-entity>
-        <a-animation attribute="position" dur="10000" fill="forwards" to="-10 0 -3" repeat="indefinite"></a-animation>
+        <a-animation attribute="position" dur="10000" fill="forwards" to="0 0 0" repeat="indefinite"></a-animation>
       </a-entity>
       <script type="text/javascript">
           var bays = ['A','B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K', 'L', 'M', 'N', 'O', 'P', 'Q','R','S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
