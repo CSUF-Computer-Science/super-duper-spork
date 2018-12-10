@@ -37,11 +37,15 @@
     Y: 25,
     Z: 26,
     };
-    var afr_animation = document.querySelector('a-animation');
+    /*var afr_animation = document.querySelector('a-animation');
     var new_pos = 13-alphabet[value[0]];
     new_pos = new_pos + .5;
     new_pos = new_pos * -1;
     new_pos = new_pos * 2.5;
+    new_pos = String(new_pos + " 0 -3");
+    afr_animation.setAttribute('to', new_pos);*/
+    var afr_animation = document.querySelector('a-animation');
+    var new_pos = (13-alphabet[value[0]]+.5)*(-1)*2.5;
     new_pos = String(new_pos + " 0 -3");
     afr_animation.setAttribute('to', new_pos);
   }
