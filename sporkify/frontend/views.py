@@ -70,20 +70,71 @@ def report_sales(end, indicator):
             day += 1
 
     return report_sales
+#from Monday(1) to Sunday(0)
+def weekly_report():
+    keys = [0,1,2,3,4,5,6]
+    weekly_report = {}
+    weekly_report = weekly_report.fromkeys(keys, 0)
+    now = datetime.now()
+    now = now.replace(hour=0, minute=0, second=0)
+    start = now - timedelta(days=now.weekday())
+    end = start + timedelta(days=6)
+    items = Sale.objects.filter(time_added__gte=start.date(), time_added__lt=end.date())
+    
+    for item in items:
+        for day in range(0,7):
+            if item.time_added.weekday() == day:
+                weekly_report[day] += item.sel_price
+    
+    return weekly_report
 
+def monthly_report():
+    monthly_report = {}
+    now = datetime.now()
+    now = now.replace(hour=0, minute=0, second=0)
+    daysof = calendar.monthrange(now.month, now.day)[1]
+    start = now - timedelta(days=(now.day-1))
+    end = start + timedelta(days=daysof-1)
+    keys = []
 
-def dates(end, indicator):
+    # generate keys + initialize dictionary with zeros
+    for i in range(2, daysof+1):
+        keys.append(i)
+    monthly_report = monthly_report.fromkeys(keys, 0)
+
+    items = Sale.objects.filter(time_added__gte=start.date(), time_added__lt=end.date())
+    for item in items:
+        #offset UTC time?
+        for day in range(2, daysof+1):
+            if item.time_added.day == day:
+                monthly_report[day] += item.sel_price
+
+    return monthly_report
+
+#from Monday(1) to Sunday(0)
+def dates(value):
     dates = []
-    if indicator == 'w':
-        start_day = get_startofweek()
-        print(start_day)
+    now = datetime.now()
+    now = now.replace(hour=0, minute=0, second=0)
+    
+    if value == 'w':
+        start = now - timedelta(days=now.weekday())
+        end = start + timedelta(days=6)
+        
+        for day in range(start.weekday(), end.weekday()+1):
+            date = start + timedelta(days=day)
+            date = date - timedelta(hours=8)
+            dates.append(date.strftime("%a %m/%d"))
     else:
-        start_day = get_startofmonth()
-    for i in range(0, end-1):
-        day = start_day + timedelta(days=i)
-        formatted = day.strftime("%a %m/%d")
-        dates.append(formatted)
-
+        daysof = calendar.monthrange(now.month, now.day)[1]
+        start = now - timedelta(days=(now.day-1))
+        end = start + timedelta(days=daysof-1)
+        
+        for day in range(start.day, end.day+1):
+            date = start + timedelta(days=day)
+            date = date - timedelta(hours=8)
+            dates.append(date.strftime("%a %m/%d"))
+    
     return dates
 
 
@@ -157,15 +208,13 @@ def total_sales():
     return total_sales
 
 
-def category_sales():
+def product_sales():
     category_sales = {}
-
     for s in Sale.objects.all():
         if category_sales.get(s.product_type) is None:
             category_sales[s.product_type] = s.sel_price
         else:
             category_sales[s.product_type] += s.sel_price
-
     return category_sales
 
 
@@ -196,8 +245,12 @@ def dashboard(request):
     ps_colors = colors(len(ps))
     base_context = {
         "total_sales": total_sales(),
+<<<<<<< HEAD
         "labor_cost": labor_costs(),
         "total_sales": total_sales(),
+=======
+        "labor_cost" : labor_costs(),
+>>>>>>> master
         "cat_sal": ps,
         "color": ps_colors,
         "ship_cost": shipment_costs()
@@ -299,8 +352,13 @@ def create_employee(request):
         newEmployee.l_name = lname
         newEmployee.hourly_wage = hourlyWage
         newEmployee.save()
+<<<<<<< HEAD
 
     return render(request, 'createUser.html')
+=======
+    
+    return redirect('/employees/')
+>>>>>>> master
 
 
 @login_required
@@ -540,14 +598,11 @@ def vendors(request):
 def reports(request):
     if request.method == 'POST':
         pass
-    now = timezone.now()
-    month_range = calendar.monthrange(now.year, now.month)[1]
-    return render(request, 'reports.html', {
-        # "weekly_sales": weekly_sales(),
-        "weekly_dates": dates(8, 'w'),
-        "weekly_sales": report_sales(8, 'w'),
-        "monthly_dates": dates(month_range, 'm'),
-        "monthly_sales": report_sales(month_range, 'm'),
+    base_context = {
+        "weekly_sales": weekly_report(),
+        "weekly_dates": dates('w'),
+        "monthly_sales": monthly_report(),
+        "monthly_dates": dates('m'),
         "cat_sales": product_sales(),
         "total_sales": total_sales(),
         "spend_total": total_shipment_costs() + labor_costs(),
@@ -556,14 +611,24 @@ def reports(request):
         "vendor_distro": vendor_distro(),
         "labor_cost": labor_costs(),
         "net_sales": total_sales() - (total_shipment_costs() + labor_costs())
+<<<<<<< HEAD
     })
 
+=======
+    }
+    return render(request, 'reports.html', base_context)
+>>>>>>> master
 
 def not_allowed(request):
     raise PermissionDenied
 
+<<<<<<< HEAD
 
 # CSV Download
+=======
+
+#CSV Download
+>>>>>>> master
 @login_required
 def download_csv_vendors(request):
     if request.method == 'POST':
