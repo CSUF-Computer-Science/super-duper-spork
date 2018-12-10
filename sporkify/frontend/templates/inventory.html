@@ -8,7 +8,6 @@
       $('#inventoryTable').DataTable();
   });
   function prepare_map(value) {
-    console.log(value[0]);
     var alphabet = {
     A: 1, B: 2, C: 3, D: 4,
     E: 5, F: 6, G: 7, H: 8,
@@ -22,6 +21,7 @@
     var new_pos = (13-alphabet[value[0]]+.5)*(-1)*2.5;
     new_pos = String(new_pos + " 0 -3");
     afr_animation.setAttribute('to', new_pos);
+    document.getElementById("Map").style.display = "inline-block";
   }
   function openForm(product_code) {
       document.getElementById("shipmentForm").style.display = "block";
@@ -29,6 +29,9 @@
   }
   function closeForm() {
       document.getElementById("shipmentForm").style.display = "none";
+  }
+  function closeMap() {
+      document.getElementById("Map").style.display = "none";
   }
   function openExistingShipmentForm() {
       document.getElementById("form1").style.display = "none";
@@ -263,7 +266,8 @@
   </table>
 
   <!-- Begin experiment -->
-  <div style="height: 600px; width: 600px;">
+  <div id="Map" style="height: 600px; width: 600px;">
+    <button class="close-button" onclick="closeMap()">Close Map</button>
     <a-scene vr-mode-ui="enabled: false" embedded>
       <a-entity>
         <a-entity position="31.2 6 10" rotation="-38 0 0" camera look-controls="enabled: false; touchEnabled: false; hmdEnabled: false"></a-entity>
