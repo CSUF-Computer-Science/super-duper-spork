@@ -116,7 +116,7 @@ def create_employee(request):
         newEmployee.hourly_wage = hourlyWage
         newEmployee.save()
     
-    return render(request, 'createUser.html')
+    return redirect('/employees/')
 
 @login_required
 def edit_employee(request):
