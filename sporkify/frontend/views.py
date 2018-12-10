@@ -266,10 +266,11 @@ def vendors(request):
 def reports(request): 
     if request.method == 'POST':
         pass
-
-    return render(request, 'reports.html', {
+    base_context = {
         "weekly_sales": weekly_report(),
         "weekly_dates": dates('w'),
+        "monthly_sales": monthly_report(),
+        "monthly_dates": dates('m'),
         "cat_sales": product_sales(),
         "total_sales": total_sales(),
         "spend_total": total_shipment_costs() + labor_costs(),
@@ -278,39 +279,73 @@ def reports(request):
         "vendor_distro": vendor_distro(),
         "labor_cost": labor_costs(),
         "net_sales": total_sales() - (total_shipment_costs() + labor_costs())
-        })
+    }
+    return render(request, 'reports.html', base_context)
 
 def not_allowed(request):
     raise PermissionDenied
 
+#from Monday(1) to Sunday(0)
 def weekly_report():
     keys = [0,1,2,3,4,5,6]
     weekly_report = {}
     weekly_report = weekly_report.fromkeys(keys, 0)
     now = datetime.now()
     now = now.replace(hour=0, minute=0, second=0)
-
-    #from Monday(1) to Sunday(0)
     start = now - timedelta(days=now.weekday())
     end = start + timedelta(days=6)
-    week_items = Sale.objects.filter(time_added__gte=start.date(), time_added__lt=end.date())
-    for item in week_items:
+    items = Sale.objects.filter(time_added__gte=start.date(), time_added__lt=end.date())
+    
+    for item in items:
         for day in range(0,7):
             if item.time_added.weekday() == day:
                 weekly_report[day] += item.sel_price
+    
     return weekly_report
 
+def monthly_report():
+    monthly_report = {}
+    now = datetime.now()
+    now = now.replace(hour=0, minute=0, second=0)
+    daysof = calendar.monthrange(now.month, now.day)[1]
+    start = now - timedelta(days=(now.day-1))
+    end = start + timedelta(days=daysof-1)
+    keys = []
+
+    # generate keys + initialize dictionary with zeros
+    for i in range(2, daysof+1):
+        keys.append(i)
+    monthly_report = monthly_report.fromkeys(keys, 0)
+
+    items = Sale.objects.filter(time_added__gte=start.date(), time_added__lt=end.date())
+    for item in items:
+        #offset UTC time?
+        for day in range(2, daysof+1):
+            if item.time_added.day == day:
+                monthly_report[day] += item.sel_price
+
+    return monthly_report
+
+#from Monday(1) to Sunday(0)
 def dates(value):
     dates = []
     now = datetime.now()
     now = now.replace(hour=0, minute=0, second=0)
     
     if value == 'w':
-        #from Monday(1) to Sunday(0)
         start = now - timedelta(days=now.weekday())
         end = start + timedelta(days=6)
         
         for day in range(start.weekday(), end.weekday()+1):
+            date = start + timedelta(days=day)
+            date = date - timedelta(hours=8)
+            dates.append(date.strftime("%a %m/%d"))
+    else:
+        daysof = calendar.monthrange(now.month, now.day)[1]
+        start = now - timedelta(days=(now.day-1))
+        end = start + timedelta(days=daysof-1)
+        
+        for day in range(start.day, end.day+1):
             date = start + timedelta(days=day)
             date = date - timedelta(hours=8)
             dates.append(date.strftime("%a %m/%d"))
@@ -322,11 +357,13 @@ def labor_costs():
     for shift in Shift.objects.all():
         labor_costs += shift.money
     return labor_costs
+
 def total_sales():
     total_sales = 0
     for sale in Sale.objects.all():
         total_sales += sale.sel_price
     return total_sales
+
 def product_sales():
     category_sales = {}
     for s in Sale.objects.all():
@@ -335,6 +372,7 @@ def product_sales():
         else:
             category_sales[s.product_type] += s.sel_price
     return category_sales
+
 def colors(n): #charts -- generate random colors for given size
   ret = []
   r = int(random.random() * 256)
