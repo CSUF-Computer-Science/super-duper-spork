@@ -187,6 +187,9 @@
    
 
 }
+#ship_by, #p_code, #p_code2, #ship_by2{
+        display:none;
+}
 #form-container{
     display:inline-block;
     border-radius: 5px;
@@ -295,7 +298,6 @@
     margin: 10px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
     background-color:#F8F8F8;
-
     width: 540px;
     height: 250px;
 }

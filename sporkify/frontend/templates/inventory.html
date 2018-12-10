@@ -11,8 +11,7 @@
 <script>
     function openForm(product_code) {
         document.getElementById("shipmentForm").style.display = "block";
-        document.getElementById("p_code") = product_code;
-        document.getElementById("p_code2") = product_code;
+        document.getElementsById("p_code").value = product_code;
     }
 
     function closeForm() {
@@ -157,8 +156,13 @@
             <div id="existingShipmentTitle">Add To An Existing Shipment: </div>
             <label for=trk>Tracking Number</label>
             <input id="trackingNo" type="text" name="trk">
-            <input type="hidden" id="p_code2" name="product_code" value=" " />
-            <button class="close-button2" type="submit" formaction="/addToExistingShipment/">Submit</button>
+            <input id="p_code2" name="product_code" value=" " />
+            <select id="ship_by2" name="user_shipped">
+                {% for human in employee %}
+                <option value="{{human.pk}}">{{human.user_name}}</option>
+                {% endfor %}
+            </select>
+            <button class="close-button2" id="addExisting" type="submit" formaction="/addToExistingShipment/">Submit</button>
         </form>
 
         <form id="formOpt2" method="POST">{% csrf_token %}
@@ -182,14 +186,14 @@
                 <input id="timeOfS" type="datetime-local" name="time_shipped">
             </div>
             <div>
-                <select type="hidden" id="ship_by" name="user_shipped">
+                <select id="ship_by" name="user_shipped">
                     {% for human in employee %}
                     <option value="{{human.pk}}">{{human.user_name}}</option>
                     {% endfor %}
                 </select>
-                <input type="hidden" id="p_code" name="product_code" value="" />
-                <input type="hidden" id="s_time" name="time_shipped" value="" />
-                <button class="close-button" type="submit" formaction="/addNewShipment/">Submit</button>
+                <input id="p_code" name="past_product_code" value="" />
+
+                <button class="close-button" id="addShip"  type="submit" formaction="/addNewShipment/">Submit</button>
             </div>
         </form>
 
