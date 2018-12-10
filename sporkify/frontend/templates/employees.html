@@ -95,7 +95,7 @@
             <form id="create_user" action="/employees/create/" method="post"> {% csrf_token %}
                 <h3>Enroll Employee</h3>
                 <div class="input-container">
-                    <i class="fas fa-user-tie form-icon"></i>
+                    <i class="fas fa-user-tie fa-2x form-icon"></i>
                     <input type="username" class="input-field" id="uname" name="uname" placeholder="Username" maxlength="40">
                 </div>
                 <div class="input-container">
@@ -103,21 +103,21 @@
                     <input type="text" class="input-field" id="lname" name="lname" placeholder="Last Name"  maxlength="40" size="40" required>
                 </div>
                 <div class="input-container">
-                    <i class="fas fa-lock form-icon"></i>
+                    <i class="fas fa-lock fa-2x form-icon"></i>
                     <select id="permission-select" class="input-field"  name="permissions">
                         <option value="Employee" class="input-option">Employee</option>
                         <option value="Supervisor" class="input-option">Supervisor</option>
                         <option value="HR" class="input-option">Human Resources</option>
                         <option value="Admin" class="input-option">Administrator</option>
                 </select>
-                    <i class="fas fa-hand-holding-usd form-icon"></i>
-                    <input type="text" class="input-field"  title="hourly wage" id="hwage" name="hwage"" placeholder="$0.00" maxlength="30" size="40" required>
+                    <i title="hourly wage" class="fas fa-hand-holding-usd fa-2x form-icon"></i>
+                    <input type="text" class="input-field" title="hourly wage" id="hwage" name="hwage"" placeholder="$0.00" maxlength="30" size="40" required>
                 </div>
                 <div class="input-container">
-                    <i class="fas fa-key form-icon"></i>
+                    <i class="fas fa-key fa-2x form-icon"></i>
                     <input type="password" class="input-field" id="pword" name="pword" placeholder="Enter Password" maxlength="40" size="40" id="pwordInput" required>
                 </div>
-                <input type="submit" class="enroll-btn" value="Enroll">
+                <input type="submit" class="enroll-btn">
             </form>
         </br>
         <form action="/download-csv-employees/" method="POST"> {% csrf_token %}

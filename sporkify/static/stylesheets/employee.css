@@ -105,6 +105,7 @@
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
     border-left-color:powderblue;
+    height: 28px;
 }
 
 #fname {
@@ -142,6 +143,7 @@
     width: 95%;
     opacity: 0.9;
     border-radius: 5px;
+    font-size: 20px;
 }
 
 .enroll-btn:hover {
