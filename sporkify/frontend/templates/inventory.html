@@ -11,78 +11,114 @@
 {%endblock%}
 
 {%block miniDash%}
-<div id="MiniDashContainer">
-    <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
-
-        <ul>
-            <li id="titleItem" >
-                <label id="sectionTitle">Add Item</label><br>
-            </li>
-            <li id="bullet2_product">
-                <label id="pType">Product Type<br>
-                    <select id="product_type" name="product_type">
-                        {% for product_type in product_types %}
-                        <option value="{{product_type.pk}}">{{product_type.type_name}}</option>
-                        {% endfor %}
-                    </select></label>
-            </li>
-
-            <li id="bullet3_selling">
-                <label id="sSite">Sales Site<br>
-                    <select id="selling_site" name="selling_site">
-                        {% for channel in channels %}
-                        <option value="{{channel.pk}}">{{channel.name}}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-
-                <label id="sCondition">Condition<br>
-                    <select id="condition" name="condition">
-                        {% for condition in conditions %}
-                        <option value="{{condition.pk}}">{{condition.cond_Name}}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-
-                <label id="sAPrice">Asking Price<br>
-                    <input class="price_" type="text" id="ask_price" name="ask_price" value="0.00"><br>
-                </label>
-
-            </li>
-            <li id="bullet4_purchased">
-                <label id="purVendor">Vendor<br>
-                    <select id="vendor" name="vendor">
-                        {% for vendor in vendors %}
-                        <option value="{{vendor.pk}}">{{vendor.comp_Name}}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-
-                <label id="purPrice">Purchase Price<br>
-                    <input class="price_" type="text" id="pur_price" name="pur_price" value="0.00"><br>
-                </label>
-
-                <input id="add_buttonchild10" type="submit" value="Done!">
-                <input id="add_buttonchild11" type="submit" value="Clear">
-            </li>
-        </ul>
-
-        <label id="addedby">Added By<br>
-            <select id="added_by" name="added_by">
-                {% for human in employee %}
-                  <option value="{{human.pk}}">{{human.f_name}}</option>
-                {% endfor %}
-            </select>
-        </label>
-        <label id="pCode">Product Code<br>
-            <!--<input id="product_code" name="product_code" value=""><br>-->
-            <select id="product_code" name="product_code">
-                {% for code in product_code %}
-                  <option value="{{code.pk}}">{{code.pk}}</option>
-                {% endfor %}
-            </select>
-        </label>
-    </form>
+<div id="miniDashContainer">
+    <div id="left_form">
+        <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
+            <ul>
+                <li id="titleItem" >
+                    <label id="sectionTitle">Add Item</label><br>
+                </li>
+                <li id="bullet2_product">
+                    <label id="pType">Product Type<br>
+                        <select id="product_type" name="product_type">
+                            {% for product_type in product_types %}
+                            <option value="{{product_type.pk}}">{{product_type.type_name}}</option>
+                            {% endfor %}
+                        </select></label>
+                </li>
+        
+                <li id="bullet3_selling">
+                    <label id="sSite">Sales Site<br>
+                        <select id="selling_site" name="selling_site">
+                            {% for channel in channels %}
+                            <option value="{{channel.pk}}">{{channel.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+        
+                    <label id="sCondition">Condition<br>
+                        <select id="condition" name="condition">
+                            {% for condition in conditions %}
+                            <option value="{{condition.pk}}">{{condition.cond_Name}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+        
+                    <label id="sAPrice">Asking Price<br>
+                        <input class="price_" type="text" id="ask_price" name="ask_price" value="0.00"><br>
+                    </label>
+        
+                </li>
+                <li id="bullet4_purchased">
+                    <label id="purVendor">Vendor<br>
+                        <select id="vendor" name="vendor">
+                            {% for vendor in vendors %}
+                            <option value="{{vendor.pk}}">{{vendor.comp_Name}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+        
+                    <label id="purPrice">Purchase Price<br>
+                        <input class="price_" type="text" id="pur_price" name="pur_price" value="0.00"><br>
+                    </label>
+        
+                    <input id="add_buttonchild10" type="submit" value="Done!">
+                    <input id="add_buttonchild11" type="submit" value="Clear">
+                </li>
+            </ul>
+        
+            <label id="addedby">Added By<br>
+                <select id="added_by" name="added_by">
+                    {% for human in employee %}
+                        <option value="{{human.pk}}">{{human.f_name}}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label id="pCode">Product Code<br>
+                <!--<input id="product_code" name="product_code" value=""><br>-->
+                <select id="product_code" name="product_code">
+                    {% for code in product_code %}
+                        <option value="{{code.pk}}">{{code.pk}}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </form>
+    </div>
+    <div>
+        <div id="add_product_type">
+            <div>
+                <form action="/add-product-type/" method="POST">{% csrf_token %}
+                    <label id="sectionTitle">Add Product Type</label>
+                    </br>
+                    <label>Product Type Name</label>
+                    </br>
+                    <input type="text" name="product_type_name" placeholder="Enter Product Type" maxlength="75" required>
+                    </br>
+                    <label>Weight</label>
+                    </br>
+                    <input type="text" name="product_weight" placeholder="Enter weight in lbs." maxlength="15" required>
+                    </br>
+                    <label>Brand</label>
+                    </br>
+                    <input type="text" name="product_brand"placeholder="Enter Brand Name" maxlength="75" required>
+                    </br>
+                    <input type="submit" value="Submit" name="add_product_type">
+                    <input type="submit" value="Clear">
+                </form>
+            </div>
+            <div id="or">
+                <p>OR</p>
+            </div>
+            <div id="csv_upload">
+                <form action="/upload-csv-product-type/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <label id="sectionTitle">Upload File of Product Types</label>
+                <input type="file">
+                </br>
+                <input type="submit">
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
 {%endblock%}
@@ -90,7 +126,7 @@
 {%block content%}
   <form action="/download-csv/" method="POST"> {% csrf_token %}
     <h1>Inventory
-        <button class="csv_btn" name="export_csv_btn"><i class="fas fa-file-export"></i></button>
+        <button class="csv_btn" title="Export to CSV" name="export_csv_btn"><i class="fas fa-file-export"></i></button>
     </h1>
   </form>
   <table id="inventoryTable" class="display" style="width:100%">

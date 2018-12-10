@@ -1,4 +1,4 @@
-import calendar, random, csv, datetime
+import calendar, random, csv, datetime, io
 
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from django.core.exceptions import PermissionDenied
 
 from backend.models import Condition, Employee, Inventory, Open_Product_Code, Product_Type, Sale, Sale_Site, Shift, Vendor, Shipment
-from backend.forms import InventoryForm, AddVendorForm
+from backend.forms import InventoryForm, AddVendorForm, ProductTypeForm
 from backend.permissions import hr_login_required, supervisor_login_required
 
 @login_required
@@ -108,7 +108,6 @@ def create_employee(request):
         else:
             permission = 4 # ADMIN
 
-        print(permission)
         newEmployee = Employee()
         newEmployee.user = user
         newEmployee.user_type = permission
@@ -204,6 +203,23 @@ def delete_inventory(request):
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all()
     })
+
+
+@login_required
+def add_product_type(request):
+    if request.method == 'POST':
+        if request.POST.get('add_product_type') is not None:
+            product_type = request.POST["product_type_name"]
+            product_weight = request.POST["product_weight"]
+            product_brand = request.POST["product_brand"]
+
+            new_product_type = Product_Type()
+            new_product_type.type_name = product_type
+            new_product_type.weight = product_weight
+            new_product_type.brand = product_brand
+            new_product_type.save()
+
+    return redirect('/inventory/')
 
 @login_required
 def download_csv(request):
@@ -360,8 +376,6 @@ def vendor_distro():
             vendor_distro[inventory.vendor] = 1
     return vendor_distro
 
-# end functions
-
 #CSV Download
 @login_required
 def download_csv_vendors(request):
@@ -439,3 +453,25 @@ def download_csv_history(request):
         return response
 
     return redirect("/employees/")
+
+#CSV Uploads
+@login_required
+def upload_csv_vendors(request):
+    if request.method == 'POST':
+        csv_file = request.FILES['file']
+        file_contents = csv_file.read().decode('UTF-8')
+        io_str = io.StringIO(file_contents)
+        header = next(io_str)
+
+        entry = csv.reader(io_string, delimiter=',')
+        for column in entry:
+            Vendor.objects.update_or_create(
+                comp_Name = column[0],
+                contact_name = column[1],
+                contact_phone = column[2],
+                contact_email = column[3]
+            )
+
+    return redirect('/vendors/')
+
+# end functions
