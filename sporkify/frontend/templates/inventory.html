@@ -7,130 +7,222 @@
   $(document).ready(function() {
       $('#inventoryTable').DataTable();
   });
+  function prepare_map(value) {
+    var alphabet = {
+    A: 1, B: 2, C: 3, D: 4,
+    E: 5, F: 6, G: 7, H: 8,
+    I: 9, J: 10, K: 11, L: 12,
+    M: 13, N: 14, O: 15, P: 16,
+    Q: 17, R: 18, S: 19, T: 20,
+    U: 21, V: 22, W: 23, X: 24,
+    Y: 25, Z: 26,
+    };
+    var afr_animation = document.querySelector('a-animation');
+    var new_pos = (13-alphabet[value[0]]+.5)*(-1)*2.5;
+    new_pos = String(new_pos + " 0 -3");
+    afr_animation.setAttribute('to', new_pos);
+    document.getElementById("Map").style.display = "inline-block";
+  }
+  function openForm(product_code) {
+      document.getElementById("shipmentForm").style.display = "block";
+      document.getElementsById("p_code").value = product_code;
+  }
+  function closeForm() {
+      document.getElementById("shipmentForm").style.display = "none";
+  }
+  function closeMap() {
+      document.getElementById("Map").style.display = "none";
+  }
+  function openExistingShipmentForm() {
+      document.getElementById("form1").style.display = "none";
+      document.getElementById("formOpt1").style.display = "inline-block";
+  }
+  function openNewShipmentForm() {
+      document.getElementById("form1").style.display = "none";
+      document.getElementById("formOpt2").style.display = "inline-block";
+  }
 </script>
 {%endblock%}
 
 {%block miniDash%}
-<div id="miniDashContainer">
-    <div id="left_form">
-        <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
-            <ul>
-                <li id="titleItem" >
-                    <label id="sectionTitle">Add Item</label><br>
-                </li>
-                <li id="bullet2_product">
-                    <label id="pType">Product Type<br>
-                        <select id="product_type" name="product_type">
-                            {% for product_type in product_types %}
-                            <option value="{{product_type.pk}}">{{product_type.type_name}}</option>
-                            {% endfor %}
-                        </select></label>
-                </li>
-        
-                <li id="bullet3_selling">
-                    <label id="sSite">Sales Site<br>
-                        <select id="selling_site" name="selling_site">
-                            {% for channel in channels %}
-                            <option value="{{channel.pk}}">{{channel.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-        
-                    <label id="sCondition">Condition<br>
-                        <select id="condition" name="condition">
-                            {% for condition in conditions %}
-                            <option value="{{condition.pk}}">{{condition.cond_Name}}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-        
-                    <label id="sAPrice">Asking Price<br>
-                        <input class="price_" type="text" id="ask_price" name="ask_price" value="0.00"><br>
-                    </label>
-        
-                </li>
-                <li id="bullet4_purchased">
-                    <label id="purVendor">Vendor<br>
-                        <select id="vendor" name="vendor">
-                            {% for vendor in vendors %}
-                            <option value="{{vendor.pk}}">{{vendor.comp_Name}}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-        
-                    <label id="purPrice">Purchase Price<br>
-                        <input class="price_" type="text" id="pur_price" name="pur_price" value="0.00"><br>
-                    </label>
-        
-                    <input id="add_buttonchild10" type="submit" value="Done!">
-                    <input id="add_buttonchild11" type="submit" value="Clear">
-                </li>
-            </ul>
-        
-            <label id="addedby">Added By<br>
-                <select id="added_by" name="added_by">
-                    {% for human in employee %}
-                        <option value="{{human.pk}}">{{human.f_name}}</option>
-                    {% endfor %}
-                </select>
-            </label>
-            <label id="pCode">Product Code<br>
-                <!--<input id="product_code" name="product_code" value=""><br>-->
-                <select id="product_code" name="product_code">
-                    {% for code in product_code %}
-                        <option value="{{code.pk}}">{{code.pk}}</option>
-                    {% endfor %}
-                </select>
-            </label>
+
+<div id="MiniDashContainer">
+
+    <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
+
+        <ul>
+            <li id="titleItem">
+                <label id="sectionTitle">Add Item</label><br>
+            </li>
+            <li id="bullet2_product">
+                <label id="pType">Product Type<br>
+                    <select id="product_type" name="product_type">
+                        {% for product_type in product_types %}
+                        <option value="{{product_type.pk}}">{{product_type.type_name}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </li>
+
+            <li id="bullet3_selling">
+                <label id="sSite">Sales Site<br>
+                    <select id="selling_site" name="selling_site">
+                        {% for channel in channels %}
+                        <option value="{{channel.pk}}">{{channel.name}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label id="sCondition">Condition<br>
+                    <select id="condition" name="condition">
+                        {% for condition in conditions %}
+                        <option value="{{condition.pk}}">{{condition.cond_Name}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label id="sAPrice">Asking Price<br>
+                    <input class="price_" type="text" id="ask_price" name="ask_price" value="0.00"><br>
+                </label>
+
+            </li>
+            <li id="bullet4_purchased">
+                <label id="purVendor">Vendor<br>
+                    <select id="vendor" name="vendor">
+                        {% for vendor in vendors %}
+                        <option value="{{vendor.pk}}">{{vendor.comp_Name}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label id="purPrice">Purchase Price<br>
+                    <input class="price_" type="text" id="pur_price" name="pur_price" value="0.00"><br>
+                </label>
+
+                <input id="add_buttonchild10" type="submit" value="Done!">
+                <input id="add_buttonchild11" type="submit" value="Clear">
+            </li>
+        </ul>
+
+        <label id="addedby">Added By<br>
+            <select id="added_by" name="added_by">
+                {% for human in employee %}
+                <option value="{{human.pk}}">{{human.user_name}}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label id="pCode">Product Code<br>
+            <!--<input id="product_code" name="product_code" value=""><br>-->
+            <select id="product_code" name="product_code">
+                {% for code in product_code %}
+                <option value="{{code.pk}}">{{code.pk}}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </form>
+
+
+    <div id="add_product_type">
+        <form action="/add-product-type/" method="POST">{% csrf_token %}
+            <label id="sectionTitle">Add Product Type</label>
+            </br>
+            <label>Product Type Name</label>
+            </br>
+            <input type="text" name="product_type_name" placeholder="Enter Product Type" maxlength="75" required>
+            </br>
+            <label>Weight</label>
+            </br>
+            <input type="text" name="product_weight" placeholder="Enter weight in lbs." maxlength="15" required>
+            </br>
+            <label>Brand</label>
+            </br>
+            <input type="text" name="product_brand" placeholder="Enter Brand Name" maxlength="75" required>
+            </br>
+            <input type="submit" value="Submit" name="add_product_type">
+            <input type="submit" value="Clear">
         </form>
-    </div>
-    <div>
-        <div id="add_product_type">
-            <div>
-                <form action="/add-product-type/" method="POST">{% csrf_token %}
-                    <label id="sectionTitle">Add Product Type</label>
-                    </br>
-                    <label>Product Type Name</label>
-                    </br>
-                    <input type="text" name="product_type_name" placeholder="Enter Product Type" maxlength="75" required>
-                    </br>
-                    <label>Weight</label>
-                    </br>
-                    <input type="text" name="product_weight" placeholder="Enter weight in lbs." maxlength="15" required>
-                    </br>
-                    <label>Brand</label>
-                    </br>
-                    <input type="text" name="product_brand"placeholder="Enter Brand Name" maxlength="75" required>
-                    </br>
-                    <input type="submit" value="Submit" name="add_product_type">
-                    <input type="submit" value="Clear">
-                </form>
-            </div>
-            <div id="or">
-                <p>OR</p>
-            </div>
-            <div id="csv_upload">
-                <form action="/upload-csv-product-type/" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                <label id="sectionTitle">Upload File of Product Types</label>
-                <input type="file">
-                </br>
-                <input type="submit">
-                </form>
-            </div>
+        <div id="or">
+            <p>OR</p>
         </div>
+
+        <form id="csv_upload" action="/upload-csv-product-type/" method="POST" enctype="multipart/form-data">{%csrf_token%}
+            <label id="sectionTitle">Upload File of Product Types</label>
+            <input type="file">
+            </br>
+            </br>
+            <input type="submit">
+        </form>
+
     </div>
 
 </div>
 {%endblock%}
+{%block popUP%}
+<div class="form-popup" id="shipmentForm">
+    <div id="form-container">
+        <div id="form1">
+            <div id="moveToSoldTitle">Move Item to Sold: </div>
+            <button class="formchild" id="toExisting" onclick="openExistingShipmentForm()">Add To Existing Shipment</button>
+            <button class="formchild" id="newShipment" onclick="openNewShipmentForm()">Create New Shipment</button>
+            <button class="close-button" onclick="closeForm()">Cancel</button>
+        </div>
 
+        <form id="formOpt1" method="POST">{% csrf_token %}
+            <div id="existingShipmentTitle">Add To An Existing Shipment: </div>
+            <label for=trk>Tracking Number</label>
+            <input id="trackingNo" type="text" name="trk">
+            <input id="p_code2" name="product_code" value=" " />
+            <select id="ship_by2" name="user_shipped">
+                {% for human in employee %}
+                <option value="{{human.pk}}">{{human.user_name}}</option>
+                {% endfor %}
+            </select>
+            <button class="close-button2" id="addExisting" type="submit" formaction="/addToExistingShipment/">Submit</button>
+        </form>
+
+        <form id="formOpt2" method="POST">{% csrf_token %}
+            <div id="addNewShipmentTitle">Add A New Shipment for: </div>
+            <div>
+                <label for=tracking_number>Tracking Number</label>
+                <input id="trackingNo" type="text" name="tracking_number">
+            </div>
+            <div>
+                <label for=scost>Shipping Cost</label>
+                <input class="cost" id="shipment_Cost" type="number" name="shipment_cost" placeholder="0.00">
+                <label for="mcost">Materials Cost</label>
+                <input class="cost" id="matCost" type="number" name="mcost" placeholder="0.00">
+            </div>
+            <div>
+                <label for="materials_used">Materials Used</label>
+                <input id="matUsed" type="text" name="materials_used">
+            </div>
+            <div>
+                <label for="time_shipped">Time Shipped</label>
+                <input id="timeOfS" type="datetime-local" name="time_shipped">
+            </div>
+            <div>
+                <select id="ship_by" name="user_shipped">
+                    {% for human in employee %}
+                    <option value="{{human.pk}}">{{human.user_name}}</option>
+                    {% endfor %}
+                </select>
+                <input id="p_code" name="past_product_code" value="" />
+
+                <button class="close-button" id="addShip"  type="submit" formaction="/addNewShipment/">Submit</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+{%endblock%}
 {%block content%}
-  <form action="/download-csv/" method="POST"> {% csrf_token %}
+<form action="/download-csv/" method="POST"> {% csrf_token %}
     <h1>Inventory
         <button class="csv_btn" title="Export to CSV" name="export_csv_btn"><i class="fas fa-file-export"></i></button>
     </h1>
-  </form>
-  <table id="inventoryTable" class="display" style="width:100%">
-      <thead>
+</form>
+<table id="inventoryTable" class="display" style="width:100%">
+    <thead>
         <tr>
             <th>Product Code</th>
             <th>Product Type</th>
@@ -141,14 +233,16 @@
             <th>Purchase Price</th>
             <th>Added By</th>
             <th>Time Added</th>
-            <th>Sell</th>
+            <th>Mark Sold</th>
             <th>Delete</th>
         </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
         {% for item in items %}
           <tr>
-              <td>{{item.product_code}}</td>
+              <td>
+                <button id="mapOpener" type="button" value="{{item.product_code}}" onclick="prepare_map(value)">{{item.product_code}}</button>
+              </td>
               <td>{{item.product_type}}</td>
               <td>{{item.selling_site.name}}</td>
               <td>{{item.ask_price}}</td>
@@ -158,19 +252,40 @@
               <td>{{item.added_by.user.username}}</td>
               <td>{{item.time_added}}</td>
               <td>
-                  <form action="/sell-item/" method="POST">{% csrf_token %}
-                    <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
-                    <button type="submit" name="sellItem">Sell</button>
-                  </form>
+                  <button class="open-button" onclick="openForm('{{item.product_code}}')">Mark Sold</button>
               </td>
               <td>
                   <form action="/delete-item/" method="POST">{% csrf_token %}
-                    <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
-                    <button type="submit" name="deleteItem">Delete</button>
+                      <input type="hidden" id="product_code" name="product_code" value="{{item.product_code}}" />
+                      <button type="submit" name="deleteItem">Delete</button>
                   </form>
               </td>
-          </tr>
+            </tr>
         {% endfor %}
     </tbody>
   </table>
+
+  <!-- Begin experiment -->
+  <div id="Map" style="height: 600px; width: 600px;">
+    <button class="close-button" onclick="closeMap()">Close Map</button>
+    <a-scene vr-mode-ui="enabled: false" embedded>
+      <a-entity>
+        <a-entity position="31.2 6 10" rotation="-38 0 0" camera look-controls="enabled: false; touchEnabled: false; hmdEnabled: false"></a-entity>
+        <a-animation attribute="position" dur="10000" fill="forwards" to="0 0 0" repeat="indefinite"></a-animation>
+      </a-entity>
+      <script type="text/javascript">
+          var bays = ['A','B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K', 'L', 'M', 'N', 'O', 'P', 'Q','R','S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+          var bay_length = 7.62; // = 25 ft
+          var bay_height = 2.7432; // 9 ft
+          var bay_width = 1.2192; // 4 ft
+          for (var i = 0; i < bays.length; i++) {
+            document.write("<a-box position=\" "+(i*2.5)+" "+bay_height/2+" 0\" geometry=\"depth:"+bay_length+";height:"+bay_height+";width:"+bay_width+"\"color=\"#90A44D\"></a-box>");
+            document.write("<a-text position=\" "+((i*2.5)-.25)+" 2.2 3.812 \"; width=\"12\"; value=\" "+bays[i]+" \"></a-text>");
+          }
+      </script>>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="1000" length="100" height="1000" color="#000000"></a-plane>
+      <a-sky color="gray"></a-sky>
+    </a-scene>
+  </div>
+  <!-- End experiment -->
 {% endblock %}
