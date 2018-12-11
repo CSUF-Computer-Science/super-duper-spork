@@ -1,11 +1,20 @@
 #contentContainer{
- 
   box-shadow: inset 0px 0px 10px rgba(0,0,0,0.0);
   background: none;
 }
-.grid-container {
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-items: center;
+.dash{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
   padding: 10px;
+}
+.dashCard{
+  margin: 10px;
+  background-color:white;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+  
 }

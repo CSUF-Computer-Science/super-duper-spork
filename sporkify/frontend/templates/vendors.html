@@ -6,6 +6,9 @@
     $(document).ready(function () {
         $('#vendorTable').DataTable();
         $('#productTypeTable').DataTable();
+        $('#saleSiteTable').DataTable();
+        $('#conditionTable').DataTable();
+        $('#shipmentTable').DataTable();
     });
 </script>
 <title>Sporkify - Vendors</title>
@@ -66,24 +69,28 @@
             </div>
         </form>
     </div>
-        <div id="addConditionContainer">
-            <form action="/configurate/" method="POST"> {% csrf_token %}
-                <label class="sectionTitle dos3">Add Item Condition</label>
-                <label class="inputLabel" for="condition">Condition Name:</label>
-                <input type="text" name="condition" maxlength="30" required>
-                <input type="Submit" name="add_condition">
-            </form>
-        </div>
-        <div id="addSaleSiteContainer">
-            <form action="/configurate/" method="POST"> {% csrf_token %}
-                <label class="sectionTitle dos4">Sale Site</label>
-                <label class="inputLabel" for="site_name">Site Name:</label>
-                <input type="text" name="site_name" maxlength="100" required>
-                <label class="inputLabel" for="url">URL:</label>
-                <input type="text" name="url" maxlength="200" required>
-                <input type="Submit" name="add_sale_site">
-            </form>
-        </div>
+
+    <form id="addSaleSiteContainer" action="/configurate/" method="POST"> {% csrf_token %}
+        <label class="sectionTitle dos">Sale Site</label>
+        <label class="inputLabel" for="site_name">Site Name:</label>
+        <input type="text" name="site_name" maxlength="100" required>
+
+        <label class="inputLabel" for="url">URL:</label>
+        <input class="inputLabel" type="text" name="url" maxlength="200" required>
+        <input type="submit" name="add_sale_site" />
+    </form>
+    <form id="addConditionContainer" action="/configurate/" method="POST"> {% csrf_token %}
+        <label class="sectionTitle dos">Add Item Condition</label>
+
+        <label class="inputLabel" for="condition">Condition Name:</label>
+        <input type="text" name="condition" maxlength="30" required>
+
+        <input type="submit" name="add_condition" />
+    </form>
+
+
+
+
 </div>
 
 {% endblock %}
@@ -122,7 +129,7 @@
     </tbody>
 </table>
 <br><br>
-<table id="productTypeTable" class="display" style="width:100%"> 
+<table id="productTypeTable" class="display" style="width:100%">
     <h2>Product Types</h2>
     <thead>
         <tr>
@@ -139,6 +146,68 @@
             <td>{{type.type_name}}</td>
             <td>{{type.weight}}</td>
             <td>{{type.brand}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+<table id="saleSiteTable" class="display" style="width:100%">
+    <h2>Sales Sites</h2>
+    <thead>
+        <tr>
+            <th>Site Name</th>
+            <th>Domain</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for site in salesites %}
+        <tr>
+            <td>{{site.name}}</td>
+            <td>{{site.domain}}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+<table id="shipmentTable" class="display" style="width:100%">
+    <h2>Product Conditions</h2>
+    <thead>
+        <tr>
+            <th>Condition Name</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for cond in conditions %}
+        <tr>
+            <td>{{cond.cond_Name}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+<table id="conditionTable" class="display" style="width:100%">
+    <h2>Shipments</h2>
+    <thead>
+        <tr>
+            <th>Tracking Number</th>
+            <th>Shipping Cost</th>
+            <th>Materials Used</th>
+            <th>Materials Cost</th>
+            <th>User Shipped</th>
+            <th>Time Shipped</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ship in shipments %}
+        <tr>
+            <td>{{ship.tracking_number}}</td>
+            <td>{{ship.shipment_cost}}</td>
+            <td>{{ship.materials_used}}</td>
+            <td>{{ship.material_cost}}</td>
+            <td>{{ship.user_shipped}}</td>
+            <td>{{ship.time_shipped}}</td>
         </tr>
         {% endfor %}
     </tbody>

@@ -8,8 +8,8 @@
 {%endblock%}
 
 {% block content %}
-<div class='grid-container'>
-  <div id="laborcostContainer">
+<div class='dash'>
+  <div class="dashCard" id="laborcostContainer">
       <canvas id="laborcostDoughnut" width="300" height="300"></canvas>
       <script>
           var dv = document.getElementById("laborcostDoughnut")
@@ -42,7 +42,7 @@
           };
       </script>
   </div>
-  <div id="grossSalesContainer">
+  <div class="dashCard" id="grossSalesContainer">
       <canvas id="grossSalesBar" width="300" height="200"></canvas>
       <script>
           var gv = document.getElementById("grossSalesBar")
@@ -83,7 +83,7 @@
           };
       </script>
   </div>
-  <div id ="ProductTypeSalesContainer">
+  <div  class="dashCard" id ="ProductTypeSalesContainer">
       <canvas id="ProductType_doughnut" width="300" height="300"></canvas>
       <script>
           var psv = document.getElementById("ProductType_doughnut")
@@ -125,7 +125,7 @@
           };
       </script>
   </div>
-  <div id ="ProductTypeSalesContainer">
+  <div class="dashCard" id ="ProductTypeSalesContainer">
     <canvas id="shipmentcostDoughnut" width="300" height="300"></canvas>
     <script>
         var sv = document.getElementById("shipmentcostDoughnut")

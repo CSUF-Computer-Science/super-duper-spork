@@ -412,7 +412,7 @@ def inventory(request):
         "shift": Shift.objects.all(),
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all(),
-
+        "shipments":Shipment.objects.all(),
         "total_sales": total_sales(),
         # Grabs only the first open product code
         "product_code": Open_Product_Code.objects.all()[:1]
@@ -466,15 +466,7 @@ def addToExistingShipment(request):
         nSale.save()
         inventoryItem.delete()
 
-    return render(request, 'inventory.html', {
-        "items": Inventory.objects.all(),
-        "vendors": Vendor.objects.all(),
-        "channels": Sale_Site.objects.all(),
-        "employee": Employee.objects.all(),
-        "shift": Shift.objects.all(),
-        "product_types": Product_Type.objects.all(),
-        "conditions": Condition.objects.all()
-    })
+    return redirect("/inventory/")
 
 
 @login_required
@@ -485,10 +477,9 @@ def addNewShipment(request):
         nShipment.shipment_cost = request.POST.get('shipment_cost')
         nShipment.material_cost = request.POST.get('mcost')
         nShipment.materials_used = request.POST.get('materials_used')
-        nShipment.user_shipped = request.POST.get(user_shipped)
-        nShipment.time_shipped = request.POST.get(time_shipped)
-        if nShipment.is_valid():
-            nShipment.save()
+        nShipment.user_shipped = request.POST.get('user_shipped')
+        nShipment.time_shipped = request.POST.get('time_shipped')
+        nShipment.save()
 
         nSale = Sale()
         nSale.shipment_number = nShipment.tracking_number
@@ -509,16 +500,8 @@ def addNewShipment(request):
         if nSale.is_valid():
             nSale.save()
             inventoryItem.delete()
-
-    return render(request, 'inventory.html', {
-        "items": Inventory.objects.all(),
-        "vendors": Vendor.objects.all(),
-        "channels": Sale_Site.objects.all(),
-        "employee": Employee.objects.all(),
-        "shift": Shift.objects.all(),
-        "product_types": Product_Type.objects.all(),
-        "conditions": Condition.objects.all()
-    })
+    
+    return redirect("/inventory/")
 
 
 @login_required
@@ -581,7 +564,10 @@ def vendors(request):
 
     return render(request, 'vendors.html', {
         "vendors": Vendor.objects.all(),
-        "products":Product_Type.objects.all()
+        "products":Product_Type.objects.all(),
+        "salesites":Sale_Site.objects.all(),
+        "conditions": Condition.objects.all(),
+        "shipments": Shipment.objects.all()
     })
 
 @supervisor_login_required
