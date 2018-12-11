@@ -122,6 +122,14 @@
         </label>
     </form>
 
+    <div>
+        <form class="file-upload" action="/upload-csv-inventory/" method="POST" enctype="multipart/form-data">{%csrf_token%}
+            <label id="label-upload-inventory-file">Upload Inventory File</label>
+            <input type="file" name="file" required>
+            </br>
+            <input type="submit" value="Upload">
+        </form>
+    </div>
 
     <div id="add_product_type">
         <form action="/add-product-type/" method="POST">{% csrf_token %}
@@ -146,14 +154,13 @@
             <p>OR</p>
         </div>
 
-        <form id="csv_upload" action="/upload-csv-product-type/" method="POST" enctype="multipart/form-data">{%csrf_token%}
-            <label id="sectionTitle">Upload File of Product Types</label>
-            <input type="file">
+        <form class="file-upload" action="/upload-csv-product-type/" method="POST" enctype="multipart/form-data">{%csrf_token%}
+            <label id="label-upload-product-type-file">Upload File of Product Types</label>
+            <input type="file" name="file" required>
             </br>
             </br>
             <input type="submit">
         </form>
-
     </div>
 
 </div>

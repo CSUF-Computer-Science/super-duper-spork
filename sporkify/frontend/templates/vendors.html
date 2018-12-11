@@ -65,7 +65,7 @@
     </table>
     <form action="/upload-csv-vendors/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
         <label for="file">Upload CSV:</label>
-        <input type="file" name="file">
+        <input type="file" name="file" required>
         </br>
         <input type="submit">
     </form>
