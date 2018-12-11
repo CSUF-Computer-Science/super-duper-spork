@@ -535,7 +535,7 @@ def add_product_type(request):
             new_product_type.brand = product_brand
             new_product_type.save()
 
-    return redirect('/inventory/')
+    return redirect('/vendors/')
 
 
 @login_required
@@ -580,7 +580,8 @@ def vendors(request):
             vend_to_del.delete()
 
     return render(request, 'vendors.html', {
-        "vendors": Vendor.objects.all()
+        "vendors": Vendor.objects.all(),
+        "products":Product_Type.objects.all()
     })
 
 

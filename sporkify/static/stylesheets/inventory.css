@@ -1,9 +1,14 @@
 
+#contentContainer{
+    
+    width: 50%;
+
+  }
+  
 #miniDashContainer{
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    width: 90%;
     margin: 10px;
 }
 
@@ -15,11 +20,11 @@
     margin: 10px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
     background-color:#F8F8F8;
-    width: 430px;
+    width: 425px;
     height: 270px;
 }
 
-#sectionTitle{
+.sectionTitle{
     font-size: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 500;
@@ -117,26 +122,27 @@
 /*input field level*/
 #add_item #selling_site{
     width: 120px;
+    height: 37px;
 }
 #add_item input.price_{
     width: 80px;
+    height: 37px;
 }
 #add_item input.product_code{
     width: 200px;
+    height: 37px;
 }
 #add_item #vendor{
     width: 150px;
+    height: 37px;
 }
 #add_item #product_type{
     width: 200px;
+    height: 37px;
 }
 #add_item #product_code{
     width: 120px;
-}
-#add_item #add_buttonchild11{
-    background-color: lightgray;
-    padding: 8px 8px 8px 8px;
-    border-color: rgb(195,195,195);
+    height: 37px;
 }
 #add_item input[type="none"],
 #add_item select,
@@ -145,7 +151,8 @@
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	width: 80px;
+    width: 80px;
+    height: 37px;
 	padding: 8px;
 	border-radius: 6px;
 	-webkit-border-radius:6px;
@@ -157,25 +164,29 @@
 }
 
 #add_item input[type="submit"]{
-    background:rgb(170,170,170);
-    height: 35px;
-    padding: 8px 10px 8px 10px;
     margin-left: 4px;
     margin-right: 4px;
-    margin-bottom: 12px;
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-    color: #fff;
+    margin-bottom: 4px;
     align-self: flex-end;
-	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-	font: normal 30px 'Bitter', serif;
-	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-	border: 1px solid rgb(165,165,165);
-	font-size: 15px;
 }
+#add_item #add_buttonchild11{
+    color: rgb(80,80,80);
+}
+#file-upload{
+    justify-content: center;
+    align-content: top;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color:#F8F8F8;
+    width: 314px;
+    height: 140px;
+}
+#file-upload input{
+    margin: 4px;
+}
+
 #shipmentForm{
     background:rgba(0, 0, 0, 0.5);
     display:none;
@@ -283,28 +294,4 @@
     opacity: 1;
 }
 
-/*Add Product Type Form*/
-#add_product_type {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    width: 90%;
-    margin: 10px;
 
-    justify-content: flex-start;
-    align-content: top;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
-    background-color:#F8F8F8;
-    width: 540px;
-    height: 250px;
-}
-
-#or{
-    padding-top: 13%;
-    padding-left: 5%;
-    padding-right: 5%;
-    text-align: center;
-}
