@@ -332,7 +332,7 @@ def create_employee(request):
         user = User.objects.create_user(
             username=userName,  first_name=fname, last_name=lname, password=pword, email=email)
         user.save()
-
+        print(user)
         if(permission == "Employee"):
             permission = 1
         elif (permission == "HR"):
@@ -567,6 +567,15 @@ def vendors(request):
         "products":Product_Type.objects.all()
     })
 
+@supervisor_login_required
+def configurate(request):
+    if request.method == 'POST':
+        if request.POST.get('add_condition'):
+            print('add_condition statement')
+        if request.POST.get('add_sale_site'):
+            print('add_sale_site statement')
+
+    return redirect('/vendors/')
 
 @supervisor_login_required
 def reports(request):
@@ -721,6 +730,47 @@ def upload_csv_product_type(request):
 
 @login_required
 def upload_csv_inventory(request):
-    print("Reached upload csv inventory.")
+    if request.method == 'POST':
+        csv_file = request.FILES['file']
+        file_contents = csv_file.read().decode('UTF-8')
+        io_str = io.StringIO(file_contents)
+        next(io_str) #Remove header
+        
+        entry = csv.reader(io_str, delimiter=',')
+        for column in entry:
+            pcode= Open_Product_Code.objects.all()[:1]
+            asking_price_as_float = float(column[2])
+            purchase_price_as_float = float(column[5])
+            
+            pname = get_object_or_404(Product_Type, type_name=column[0])
+            ssite = get_object_or_404(Sale_Site, name=column[1])
+            cond = get_object_or_404(Condition, cond_Name=column[3])
+            vend = get_object_or_404(Vendor, comp_Name=column[4])
+            current_user = get_object_or_404(Employee, user=request.user)
+
+            # new_item = Inventory()
+            # new_item.product_code = pcode[0].product_code
+            # new_item.product_type = pname
+            # new_item.selling_site = ssite
+            # new_item.ask_price = asking_price_as_float
+            # new_item.condition = cond
+            # new_item.vendor = vend
+            # new_item.pur_price = purchase_price_as_float
+            # new_item.added_by = current_user
+            # new_item.save()
+
+            Inventory.objects.update_or_create(
+                product_code = pcode[0].product_code,
+                product_type= pname,
+                selling_site= ssite,
+                ask_price= asking_price_as_float,
+                condition= cond,
+                vendor= vend,
+                pur_price= purchase_price_as_float,
+                added_by= current_user
+            )
+            pcode[0].delete()
+    
     return redirect('/inventory/')
+
 # end functions

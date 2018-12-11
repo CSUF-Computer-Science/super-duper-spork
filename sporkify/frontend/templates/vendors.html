@@ -66,9 +66,26 @@
             </div>
         </form>
     </div>
-
-
+        <div id="addConditionContainer">
+            <form action="/configurate/" method="POST"> {% csrf_token %}
+                <label class="sectionTitle dos3">Add Item Condition</label>
+                <label class="inputLabel" for="condition">Condition Name:</label>
+                <input type="text" name="condition" maxlength="30" required>
+                <input type="Submit" name="add_condition">
+            </form>
+        </div>
+        <div id="addSaleSiteContainer">
+            <form action="/configurate/" method="POST"> {% csrf_token %}
+                <label class="sectionTitle dos4">Sale Site</label>
+                <label class="inputLabel" for="site_name">Site Name:</label>
+                <input type="text" name="site_name" maxlength="100" required>
+                <label class="inputLabel" for="url">URL:</label>
+                <input type="text" name="url" maxlength="200" required>
+                <input type="Submit" name="add_sale_site">
+            </form>
+        </div>
 </div>
+
 {% endblock %}
 {% block content %}
 <form action="/download-csv-vendors/" method="POST"> {% csrf_token %}
