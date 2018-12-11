@@ -37,7 +37,7 @@
 {% endblock %}
 
 {% block miniDash %}
-{% if is_hr is not true and is_employee %}
+{% if not is_hr%}
 <div id="timeclockContainer">
     <form id="timeClockForm" action="" method="POST">
         {% csrf_token %}
@@ -114,7 +114,7 @@
 {% endblock %}
 
 {% block content %}
-{% if is_hr is not true and is_employee %}
+{% if not is_hr %}
 <h2>{{user.first_name}}+" "+{{user.last_name}}</h2>
 <!-- User Side -->
 <form action="/download-csv-timesheet/" method="POST"> {% csrf_token %}

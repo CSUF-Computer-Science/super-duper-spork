@@ -15,7 +15,9 @@
         <a class="sS" href="/sales">Sales</a>
         <div class="dropdown2-content">
           <a class="dropdown2-item" href="/sales">All Sales</a>
+          {%if is_admin%}
           <a class="dropdown2-item" href="/reports">Sales Reporting</a>
+          {%endif%}
         </div>
       </div>
       <a class="emploY" href="/employees">Employees</a>
