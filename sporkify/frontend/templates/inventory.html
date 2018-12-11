@@ -4,10 +4,29 @@
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/inventory.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <script type="text/javascript">
+
+    var productCodeToItemDetails = {
+        {% for item in items %}
+            "{{item.product_code}}": {
+                type: "{{item.product_type}}",
+                sellingSite: "{{item.selling_site.name}}",
+                askPrice: "{{item.ask_price}}",
+                purPrice: "{{item.pur_price}}",
+                condition: "{{item.condition.cond_Name}}",
+                vendorName: "{{item.vendor.comp_Name}}",
+                addedBy: "{{item.added_by.user.username}}",
+                addedAt: "{{item.time_added}}",
+                expectedProfit: {{item.ask_price}} - {{item.pur_price}}
+            },
+        {% endfor %}
+    };
+
     $(document).ready(function () {
         $('#inventoryTable').DataTable();
     });
-    function prepare_map(value) {
+    function prepare_map(productCode) {
+        const itemDetails = productCodeToItemDetails[productCode];
+
         var alphabet = {
             A: 1, B: 2, C: 3, D: 4,
             E: 5, F: 6, G: 7, H: 8,
@@ -18,7 +37,7 @@
             Y: 25, Z: 26,
         };
         var afr_animation = document.querySelector('a-animation');
-        var new_pos = (13 - alphabet[value[0]] + .5) * (-1) * 2.5;
+        var new_pos = (13 - alphabet[productCode[0]] + .5) * (-1) * 2.5;
         new_pos = String(new_pos + " 0 -3");
         afr_animation.setAttribute('to', new_pos);
         document.getElementById("Map").style.display = "inline-block";
@@ -26,15 +45,16 @@
         /* This doesna work right yet..but YOU could help figure out why 
         Not sure how to query for the item with that value from here. and 4am..
         plan was to remove many of the current table columns once this was functional*/
-        $("#curPCode").html(value);
-        $("#curPType").html(value.product_type);
-        $("#curSSite").html(value.selling_site);
-        $("#curCondition").html(value.condition);
-        $("#curAPrice").html(value.ask_price);
-        $("#curPPrice").html(value.pur_price);
-        $("#curVendor").html(value.vendor);
-        $("#curAddedBy").html(value.added_by);
-        $("#curTimeAdded").html(value.time_added);
+        $("#curPCode").html(productCode);
+        $("#curPType").html(itemDetails.type);
+        $("#curSSite").html(itemDetails.sellingSite);
+        $("#curCondition").html(itemDetails.condition);
+        $("#curAPrice").html(itemDetails.askPrice);
+        $("#curPPrice").html(itemDetails.purPrice);
+        $("#curVendor").html(itemDetails.vendorName);
+        $("#curAddedBy").html(itemDetails.addedBy);
+        $("#curTimeAdded").html(itemDetails.addedAt);
+        $("#curExpected").html(itemDetails.expectedProfit);
     }
     function openForm(product_code) {
         document.getElementById("shipmentForm").style.display = "block";
@@ -98,7 +118,7 @@
             <div>
                 <input id="p_code" name="past_product_code" value="" />
 
-                <button class="close-button" id="addShip" type="submit" formaction="/addNewShipment/">Submit</button>
+                <button class="close-button" name="addShip" id="addShip" type="submit" formaction="/addNewShipment/">Submit</button>
             </div>
         </form>
 

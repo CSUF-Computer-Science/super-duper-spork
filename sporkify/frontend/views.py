@@ -461,7 +461,7 @@ def addToExistingShipment(request):
         nSale.product_type = inventoryItem.product_type.brand +"_"+inventoryItem.product_type.type_name
         nSale.added_by = request.user.pk
         nSale.time_added = inventoryItem.time_added
-        nSale.archived_by = request.POST.get('user_shipped')
+        nSale.archived_by = request.user.pk
         nSale.time_archived = timezone.now()
         nSale.save()
         inventoryItem.delete()
@@ -486,20 +486,19 @@ def addNewShipment(request):
         nSale.past_product_code = request.POST.get('past_product_code')
         inventoryItem = Inventory.objects.get(product_code=nSale.past_product_code)
         # Not sure the below is correct for accessing attributes of the foreign keys
-        nSale.selling_Site = inventoryItem.selling_Site.domain
+        nSale.selling_site = inventoryItem.selling_site.domain
         nSale.vendor = inventoryItem.vendor.comp_Name
         nSale.condition = inventoryItem.condition.cond_Name
         nSale.pur_price = inventoryItem.pur_price
         nSale.sel_price = inventoryItem.ask_price
         nSale.product_type = inventoryItem.product_type.brand + \
             "_"+inventoryItem.product_type.type_name
-        nSale.added_by = inventoryItem.added_by
+        nSale.added_by = inventoryItem.added_by.pk
         nSale.time_added = inventoryItem.time_added
-        nSale.archived_by = request.POST.get('user_shipped')
+        nSale.archived_by = request.user.pk
         nSale.time_archived = timezone.now()
-        if nSale.is_valid():
-            nSale.save()
-            inventoryItem.delete()
+        nSale.save()
+        inventoryItem.delete()
     
     return redirect("/inventory/")
 
