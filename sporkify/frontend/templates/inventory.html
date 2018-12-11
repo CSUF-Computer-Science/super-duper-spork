@@ -26,6 +26,7 @@
   function openForm(product_code) {
       document.getElementById("shipmentForm").style.display = "block";
       document.getElementById("p_code").value = product_code;
+      document.getElementById("p_code2").value = product_code;
   }
   function closeForm() {
       document.getElementById("shipmentForm").style.display = "none";
@@ -172,12 +173,7 @@
             <label for=trk>Tracking Number</label>
             <input id="trackingNo" type="text" name="trk">
             <input id="p_code2" name="product_code" value=" " />
-            <select id="ship_by2" name="user_shipped">
-                {% for human in employee %}
-                <option value="{{human.pk}}">{{human.user_name}}</option>
-                {% endfor %}
-            </select>
-            <button class="close-button2" id="addExisting" type="submit" formaction="/addToExistingShipment/">Submit</button>
+            <button class="close-button2" name="addExisting" id="addExisting" type="submit" formaction="/addToExistingShipment/">Submit</button>
         </form>
 
         <form id="formOpt2" method="POST">{% csrf_token %}
@@ -201,11 +197,6 @@
                 <input id="timeOfS" type="datetime-local" name="time_shipped">
             </div>
             <div>
-                <select id="ship_by" name="user_shipped">
-                    {% for human in employee %}
-                    <option value="{{human.pk}}">{{human.user_name}}</option>
-                    {% endfor %}
-                </select>
                 <input id="p_code" name="past_product_code" value="" />
 
                 <button class="close-button" id="addShip"  type="submit" formaction="/addNewShipment/">Submit</button>
