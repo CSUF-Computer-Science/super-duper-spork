@@ -587,10 +587,15 @@ def vendors(request):
 @supervisor_login_required
 def configurate(request):
     if request.method == 'POST':
-        if request.POST.get('add_condition'):
-            print('add_condition statement')
-        if request.POST.get('add_sale_site'):
-            print('add_sale_site statement')
+        if request.POST.get('add_condition') is not None:
+            Condition.objects.update_or_create(
+                cond_Name= request.POST.get("condition")
+            )
+        if request.POST.get('add_sale_site') is not None:
+            Sale_Site.objects.update_or_create(
+                name= request.POST.get("site_name"),
+                domain= request.POST.get("url")
+            )
 
     return redirect('/vendors/')
 
