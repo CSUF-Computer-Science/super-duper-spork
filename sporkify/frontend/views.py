@@ -477,10 +477,9 @@ def addNewShipment(request):
         nShipment.shipment_cost = request.POST.get('shipment_cost')
         nShipment.material_cost = request.POST.get('mcost')
         nShipment.materials_used = request.POST.get('materials_used')
-        nShipment.user_shipped = request.POST.get(user_shipped)
-        nShipment.time_shipped = request.POST.get(time_shipped)
-        if nShipment.is_valid():
-            nShipment.save()
+        nShipment.user_shipped = request.POST.get('user_shipped')
+        nShipment.time_shipped = request.POST.get('time_shipped')
+        nShipment.save()
 
         nSale = Sale()
         nSale.shipment_number = nShipment.tracking_number

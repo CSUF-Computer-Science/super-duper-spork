@@ -1,15 +1,24 @@
-
 #contentContainer{
-    
-    width: 50%;
-
+    align-self: center;
+    display:inline-flex;
+    flex-direction: row;
+    width: 90%;
+    margin: 0 auto;
+    padding: 10px;
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.0);
+    background: none;
   }
-  
+#tablesContainer{
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.40);
+    background: white;
+    padding: 10px;
+}
 #miniDashContainer{
     display: inline-flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
-    margin: 10px;
+    align-items: center;
+    
 }
 
 #add_item{
@@ -23,7 +32,9 @@
     width: 425px;
     height: 270px;
 }
-
+#Map{
+    margin:10px;
+}
 .sectionTitle{
     font-size: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

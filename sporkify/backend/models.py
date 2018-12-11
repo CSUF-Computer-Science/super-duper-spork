@@ -49,9 +49,6 @@ class Shipment(models.Model):
     user_shipped = models.ForeignKey(User, on_delete = models.SET_NULL, null=True)
     time_shipped = models.DateTimeField()
 
-    def create(self):
-        self.time_shipped = timezone.now()
-        self.save()
 
 class Sale(models.Model):
     invoice_num = models.AutoField(primary_key=True, unique=True)
