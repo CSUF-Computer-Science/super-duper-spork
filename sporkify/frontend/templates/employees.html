@@ -3,13 +3,14 @@
 {% block headIncludes %}
 
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/employee.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <title>Sporkify - Employee Management</title>
 <script type="text/javascript">
-  $(document).ready(function() {
-      $('#emp_timesheet').DataTable();
-      $('#emp').DataTable();
-      $('#timehistory').DataTable();
-  });
+    $(document).ready(function () {
+        $('#emp_timesheet').DataTable();
+        $('#emp').DataTable();
+        $('#timehistory').DataTable();
+    });
 </script>
 
 <script type="text/javascript">
@@ -36,176 +37,198 @@
 {% endblock %}
 
 {% block miniDash %}
+{% if is_hr is not true and is_employee %}
 <div id="timeclockContainer">
     <form id="timeClockForm" action="" method="POST">
         {% csrf_token %}
         <!-- Print stuff -->
         <p>
-        {% if clockedIn == True %}
+            {% if clockedIn == True %}
             You have been on the clock for <i class="far fa-clock"></i> <span clockin="{{ curShiftStartedAt }}">(calculating...)</span>
-        {% endif %}
-
-        {% if clockedIn == False %}
+            {% endif %}
+            {% if clockedIn == False %}
             You are not clocked in.
             {% if timeWorked != None %}
-                Your shift lasted for <br> <i class="far fa-clock"></i> {{ timeWorked }}.
+            Your shift lasted for <br> <i class="far fa-clock"></i> {{ timeWorked }}.
             {% endif %}
-        {% endif %}
+            {% endif %}
         </p>
         <input type="submit" id="clockInOut" name="clockInOut" value='Clock {{ clockedIn|yesno:"Out,In" }}' />
     </form>
 </div>
+{%endif%}
+{% if is_hr %}
+<div id="miniDashContainer">
+    <form id="create_user" action="/employees/create/" method="post"> {% csrf_token %}
+        <span class="sectionTitle">Enroll Employee</span>
+        <div id="topRow">
+            <div class="input-container">
+                <i class="fas fa-user-tie fa-2x form-icon"></i>
+                <input type="username" class="input-field" id="uname" name="uname" placeholder="Username" maxlength="40">
+            </div>
+            <div class="input-container">
+                <i class="fas fa-key fa-2x form-icon"></i>
+                <input type="password" class="input-field" id="pword" name="pword" placeholder="Enter Password"
+                    maxlength="40" size="40" id="pwordInput" required>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <input type="text" class="input-field" id="fname" name="fname" placeholder="First Name" maxlength="40" size="40"
+                required>
+            <input type="text" class="input-field" id="lname" name="lname" placeholder="Last Name" maxlength="40" size="40"
+                required>
+        </div>
+        <div class="input-container">
+
+            <input type="text" class="input-field" id="email" name="email" placeholder="Email" maxlength="40" size="40"
+                required>
+            <i title="hourly wage" class="fas fa-hand-holding-usd fa-2x form-icon"></i>
+            <input type="text" class="input-field" title="hourly wage" id="hwage" name="hwage" placeholder=" $0.00"
+                maxlength="30" size="40" required>
+
+        </div>
+        <div class="input-container">
+            <i class="fas fa-lock fa-2x form-icon"></i>
+            <select id="permission-select" class="input-field" name="permissions">
+                <option value="Employee" class="input-option">Employee</option>
+                <option value="Supervisor" class="input-option">Supervisor</option>
+                <option value="HR" class="input-option">Human Resources</option>
+                <option value="Admin" class="input-option">Administrator</option>
+            </select>
+            <input type="submit" class="enroll-btn">
+        </div>
+
+        
+    </form>
+    </br>
+    <form id="exportAll" action="/download-csv-employees/" method="POST"> {% csrf_token %}
+        <span class="sectionTitle">Export To CSV</span>
+        <label class="miniDashText">All Employees
+            <button class="csv_btn" title="Export to CSV"><i class="fas fa-file-export"></i></button>
+        </label>
+    </form>
+</div>
+{%endif%}
+
 {% endblock %}
 
 {% block content %}
-        <h1>Employee Management</h1>
-        <!-- User Side -->
-        <form action="/download-csv-timesheet/" method="POST"> {% csrf_token %}
-            <h2>Your Timesheet 
-                <button class="csv_btn" title="Export to CSSV"><i class="fas fa-file-export"></i></button>
-            </h2>
-        </form>
-        <!-- Show Hours for the Week -->
-        <div class="timesheet_weekly">
-            <table id="emp_timesheet" style="width: 100%">
-                <thead>
-                    <tr>
-                        <th>Clock In</th>
-                        <th>Clock Out</th>
-                        <th>Total Hours</th>
-                        <th>Total Pay</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for shift in myShifts %}
-                    <tr>
-                        <td>{{shift.time_in}}</td>
-                        <td>{{shift.time_out}}</td>
-                        <td>{{shift.time_worked}}</td>
-                        <td>${{shift.money|floatformat}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div><br><br>
-        
-        {% if is_hr %}
-        <!-- Manager/Owner Side -->
-        <h2>Manager Preview</h2>
-            <form id="create_user" action="/employees/create/" method="post"> {% csrf_token %}
-                <h3>Enroll Employee</h3>
-                <div class="input-container">
-                    <i class="fas fa-user-tie fa-2x form-icon"></i>
-                    <input type="username" class="input-field" id="uname" name="uname" placeholder="Username" maxlength="40">
-                </div>
-                <div class="input-container">
-                    <input type="text" class="input-field" id="fname" name="fname" placeholder="First Name" maxlength="40" size="40" required> 
-                    <input type="text" class="input-field" id="lname" name="lname" placeholder="Last Name"  maxlength="40" size="40" required>
-                </div>
-                <div class="input-container">
-                    <input type="text" class="input-field" id="email" name="email" placeholder="Email" maxlength="40" size="40" required> 
-                </div>
-                <div class="input-container">
-                    <i class="fas fa-lock fa-2x form-icon"></i>
-                    <select id="permission-select" class="input-field"  name="permissions">
-                        <option value="Employee" class="input-option">Employee</option>
-                        <option value="Supervisor" class="input-option">Supervisor</option>
-                        <option value="HR" class="input-option">Human Resources</option>
-                        <option value="Admin" class="input-option">Administrator</option>
-                </select>
-                    <i title="hourly wage" class="fas fa-hand-holding-usd fa-2x form-icon"></i>
-                    <input type="text" class="input-field" title="hourly wage" id="hwage" name="hwage"" placeholder="$0.00" maxlength="30" size="40" required>
-                </div>
-                <div class="input-container">
-                    <i class="fas fa-key fa-2x form-icon"></i>
-                    <input type="password" class="input-field" id="pword" name="pword" placeholder="Enter Password" maxlength="40" size="40" id="pwordInput" required>
-                </div>
-                <input type="submit" class="enroll-btn">
-            </form>
-        </br>
-        <form action="/download-csv-employees/" method="POST"> {% csrf_token %}
-            <h3>All Employees
-                <button class="csv_btn" title="Export to CSV"><i class="fas fa-file-export"></i></button>
-            </h3>
-        </form>
-      <div class="manage">
-            <table id="emp" style="width: 100%">
-                <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Hourly Wage</th>
-                        <th>Permission</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for employee in employees %}
-                    <tr>
-                        <td>{{employee.f_name}}</td>
-                        <td>{{employee.l_name}}</td>
-                        <td>{{employee.hourly_wage}}</td>
-                        <td>
-                            {% if employee.user_type == 1 %}
-                                Employee
-                            {% elif employee.user_type == 2 %}
-                                Supervisor
-                            {% elif employee.user_type == 3 %}
-                                Human Resources
-                            {% else %}
-                                Administrator
-                            {% endif %}
-                        </td>
-                        <td>
-                            <form action="/employees/edit/" class="table-btn-form-submit" method="POST"> {%csrf_token%}
-                                <input type="hidden" name="employee_pk" value="{{employee.pk}}">
-                                <button type="submit" id="edit_employee_btn" name="edit_employee_btn" class="table-btn"><i class="fas fa-user-edit"></i> Edit</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="" class="table-btn-form-submit" method="POST"> {%csrf_token%}
-                                <input type="hidden" name="employee_pk" value="{{employee.pk}}">
-                                <button type="submit" id="delete_employee_btn" name="delete_employee_btn" class="table-btn"><i class="fas fa-skull-crossbones"></i> Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div><br><br>
-        
-        <!-- Show Timesheet for that day (or more if possible) -->
-        <div class="timesheet_history">
-                <form action="/download-csv-history/" method="POST"> {% csrf_token %}
-                    <h3>History
-                        <button class="csv_btn" title="Export to CSV">
-                            <i class="fas fa-file-export"></i>
-                        </button>
-                    </h3>
-                </form>
-            <table id="timehistory" style="width: 100%">
-                <thead>
-                    <tr>
-                        <th>Employee Name</th>
-                        <th>Clock In</th>
-                        <th>Clock Out</th>
-                        <th>Total Hours</th>
-                        <th>Total Pay</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for shift in shifts %}
-                    <tr>
-                        <td>{{shift.emp_ID.f_name}} {{shift.emp_ID.l_name}}</td>
-                        <td>{{shift.time_in}}</td>
-                        <td>{{shift.time_out}}</td>
-                        <td>{{shift.time_worked}}</td>
-                        <td>${{shift.money|floatformat}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% endif %}
+{% if is_hr is not true and is_employee %}
+<h2>{{user.first_name}}+" "+{{user.last_name}}</h2>
+<!-- User Side -->
+<form action="/download-csv-timesheet/" method="POST"> {% csrf_token %}
+    <h3>Your Timesheet
+        <button class="csv_btn" title="Export to CSSV"><i class="fas fa-file-export"></i></button>
+    </h3>
+</form>
+<!-- Show Hours for the Week -->
+<div class="timesheet_weekly">
+    <table class="display"  id="emp_timesheet" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Clock In</th>
+                <th>Clock Out</th>
+                <th>Total Hours</th>
+                <th>Total Pay</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for shift in myShifts %}
+            <tr>
+                <td>{{shift.time_in}}</td>
+                <td>{{shift.time_out}}</td>
+                <td>{{shift.time_worked}}</td>
+                <td>${{shift.money|floatformat}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div><br><br>
+{%endif%}
+{% if is_hr %}
+<!-- Manager/Owner Side -->
+<h2>Manager Preview</h2>
+<div class="manage">
+    <table class="display" id="emp" style="width: 100%">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Hourly Wage</th>
+                <th>Permission</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            <tr>
+                <td>{{employee.f_name}}</td>
+                <td>{{employee.l_name}}</td>
+                <td>{{employee.hourly_wage}}</td>
+                <td>
+                    {% if employee.user_type == 1 %}
+                    Employee
+                    {% elif employee.user_type == 2 %}
+                    Supervisor
+                    {% elif employee.user_type == 3 %}
+                    Human Resources
+                    {% else %}
+                    Administrator
+                    {% endif %}
+                </td>
+                <td>
+                    <form action="/employees/edit/" class="table-btn-form-submit" method="POST"> {%csrf_token%}
+                        <input type="hidden" name="employee_pk" value="{{employee.pk}}">
+                        <button type="submit" id="edit_employee_btn" name="edit_employee_btn" class="table-btn"><i
+                                class="fas fa-user-edit"></i> Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="" class="table-btn-form-submit" method="POST"> {%csrf_token%}
+                        <input type="hidden" name="employee_pk" value="{{employee.pk}}">
+                        <button type="submit" id="delete_employee_btn" name="delete_employee_btn" class="table-btn"><i
+                                class="fas fa-skull-crossbones"></i> Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div><br><br>
+
+<!-- Show Timesheet for that day (or more if possible) -->
+<div class="timesheet_history">
+    <form action="/download-csv-history/" method="POST"> {% csrf_token %}
+        <h3>History
+            <button class="csv_btn" title="Export to CSV">
+                <i class="fas fa-file-export"></i>
+            </button>
+        </h3>
+    </form>
+    <table class="display" id="timehistory" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>Clock In</th>
+                <th>Clock Out</th>
+                <th>Total Hours</th>
+                <th>Total Pay</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for shift in shifts %}
+            <tr>
+                <td>{{shift.emp_ID.f_name}} {{shift.emp_ID.l_name}}</td>
+                <td>{{shift.time_in}}</td>
+                <td>{{shift.time_out}}</td>
+                <td>{{shift.time_worked}}</td>
+                <td>${{shift.money|floatformat}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
 {% endblock %}

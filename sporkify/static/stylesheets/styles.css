@@ -139,7 +139,7 @@ a:hover{
   margin-right: 40px;
 
 }
-.dropdown{
+.dropdown1{
   grid-area: e;
   align-self: flex-end;
   text-align: center;
@@ -151,7 +151,7 @@ a:hover{
 .sporky{
   width:40px;
 }
-.dropdown-content {
+.dropdown1-content{
   display: none;
   position: absolute;
   border-radius: 10px;
@@ -161,15 +161,20 @@ a:hover{
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 10;
 }
-.dropdown-content a {
+.dropdown1-content a {
   color: white;
   padding: 12px 16px;
   text-decoration: none;
   display: inline-block;
 }
 
+.dropdown1-content a:hover, .dropdown2-content a:hover, .dropdown3-content a:hover{
+  color:#d9c877;
 
-.dropdown:hover .dropdown-content {
+
+}
+
+.dropdown1:hover .dropdown1-content{
   border-radius: 10px!important;
   background-color: black;
   display: block;
@@ -197,4 +202,5 @@ a:hover{
 
 #miniDash {
   margin-left: 4%;
+  width:92%;
 }
