@@ -584,6 +584,15 @@ def vendors(request):
         "products":Product_Type.objects.all()
     })
 
+@supervisor_login_required
+def configurate(request):
+    if request.method == 'POST':
+        if request.POST.get('add_condition'):
+            print('add_condition statement')
+        if request.POST.get('add_sale_site'):
+            print('add_sale_site statement')
+
+    return redirect('/vendors/')
 
 @supervisor_login_required
 def reports(request):
@@ -780,27 +789,5 @@ def upload_csv_inventory(request):
             pcode[0].delete()
     
     return redirect('/inventory/')
-
-     
-
-
-#             # Remove the assigned code from open codes
-#             code_to_remove = request.POST.get('product_code')
-#             code_object = Open_Product_Code.objects.get(pk=code_to_remove)
-#             code_object.delete()
-
-#     return render(request, 'inventory.html', {
-#         "items": Inventory.objects.all(),
-#         "vendors": Vendor.objects.all(),
-#         "channels": Sale_Site.objects.all(),
-#         "employee": Employee.objects.all(),
-#         "shift": Shift.objects.all(),
-#         "product_types": Product_Type.objects.all(),
-#         "conditions": Condition.objects.all(),
-
-#         "total_sales": total_sales(),
-#         # Grabs only the first open product code
-#         "product_code": Open_Product_Code.objects.all()[:1]
-#     })
 
 # end functions
