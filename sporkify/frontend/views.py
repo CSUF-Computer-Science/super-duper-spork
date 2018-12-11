@@ -749,22 +749,30 @@ def upload_csv_inventory(request):
             asking_price_as_float = float(column[2])
             purchase_price_as_float = float(column[5])
             
-            pname = get_object_or_404(Product_Type, type_name=column[0])
-            ssite = get_object_or_404(Sale_Site, name=column[1])
-            cond = get_object_or_404(Condition, cond_Name=column[3])
-            vend = get_object_or_404(Vendor, comp_Name=column[4])
-            current_user = get_object_or_404(Employee, user=request.user)
+            try:
+                pname = get_object_or_404(Product_Type, type_name=column[0])
+            except:
+                return redirect('/configurate/')
+            
+            try:
+                ssite = get_object_or_404(Sale_Site, name=column[1])
+            except:
+                return redirect('/configurate/')
+            
+            try:
+                cond = get_object_or_404(Condition, cond_Name=column[3])
+            except:
+                return redirect('/configurate/')
 
-            # new_item = Inventory()
-            # new_item.product_code = pcode[0].product_code
-            # new_item.product_type = pname
-            # new_item.selling_site = ssite
-            # new_item.ask_price = asking_price_as_float
-            # new_item.condition = cond
-            # new_item.vendor = vend
-            # new_item.pur_price = purchase_price_as_float
-            # new_item.added_by = current_user
-            # new_item.save()
+            try:
+                vend = get_object_or_404(Vendor, comp_Name=column[4])
+            except:
+                return redirect('/configurate/')
+
+            try:
+                current_user = get_object_or_404(Employee, user=request.user) #Currently it's whovever opened the file
+            except:
+                return redirect('/configurate/')
 
             Inventory.objects.update_or_create(
                 product_code = pcode[0].product_code,
@@ -776,6 +784,7 @@ def upload_csv_inventory(request):
                 pur_price= purchase_price_as_float,
                 added_by= current_user
             )
+            
             pcode[0].delete()
     
     return redirect('/inventory/')
