@@ -18,10 +18,18 @@
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
+    margin-top:0px;
     
 }
+#detailList{
+    list-style: none;
+    padding-left:5px;
+}
+#detailList span{
+    font-weight:bold;
+}
 
-#add_item{
+#add_item, #detailPane{
     justify-content: flex-start;
     align-content: top;
     border-radius: 5px;

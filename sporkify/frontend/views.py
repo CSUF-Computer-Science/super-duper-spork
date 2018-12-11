@@ -564,7 +564,10 @@ def vendors(request):
 
     return render(request, 'vendors.html', {
         "vendors": Vendor.objects.all(),
-        "products":Product_Type.objects.all()
+        "products":Product_Type.objects.all(),
+        "salesites":Sale_Site.objects.all(),
+        "conditions": Condition.objects.all(),
+        "shipments": Shipment.objects.all()
     })
 
 @supervisor_login_required

@@ -22,6 +22,19 @@
         new_pos = String(new_pos + " 0 -3");
         afr_animation.setAttribute('to', new_pos);
         document.getElementById("Map").style.display = "inline-block";
+
+        /* This doesna work right yet..but YOU could help figure out why 
+        Not sure how to query for the item with that value from here. and 4am..
+        plan was to remove many of the current table columns once this was functional*/
+        $("#curPCode").html(value);
+        $("#curPType").html(value.product_type);
+        $("#curSSite").html(value.selling_site);
+        $("#curCondition").html(value.condition);
+        $("#curAPrice").html(value.ask_price);
+        $("#curPPrice").html(value.pur_price);
+        $("#curVendor").html(value.vendor);
+        $("#curAddedBy").html(value.added_by);
+        $("#curTimeAdded").html(value.time_added);
     }
     function openForm(product_code) {
         document.getElementById("shipmentForm").style.display = "block";
@@ -145,8 +158,7 @@
 </div>
 <div id="miniDashContainer">
     <!-- Begin experiment -->
-    <div id="Map" style="height: 400px; width: 400px;">
-        
+    <div id="Map" style="height: 425px; width: 425px;">
         <a-scene vr-mode-ui="enabled: false" embedded>
             <a-entity>
                 <a-entity position="31.2 6 10" rotation="-38 0 0" camera look-controls="enabled: false; touchEnabled: false; hmdEnabled: false"></a-entity>
@@ -161,15 +173,55 @@
                     document.write("<a-box position=\" " + (i * 2.5) + " " + bay_height / 2 + " 0\" geometry=\"depth:" + bay_length + ";height:" + bay_height + ";width:" + bay_width + "\"color=\"#90A44D\"></a-box>");
                     document.write("<a-text position=\" " + ((i * 2.5) - .25) + " 2.2 3.812 \"; width=\"12\"; value=\" " + bays[i] + " \"></a-text>");
                 }
-            </script>>
+            </script>
             <a-plane position="0 0 0" rotation="-90 0 0" width="1000" length="100" height="1000" color="#000000"></a-plane>
-            <a-sky color="gray"></a-sky>
+            <a-sky color="black"></a-sky>
         </a-scene>
-        <button class="close-button" onclick="closeMap()">Close Map</button>
     </div>
     <!-- End experiment -->
+    <div id="detailPane">
+        <ul id="detailList">
+            <li id="titleItem">
+                <label class="sectionTitle">Product Details</label><br>
+            </li>
+            <li id="bullet1_dl">
+                <label for="curPCode">Product Code: </label>
+                <span id="curPCode"></span>
+            </li>
+            <li id="bullet2_dl">
+                <label for="curPType">Product Type: </label>
+                <span id="curPType"></span>
+            </li>
+            <li id="bullet3_dl">
+                <label for="curSSite">Sales Site:
+                    <span id="curSSite"></span></label>
 
+                <label for="curCondition">Condition:
+                    <span id="curCondition"></span></label>
 
+            </li>
+            <li id="bullet4_dl">
+                <label for="curAPrice">Asking Price:
+                    <span id="curAPrice"></span></label>
+                <label for="curPPrice">Purchase Price:
+                    <span id="curPPrice"></span></label>
+
+            </li>
+            <li id="bullet5_dl">
+                <label for="curExpected">Expected Profit:
+                    <span id="curExpected"></span></label>
+                <label for="curVendor">Vendor:
+                    <span id="curVendor"></span></label>
+            </li>
+            <li id="bullet6_dl">
+                <label for="curAddedBy">Added By:
+                    <span id="curAddedBy"></span></label>
+
+                <label for="curTimeAdded">Time Added:
+                    <span id="curTimeAdded"></span></label>
+            </li>
+        </ul>
+    </div>
     <form id="add_item" action="/add-item/" method="post">{% csrf_token %}
         <ul>
             <li id="titleItem">

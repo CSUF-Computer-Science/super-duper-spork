@@ -1,7 +1,7 @@
 #miniDashContainer{
     display: inline-flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     margin: 10px;
 }
 
@@ -18,7 +18,7 @@ td a {
     flex-direction: column;
 }
 
-#addVendorContainer, #addProductContainer {
+#addVendorContainer, #addProductContainer,#addConditionContainer, #addSaleSiteContainer{
     width: 260px;
     margin: 10px;
     align-items: center;
@@ -32,8 +32,11 @@ td a {
 #addProductContainer{
     height: 300px;
 }
+#addSaleSiteContainer, #addConditionContainer{
+    align-items:flex-start;
+}
 
-#addVendorForm .inputLabel, #addProductForm .inputLabel{
+.inputLabel{
     color: gray;
     font-size:16px;
 }
@@ -46,19 +49,17 @@ td a {
 .dos2{
     color:#BFE1DD;
 }
-#addVendorContainer p, #addProductContainer p {
+p {
 	text-align: center;
 }
 label{
     margin-bottom:0px;
     margin-left:10px;
 }
-#addVendorForm input[type="none"],
-#addVendorForm select,
-#addVendorForm input[type="text"],
-#addProductForm input[type="none"],
-#addProductForm select,
-#addProductForm input[type="text"]{
+
+input[type="none"],
+select,
+input[type="text"]{
 	display: block;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -75,6 +76,16 @@ label{
 	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
 	-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
 	-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+}
+#addConditionContainer{
+    height: 160px;
+}
+#addSaleSiteContainer{
+    height: 230px;
+}
+#addSaleSiteContainer input[type="submit"],
+#addConditionContainer input[type="submit"]{
+    align-self: center;
 }
 #addVendorContainer input[type="submit"]{
 	width: 100px;
