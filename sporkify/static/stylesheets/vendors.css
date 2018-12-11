@@ -1,61 +1,117 @@
 #miniDashContainer{
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    width: 90%;
+    flex-wrap: nowrap;
     margin: 10px;
 }
+
 
 td a {
     color: black !important;
     font-size: 16px;
 }
 
-#addVendorForm {
+
+#addVendorForm, #addProductForm {
 	align-content: center;
     display: flex;
     flex-direction: column;
 }
 
-#addVendorContainer {
-	background: white;
-    width: 200px;
+#addVendorContainer, #addProductContainer {
+    width: 260px;
     margin: 10px;
     align-items: center;
     display: flex;
     flex-direction: column;
 	padding: 10px;
-
 	box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
 	background-color:#F8F8F8;
 	border-radius: 5px;
 }
+#addProductContainer{
+    height: 300px;
+}
 
-#addVendorContainer p {
+#addVendorForm .inputLabel, #addProductForm .inputLabel{
+    color: gray;
+    font-size:16px;
+}
+.sectionTitle{
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    color:#d9c877;
+}
+.dos2{
+    color:#BFE1DD;
+}
+#addVendorContainer p, #addProductContainer p {
 	text-align: center;
 }
-
+label{
+    margin-bottom:0px;
+    margin-left:10px;
+}
+#addVendorForm input[type="none"],
+#addVendorForm select,
+#addVendorForm input[type="text"],
+#addProductForm input[type="none"],
+#addProductForm select,
+#addProductForm input[type="text"]{
+	display: block;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+    width: 200px;
+    height: 37px;
+    padding: 8px;
+    margin: 10px;
+    margin-top:0px;
+	border-radius: 6px;
+	-webkit-border-radius:6px;
+	-moz-border-radius:6px;
+	border: 0px solid #fff;
+	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+	-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+	-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+}
 #addVendorContainer input[type="submit"]{
-	background:rgb(170,170,170);
-	width: 157px;
-    height: 35px;
-    padding: 8px 10px 8px 10px;
-    margin-left: 4px;
-    margin-right: 4px;
-    margin-bottom: 12px;
-	border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-    color: #fff;
+	width: 100px;
+    height: 36px;
     align-self: center;
-	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
-	border: 1px solid rgb(165,165,165);
-	font-size: 15px;
+}
+#addProductContainer #productSubmit{
+    align-self: center;
+}
+#addProductContainer #addProductBtn{
+    width: 80px;
+    height: 36px;
+}
+#addProductContainer #clearProductBtn{
+    width: 60px;
+    height: 36px;
+    color: rgb(80,80,80);
 }
 
+#uploads .file-upload{
+    justify-content: center;
+    align-content: top;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color:#F8F8F8;
+    width: 314px;
+    height: 140px;
+}
+#uploads .file-upload input{
+    margin: 4px;
+}
+#uploads .dos{
+    margin-bottom: 0px;
+}
 .csv_btn {
     border: none;
     background: none;
@@ -67,4 +123,28 @@ td a {
 
 .fa-file-export:hover {
     color: dodgerblue;
+}
+/*Add Product Type Form*/
+#add_product_type {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 90%;
+    margin: 10px;
+    justify-content: flex-start;
+    align-content: top;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    background-color:#F8F8F8;
+    width: 540px;
+    height: 250px;
+}
+
+#or{
+    padding-top: 13%;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: center;
 }

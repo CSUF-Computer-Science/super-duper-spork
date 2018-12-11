@@ -1,72 +1,130 @@
 {% extends "base.html" %}
 {%block headIncludes%}
-  <link rel="stylesheet" type="text/css" href="/static/stylesheets/vendors.css">
-  <script type="text/javascript">
-    $(document).ready(function() {
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/vendors.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
         $('#vendorTable').DataTable();
+        $('#productTypeTable').DataTable();
     });
-  </script>
-  <title>Sporkify - Vendors</title>
+</script>
+<title>Sporkify - Vendors</title>
 {%endblock%}
 
 {%block miniDash %}
-<div id="addVendorContainer">
-    <form id="addVendorForm" action="" method="POST">
-        {% csrf_token %}
-        <label for="comp_Name">Company Name:</label>
-        <input type="text" name="comp_Name" id="comp_Name" />
+<div id="miniDashContainer">
+    <div id="addVendorContainer">
+        <form id="addVendorForm" action="" method="POST">
+            {% csrf_token %}
+            <label class="sectionTitle">Add Vendor</label>
+            <label class="inputLabel" for="comp_Name">Company Name:</label>
+            <input type="text" name="comp_Name" id="comp_Name" />
 
-        <label for="contact_name">Contact Name:</label>
-        <input type="text" name="contact_name" id="contact_name" />
+            <label class="inputLabel" for="contact_name">Contact Name:</label>
+            <input type="text" name="contact_name" id="contact_name" />
 
-        <label for="contact_phone">Contact Phone:</label>
-        <input type="text" name="contact_phone" id="contact_phone" />
+            <label class="inputLabel" for="contact_phone">Contact Phone:</label>
+            <input type="text" name="contact_phone" id="contact_phone" />
 
-        <label for="contact_email">Contact Email:</label>
-        <input type="text" name="contact_email" id="contact_email" />
+            <label class="inputLabel" for="contact_email">Contact Email:</label>
+            <input type="text" name="contact_email" id="contact_email" />
 
-        <input type="submit" id="addVendor" name="addVendor" value='Add Vendor' />
-    </form>
+            <input type="submit" id="addVendor" name="addVendor" value='Add Vendor' />
+        </form>
+    </div>
+    <div id="uploads">
+        <form class="file-upload" action="/upload-csv-vendors/" method="POST" enctype="multipart/form-data">
+            {%csrf_token %}
+            <label class="sectionTitle" for="file">Upload Vendor File</label>
+            <input type="file" name="file" required>
+            </br>
+            <input type="submit">
+        </form>
+        <form class="file-upload dos" action="/upload-csv-product-type/" method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+            <label class="sectionTitle dos2" id="label-upload-product-type-file">Upload Product Type File</label>
+            <input type="file" name="file" required>
+            </br>
+            <input type="submit">
+        </form>
+    </div>
+    <div id="addProductContainer">
+        <form id="addProductForm" action="/add-product-type/" method="POST">{% csrf_token %}
+            <label class="sectionTitle dos2">Add Product Type</label>
+            <label class="inputLabel" for="product_type_name">Product Type Name:</label>
+            <input type="text" name="product_type_name" placeholder="Enter Product Type" maxlength="75" required>
+
+            <label class="inputLabel" for="product_weight">Weight:</label>
+            <input type="text" name="product_weight" placeholder="Enter weight in lbs." maxlength="15" required>
+
+            <label class="inputLabel" for="product_brand">Brand:</label>
+            <input type="text" name="product_brand" placeholder="Enter Brand Name" maxlength="75" required>
+
+            <div id="productSubmit">
+                <input id="addProductBtn" type="submit" value="Submit" name="add_product_type">
+                <input id="clearProductBtn" type="submit" value="Clear">
+            </div>
+        </form>
+    </div>
+
+
 </div>
 {% endblock %}
 {% block content %}
-    <form action="/download-csv-vendors/" method="POST"> {% csrf_token %}    
-    <h1>Vendors
+<form action="/download-csv-vendors/" method="POST"> {% csrf_token %}
+    <h2>Vendors
         <button class="csv_btn" title="Export to CSV"><i class="fas fa-file-export"></i></button>
-    </h1>
-    </form>
-    <table id="vendorTable" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Company Name</th>
-                <th>Contact Name</th>
-                <th>Contact Phone</th>
-                <th>Company Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for vendor in vendors %}
-            <tr>
-                <td>{{vendor.comp_Name}}</td>
-                <td>{{vendor.contact_name}}</td>
-                <td>{{vendor.contact_phone}}</td>
-                <td><a href="mailto:{{vendor.contact_email}}">{{vendor.contact_email}}</a></td>
-                <td>
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="vendorId" value="{{vendor.pk}}" />
-                        <button type="submit" name="deleteVendor">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <form action="/upload-csv-vendors/" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-        <label for="file">Upload CSV:</label>
-        <input type="file" name="file" required>
-        </br>
-        <input type="submit">
-    </form>
+    </h2>
+</form>
+<table id="vendorTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Company Name</th>
+            <th>Contact Name</th>
+            <th>Contact Phone</th>
+            <th>Company Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vendor in vendors %}
+        <tr>
+            <td>{{vendor.comp_Name}}</td>
+            <td>{{vendor.contact_name}}</td>
+            <td>{{vendor.contact_phone}}</td>
+            <td><a href="mailto:{{vendor.contact_email}}">{{vendor.contact_email}}</a></td>
+            <td>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="vendorId" value="{{vendor.pk}}" />
+                    <button type="submit" name="deleteVendor">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+<table id="productTypeTable" class="display" style="width:100%"> 
+    <h2>Product Types</h2>
+    <thead>
+        <tr>
+            <th>Type Id</th>
+            <th>Type Name</th>
+            <th>Weight</th>
+            <th>Brand</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for type in products %}
+        <tr>
+            <td>{{type.type_ID}}</td>
+            <td>{{type.type_name}}</td>
+            <td>{{type.weight}}</td>
+            <td>{{type.brand}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}
