@@ -412,7 +412,7 @@ def inventory(request):
         "shift": Shift.objects.all(),
         "product_types": Product_Type.objects.all(),
         "conditions": Condition.objects.all(),
-
+        "shipments":Shipment.objects.all(),
         "total_sales": total_sales(),
         # Grabs only the first open product code
         "product_code": Open_Product_Code.objects.all()[:1]
@@ -466,15 +466,7 @@ def addToExistingShipment(request):
         nSale.save()
         inventoryItem.delete()
 
-    return render(request, 'inventory.html', {
-        "items": Inventory.objects.all(),
-        "vendors": Vendor.objects.all(),
-        "channels": Sale_Site.objects.all(),
-        "employee": Employee.objects.all(),
-        "shift": Shift.objects.all(),
-        "product_types": Product_Type.objects.all(),
-        "conditions": Condition.objects.all()
-    })
+    return redirect("/inventory/")
 
 
 @login_required
@@ -509,16 +501,8 @@ def addNewShipment(request):
         if nSale.is_valid():
             nSale.save()
             inventoryItem.delete()
-
-    return render(request, 'inventory.html', {
-        "items": Inventory.objects.all(),
-        "vendors": Vendor.objects.all(),
-        "channels": Sale_Site.objects.all(),
-        "employee": Employee.objects.all(),
-        "shift": Shift.objects.all(),
-        "product_types": Product_Type.objects.all(),
-        "conditions": Condition.objects.all()
-    })
+    
+    return redirect("/inventory/")
 
 
 @login_required
