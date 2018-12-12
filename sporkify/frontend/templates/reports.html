@@ -96,29 +96,29 @@
 	<tbody>
 		<tr>
 			<td>Shipping Materials</td>
-			<td colspan="3">${{ material_cost }}</td>
+			<td colspan="3">${{ material_cost|floatformat:2 }}</td>
 		</tr>
 		<tr>
 			<td>Shipping Fees</td>
-			<td colspan="3">${{ ship_cost }}</td>
+			<td colspan="3">${{ ship_cost|floatformat:2 }}</td>
 		</tr>
 		<tr>
 			<td>Labor</td>
-			<td colspan="3">${{ labor_cost }}</td>
+			<td colspan="3">${{ labor_cost|floatformat:2 }}</td>
 		</tr>
 	</tbody>
 	<tfoot>
 		<tr>
 			<td>Total Spending</td>
-			<td colspan="3">${{ spend_total }}</td>
+			<td colspan="3">${{ spend_total|floatformat:2 }}</td>
 		</tr>	
 		<tr>
 			<td>Total Sales</td>
-			<td colspan="3">${{total_sales}}</td>
+			<td colspan="3">${{total_sales|floatformat:2 }}</td>
 		</tr>
 		<tr>
 			<td>Net Sales</td>
-			<td colspan="3">{{net_sales}}</td>
+			<td colspan="3">{{net_sales|floatformat:2 }}</td>
 		</tr>
 	</tfoot>
 </table>
@@ -153,7 +153,7 @@
 		{% for key, value in cat_sales.items %}
 		<tr>
 			<td>{{key}}</td>
-			<td>${{value}}</td>
+			<td>${{value|floatformat:2}}</td>
 		</tr>
 		{% endfor %}
 	</tbody>		
