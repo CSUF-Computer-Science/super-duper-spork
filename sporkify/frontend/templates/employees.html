@@ -37,10 +37,10 @@
         {% for emp in employees %}
     "{{emp.pk}}": {
         uname: "{{emp.user}}",
-            fname: "{{emp.f_name}}",
-                lname: "{{emp.l_name}}",
-                    utype: "{{emp.user_type}}",
-                        hwage: "{{emp.hourly_wage|floatformat}}"
+        fname: "{{emp.f_name}}",
+        lname: "{{emp.l_name}}",
+        utype: "{{emp.user_type}}",
+        hwage: "{{emp.hourly_wage|floatformat}}"
     },
     {% endfor %}
     };
@@ -55,18 +55,23 @@
         $('#fname2').attr("value",userDetails.fname);
         $('#lname2').attr("value",userDetails.lname);
         $('#hwage2').attr("value",userDetails.hwage);
+        console.log("user type: "+userDetails.utype);
         switch (userDetails.utype) {
             case 1:
-                $('#optEmp').attr(selected);
+                console.log(userDetails.utype);
+                $('#optEmp').attr("selected","selected");
                 break;
             case 2:
-                $('#optEmp').attr(selected);
+                console.log(userDetails.utype);
+                $('#optEmp').attr("selected","selected");
                 break;
             case 3:
-                $('#optSup').attr(selected);
+                console.log(userDetails.utype);
+                $('#optSup').attr("selected","selected");
                 break;
             case 4:
-                $('#optAdm').attr(selected);
+                console.log(userDetails.utype);
+                $('#optAdm').attr("selected","selected");
         }
     }
     function closeForm() {
