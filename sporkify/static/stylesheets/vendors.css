@@ -135,7 +135,7 @@ input[type="text"]{
 
 .fa-file-export:hover {
     color: powderblue;
-    opacity: 0.1;
+    opacity: 1.0;
 }
 /*Add Product Type Form*/
 #add_product_type {
