@@ -48,12 +48,13 @@
     function openForm(emp_id){
         console.log("we have arrived inside the openform function");
         const userDetails = userToEdit[emp_id];
-        document.getElementById("#editForm").style.display = "block";
-        $('#epk').value(emp_id);
-        $('#uname2').value(userDetails.uname);
-        $('#fname2').value(userDetails.fname);
-        $('#lname2').value(userDetails.lname);
-        $('#hwage2').value(userDetails.hwage);
+        console.log
+        $("#editForm").css("display","block")
+        $('#epk').attr("value",emp_id);
+        $('#uname2').attr("value",userDetails.uname);
+        $('#fname2').attr("value",userDetails.fname);
+        $('#lname2').attr("value",userDetails.lname);
+        $('#hwage2').attr("value",userDetails.hwage);
         switch (userDetails.utype) {
             case 1:
                 $('#optEmp').attr(selected);
