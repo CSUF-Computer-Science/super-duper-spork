@@ -181,3 +181,8 @@ a:hover{
   box-shadow: inset 0px 0px 10px rgba(0,0,0,0.40);
   background: white;
 }
+
+#miniDash{
+  width:92%;
+  align-self: center;
+}
