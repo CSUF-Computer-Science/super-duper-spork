@@ -7,7 +7,9 @@
         <a class="iV" href="/inventory">Inventory</a>
         <div class="dropdown3-content">
           <a class="dropdown3-item" href="/inventory">Product Inventory</a>
+          {%if is_hr%}
           <a class="dropdown3-item" href="/vendors">Configurations</a>
+          {%endif%}
         </div>
       </div>
       {%if is_hr%}
@@ -15,7 +17,6 @@
         <a class="sS" href="/sales">Sales</a>
         <div class="dropdown2-content">
           <a class="dropdown2-item" href="/sales">All Sales</a>
-          
           <a class="dropdown2-item" href="/reports">Sales Reporting</a>
           
         </div>
