@@ -115,7 +115,7 @@
 
 {% block content %}
 {% if not is_hr %}
-<h2>{{user.first_name}}+" "+{{user.last_name}}</h2>
+<h2>{{user.first_name}} {{user.last_name}}</h2>
 <!-- User Side -->
 <form action="/download-csv-timesheet/" method="POST"> {% csrf_token %}
     <h3>Your Timesheet
