@@ -236,14 +236,61 @@
 }
 
 #edit_user{
+    text-align:left;
     display:inline-block;
     border-radius: 5px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
     background-color:#F8F8F8;
-    width: auto;
+    width: 465px;
     height: auto;
     top:600px;
     position: relative;
     margin: 0 auto;
     padding: 8px;
+}
+#rrrow{
+    display:flex;
+    flex-direction: row;
+
+}
+#edit_user label{
+    color: gray;
+    margin-left:10px;
+
+}
+#edit_user input[type="text"],
+#edit_user input[type="username"],
+#edit_user select{
+    margin:10px;
+    margin-left:0px;
+    display: block;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+    width: 200px;
+    height: 37px;
+	padding: 8px;
+	border-radius: 6px;
+	-webkit-border-radius:6px;
+	-moz-border-radius:6px;
+	border: 0px solid #fff;
+	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+	-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+	-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+}
+#edit_user #hwage2{
+    width:100px;
+}
+#subbb{
+    width:100%;
+    display:inline-flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: center;
+}
+#edit_user input[type="submit"]{
+    align-self:center;
+    justify-self:center;
+    height: 37px;
+    margin:10px;
 }

@@ -39,7 +39,7 @@
         uname: "{{emp.user}}",
         fname: "{{emp.f_name}}",
         lname: "{{emp.l_name}}",
-        utype: "{{emp.user_type}}",
+        utype: {{emp.user_type}},
         hwage: "{{emp.hourly_wage|floatformat}}"
     },
     {% endfor %}
@@ -57,21 +57,21 @@
         $('#hwage2').attr("value",userDetails.hwage);
         console.log("user type: "+userDetails.utype);
         switch (userDetails.utype) {
-            case 1:
-                console.log(userDetails.utype);
+            case 1:{
                 $('#optEmp').attr("selected","selected");
                 break;
-            case 2:
-                console.log(userDetails.utype);
+            }
+            case 2:{
                 $('#optEmp').attr("selected","selected");
                 break;
-            case 3:
-                console.log(userDetails.utype);
+            }
+            case 3:{
                 $('#optSup').attr("selected","selected");
                 break;
-            case 4:
-                console.log(userDetails.utype);
+            }
+            case 4:{
                 $('#optAdm').attr("selected","selected");
+            }
         }
     }
     function closeForm() {
@@ -83,38 +83,37 @@
 <div class="form-popup" id="editForm">
     <form id="edit_user" action="/employees/edit/" method="post"> {% csrf_token %}
         <fieldset>
-            <legend>Edit User</legend>
-            <label for="uname2"> Account name:</label>
-            <br>
+            <legend class="sectionTitle">Edit User</legend>
+            <label for="uname2"> Account name:
             <input type="username" value="" id="uname2" name="uname2" form="edit_user" placeholder="Enter Username"
-                maxlength="40"></input>
-            <br>
-            <label for="fname2">First Name:</label>
-            <br>
-            <input type="text" value="" id="fname2" name="fname2" form="edit_user" placeholder="Enter First Name"
-                maxlength="40" size="40" value=""> </input>
-            <br>
-            <label for="lname2">Last Name:</label>
-            <br>
-            <input type="text" value="" id="lname2" name="lname2" form="edit_user" placeholder="Enter Last Name"
-                maxlength="40" size="40"> </input>
-            <br>
-            <label for="hwage2">Hourly Wage:</label>
-            <br>
-            <input type="text" value="" id="hwage2" name="hwage2" form="edit_user" placeholder="$0.00" maxlength="30"
-                size="40"> </input>
-            <br>
-            <label for="permissions2">Permissions:</label>
-            <br>
-            <select name="permissions2" value="Administrator">
-                <option id="optEmp" value="Employee">Employee</option>
-                <option id="optHR" value="HR">Human Resources</option>
-                <option id="optSup" value="Supervisor">Supervisor</option>
-                <option id="optAdm" value="Admin">Administrator</option>
-            </select>
-            <br><br>
+                maxlength="40"></input></label>
+            
+            <div class="rrrow">
+                <label for="fname2">First Name:
+                <input type="text" value="" id="fname2" name="fname2" form="edit_user" placeholder="Enter First Name"
+                       maxlength="40" size="40" value=""> </input></label>
+            
+                 <label for="lname2">Last Name:
+                <input type="text" value="" id="lname2" name="lname2" form="edit_user" placeholder="Enter Last Name"
+                    maxlength="40" size="40"> </input></label>
+            </div>
+            <div class="rrrow">
+                <label for="hwage2">Hourly Wage:
+                 <input type="text" value="" id="hwage2" name="hwage2" form="edit_user" placeholder="$0.00" maxlength="30"
+                     size="40"> </input></label>
+           
+                <label for="permissions2">Permissions:
+                <select name="permissions2" value="Administrator">
+                    <option id="optEmp" value="Employee">Employee</option>
+                    <option id="optHR" value="HR">Human Resources</option>
+                    <option id="optSup" value="Supervisor">Supervisor</option>
+                    <option id="optAdm" value="Admin">Administrator</option>
+                    </select></label>
+                <input type="submit" name="edit_user_submit" form="edit_user" value="Submit">
+            </div>
             <input type="hidden" id="epk" name="employee_pk2" value="">
-            <input type="submit" name="edit_user_submit" form="edit_user" value="Submit">
+            
+            
         </fieldset>
     </form>
 </div>
