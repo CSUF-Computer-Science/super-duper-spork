@@ -15,7 +15,7 @@
                 vendorName: "{{item.vendor.comp_Name}}",
                 addedBy: "{{item.added_by.user.username}}",
                 addedAt: "{{item.time_added}}",
-                expectedProfit: {{item.ask_price}} - {{item.pur_price}}
+                expectedProfit: ({{item.ask_price}} - {{item.pur_price}}).toFixed(2)
             },
         {% endfor %}
     };

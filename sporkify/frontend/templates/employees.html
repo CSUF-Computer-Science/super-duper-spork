@@ -6,7 +6,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <title>Sporkify - Employee Management</title>
 <script type="text/javascript">
-    
     $(document).ready(function () {
         $('#emp_timesheet').DataTable();
         $('#emp').DataTable();
@@ -34,19 +33,43 @@
             });
         }, 500);
     }
-    function openForm(emp_id) {
-        document.getElementById("editForm").style.display = "block";
-        var userToEdit = {
+    var userToEdit = {
         {% for emp in employees %}
-        "{{emp.user}}": {
-            user_type: "{{emp.user_type}}",
-            hourly_wage: "{{emp.hourly_wage}}"
-        },
-        {% endfor %}
+    "{{emp.pk}}": {
+        uname: "{{emp.user}}",
+            fname: "{{emp.f_name}}",
+                lname: "{{emp.l_name}}",
+                    utype: "{{emp.user_type}}",
+                        hwage: "{{emp.hourly_wage|floatformat}}"
+    },
+    {% endfor %}
     };
+
+    function openForm(emp_id){
+        console.log("we have arrived inside the openform function");
+        const userDetails = userToEdit[emp_id];
+        document.getElementById("#editForm").style.display = "block";
+        $(#epk).value(emp_id);
+        $(#uname2).value(userDetails.uname);
+        $(#fname2).value(userDetails.fname);
+        $(#lname2).value(userDetails.lname);
+        $(#hwage2).value(userDetails.hwage);
+        switch (userDetails.utype) {
+            case 1:
+                $(#optEmp).attr(selected);
+                break;
+            case 2:
+                $(#optEmp).attr(selected);
+                break;
+            case 3:
+                $(#optSup).attr(selected);
+                break;
+            case 4:
+                $(#optAdm).attr(selected);
+        }
     }
     function closeForm() {
-        document.getElementById("editForm").style.display = "none";
+        document.getElementById("#editForm").style.display = "none";
     }
 </script>
 {% endblock %}
@@ -55,56 +78,37 @@
     <form id="edit_user" action="/employees/edit/" method="post"> {% csrf_token %}
         <fieldset>
             <legend>Edit User</legend>
-            <label for="uname"> Account name:</label>
+            <label for="uname2"> Account name:</label>
             <br>
-            <input type="username" value="{{user.user}}" id="uname" name="uname" form="edit_user" placeholder="Enter Username"
+            <input type="username" value="" id="uname2" name="uname2" form="edit_user" placeholder="Enter Username"
                 maxlength="40"></input>
             <br>
-            <label for="fname">First Name:</label>
+            <label for="fname2">First Name:</label>
             <br>
-            <input type="text" value="{{user.f_name}}" id="fname" name="fname" form="edit_user" placeholder="Enter First Name"
+            <input type="text" value="" id="fname2" name="fname2" form="edit_user" placeholder="Enter First Name"
                 maxlength="40" size="40" value=""> </input>
             <br>
-            <label for="lname">Last Name:</label>
+            <label for="lname2">Last Name:</label>
             <br>
-            <input type="text" value="{{user.l_name}}" id="lname" name="lname" form="edit_user" placeholder="Enter Last Name"
+            <input type="text" value="" id="lname2" name="lname2" form="edit_user" placeholder="Enter Last Name"
                 maxlength="40" size="40"> </input>
             <br>
-            <label for="hwage">Hourly Wage:</label>
+            <label for="hwage2">Hourly Wage:</label>
             <br>
-            <input type="text" value="{{user.hourly_wage|floatformat}}" id="hwage" name="hwage" form="edit_user"
-                placeholder="$0.00" maxlength="30" size="40"> </input>
+            <input type="text" value="" id="hwage2" name="hwage2" form="edit_user" placeholder="$0.00" maxlength="30"
+                size="40"> </input>
             <br>
-            <label for="permissions">Permissions:</label>
+            <label for="permissions2">Permissions:</label>
             <br>
-            <select form="edit_user" name="permissions" value="Administrator">
-                {% if user.user_type == 1 %}
-                <option value="Employee" selected>Employee</option>
-                {% else %}
-                <option value="Employee">Employee</option>
-                {% endif %}
-
-                {% if user.user_type == 2 %}
-                <option value="HR" selected>Human Resources</option>
-                {% else %}
-                <option value="HR">Human Resources</option>
-                {% endif %}
-
-                {% if user.user_type == 3 %}
-                <option value="Supervisor" selected>Supervisor</option>
-                {% else %}
-                <option value="Supervisor">Supervisor</option>
-                {% endif %}
-
-                {% if user.user_type == 4 %}
-                <option value="Admin" selected>Administrator</option>
-                {% else %}
-                <option value="Admin">Administrator</option>
-                {%endif%}
+            <select name="permissions2" value="Administrator">
+                <option id="optEmp" value="Employee">Employee</option>
+                <option id="optHR" value="HR">Human Resources</option>
+                <option id="optSup" value="Supervisor">Supervisor</option>
+                <option id="optAdm" value="Admin">Administrator</option>
             </select>
             <br><br>
-            <input type="hidden" name="employee_pk" value="{{user.pk}}">
-            <input type="submit" name="edit_user_submit" form="edit_user" onclick="" value="Submit">
+            <input type="hidden" id="epk" name="employee_pk2" value="">
+            <input type="submit" name="edit_user_submit" form="edit_user" value="Submit">
         </fieldset>
     </form>
 </div>
@@ -251,11 +255,8 @@
                     {% endif %}
                 </td>
                 <td>
-                    <form action="/employees/edit/" class="table-btn-form-submit" method="POST"> {%csrf_token%}
-                        <input type="hidden" name="employee_pk" value="{{employee.pk}}">
-                        <button type="submit" id="edit_employee_btn" name="edit_employee_btn" class="table-btn"><i
-                                class="fas fa-user-edit"></i> Edit</button>
-                    </form>
+                    <button id="edit_employee_btn" name="edit_employee_btn" onclick="openForm('{{employee.pk}}')"
+                        class="table-btn"><i class="fas fa-user-edit"></i> Edit</button>
                 </td>
                 <td>
                     <form action="" class="table-btn-form-submit" method="POST"> {%csrf_token%}
