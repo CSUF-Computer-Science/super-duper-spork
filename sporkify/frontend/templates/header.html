@@ -6,8 +6,8 @@
       <div class="inVent">
         <a class="iV" href="/inventory">Inventory</a>
         <div class="dropdown3-content">
-          <a class="dropdown3-item" href="/inventory">Product Inventory</a>
           {%if is_hr%}
+          <a class="dropdown3-item" href="/inventory">Product Inventory</a>
           <a class="dropdown3-item" href="/vendors">Configurations</a>
           {%endif%}
         </div>
@@ -26,6 +26,7 @@
       <div class="dropdown1">
         <img class="sporky" src="/static/img/sporkhead.png" alt="sporkhead">
         <div class="dropdown1-content">
+          <span class="dropdown1-item1" href="#">-{{user.first_name}}-</span>
           <a class="dropdown1-item" href="/auth/logout">Logout</a>
         </div>
       </div>
