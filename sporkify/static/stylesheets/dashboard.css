@@ -27,9 +27,9 @@
   padding: 10px;
 }
 #proTip{
-  background-image: url("/static/img/longSpork.png");
+  /* background-image: url("/static/img/longSpork.png");
   background-size: 100% 100%;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   display:inline-block;
   font-size: 24px;
   align-self: center;
@@ -43,4 +43,8 @@
   /* background-color:white;
   border-radius: 5px;
   box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19); */
+}
+
+#longSpork{
+  width:50%;
 }
