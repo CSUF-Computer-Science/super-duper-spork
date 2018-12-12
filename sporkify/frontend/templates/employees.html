@@ -298,7 +298,11 @@
         <tbody>
             {% for shift in shifts %}
             <tr>
-                <td>{{shift.emp_ID.f_name}} {{shift.emp_ID.l_name}}</td>
+                {% if shift.emp_ID.f_name is not None %}
+                    <td>{{shift.emp_ID.f_name}} {{shift.emp_ID.l_name}}</td>
+                {% else %}
+                    <td>No longer with company.</td>
+                {% endif %}
                 <td>{{shift.time_in}}</td>
                 <td>{{shift.time_out}}</td>
                 <td>{{shift.time_worked}}</td>
