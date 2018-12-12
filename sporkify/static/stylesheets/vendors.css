@@ -130,10 +130,12 @@ input[type="text"]{
 
 .fa-file-export {
     color: powderblue;
+    opacity: 0.7;
 }
 
 .fa-file-export:hover {
-    color: dodgerblue;
+    color: powderblue;
+    opacity: 0.1;
 }
 /*Add Product Type Form*/
 #add_product_type {

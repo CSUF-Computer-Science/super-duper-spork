@@ -696,6 +696,27 @@ def download_csv_history(request):
 
     return redirect("/employees/")
 
+@login_required
+def downlaod_sales_history(request):
+    if request.method == 'POST':
+        sales = Sale.objects.all()
+        response = HttpResponse(content_type="text/csv")
+        response['Content-Disposition'] = 'attachment; filename="history.csv'
+        writer = csv.writer(response)
+
+        writer.writerow(["Invoice Number", "Past Product Code", "Product Type", "Condition", 
+                         "Vendor", "Cost", "Selling Site", "Sold For", "Added By", 
+                         "Time Added", "Shipment Number", "Archived By", "Time Archived"])
+
+        for sale in sales:
+            writer.writerow([sale.invoice_num, sale.past_product_code, sale.product_type, 
+                             sale.condition, sale.vendor, sale.pur_price, sale.selling_site,
+                             sale.sel_price, sale.added_by, sale.time_added, sale.shipment_number,
+                             sale.archived_by, sale.time_archived])
+        return response
+
+    return redirect("/sales/")
+
 # CSV Uploads
 @login_required
 def upload_csv_vendors(request):
