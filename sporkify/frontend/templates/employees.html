@@ -33,9 +33,87 @@
             });
         }, 500);
     }
+    var userToEdit = {
+        {% for emp in employees %}
+    "{{emp.pk}}": {
+        uname: "{{emp.user}}",
+            fname: "{{emp.f_name}}",
+                lname: "{{emp.l_name}}",
+                    utype: "{{emp.user_type}}",
+                        hwage: "{{emp.hourly_wage|floatformat}}"
+    },
+    {% endfor %}
+    };
+
+    function openForm(emp_id){
+        console.log("we have arrived inside the openform function");
+        const userDetails = userToEdit[emp_id];
+        console.log
+        $("#editForm").css("display","block")
+        $('#epk').attr("value",emp_id);
+        $('#uname2').attr("value",userDetails.uname);
+        $('#fname2').attr("value",userDetails.fname);
+        $('#lname2').attr("value",userDetails.lname);
+        $('#hwage2').attr("value",userDetails.hwage);
+        switch (userDetails.utype) {
+            case 1:
+                $('#optEmp').attr(selected);
+                break;
+            case 2:
+                $('#optEmp').attr(selected);
+                break;
+            case 3:
+                $('#optSup').attr(selected);
+                break;
+            case 4:
+                $('#optAdm').attr(selected);
+        }
+    }
+    function closeForm() {
+        document.getElementById("#editForm").style.display = "none";
+    }
 </script>
 {% endblock %}
-
+{%block popUP%}
+<div class="form-popup" id="editForm">
+    <form id="edit_user" action="/employees/edit/" method="post"> {% csrf_token %}
+        <fieldset>
+            <legend>Edit User</legend>
+            <label for="uname2"> Account name:</label>
+            <br>
+            <input type="username" value="" id="uname2" name="uname2" form="edit_user" placeholder="Enter Username"
+                maxlength="40"></input>
+            <br>
+            <label for="fname2">First Name:</label>
+            <br>
+            <input type="text" value="" id="fname2" name="fname2" form="edit_user" placeholder="Enter First Name"
+                maxlength="40" size="40" value=""> </input>
+            <br>
+            <label for="lname2">Last Name:</label>
+            <br>
+            <input type="text" value="" id="lname2" name="lname2" form="edit_user" placeholder="Enter Last Name"
+                maxlength="40" size="40"> </input>
+            <br>
+            <label for="hwage2">Hourly Wage:</label>
+            <br>
+            <input type="text" value="" id="hwage2" name="hwage2" form="edit_user" placeholder="$0.00" maxlength="30"
+                size="40"> </input>
+            <br>
+            <label for="permissions2">Permissions:</label>
+            <br>
+            <select name="permissions2" value="Administrator">
+                <option id="optEmp" value="Employee">Employee</option>
+                <option id="optHR" value="HR">Human Resources</option>
+                <option id="optSup" value="Supervisor">Supervisor</option>
+                <option id="optAdm" value="Admin">Administrator</option>
+            </select>
+            <br><br>
+            <input type="hidden" id="epk" name="employee_pk2" value="">
+            <input type="submit" name="edit_user_submit" form="edit_user" value="Submit">
+        </fieldset>
+    </form>
+</div>
+{%endblock%}
 {% block miniDash %}
 {% if not is_hr%}
 <div id="timeclockContainer">
@@ -99,7 +177,7 @@
             <input type="submit" class="enroll-btn">
         </div>
 
-        
+
     </form>
     </br>
     <form id="exportAll" action="/download-csv-employees/" method="POST"> {% csrf_token %}
@@ -110,7 +188,6 @@
     </form>
 </div>
 {%endif%}
-
 {% endblock %}
 
 {% block content %}
@@ -124,7 +201,7 @@
 </form>
 <!-- Show Hours for the Week -->
 <div class="timesheet_weekly">
-    <table class="display"  id="emp_timesheet" style="width: 100%">
+    <table class="display" id="emp_timesheet" style="width: 100%">
         <thead>
             <tr>
                 <th>Clock In</th>
@@ -179,11 +256,8 @@
                     {% endif %}
                 </td>
                 <td>
-                    <form action="/employees/edit/" class="table-btn-form-submit" method="POST"> {%csrf_token%}
-                        <input type="hidden" name="employee_pk" value="{{employee.pk}}">
-                        <button type="submit" id="edit_employee_btn" name="edit_employee_btn" class="table-btn"><i
-                                class="fas fa-user-edit"></i> Edit</button>
-                    </form>
+                    <button id="edit_employee_btn" name="edit_employee_btn" onclick="openForm('{{employee.pk}}')"
+                        class="table-btn"><i class="fas fa-user-edit"></i> Edit</button>
                 </td>
                 <td>
                     <form action="" class="table-btn-form-submit" method="POST"> {%csrf_token%}

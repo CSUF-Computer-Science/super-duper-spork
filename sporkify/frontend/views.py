@@ -355,18 +355,14 @@ def create_employee(request):
 
 @login_required
 def edit_employee(request):
-    if request.method == "POST" and request.POST.get("edit_employee_btn") is not None:
-        employee_to_edit = Employee.objects.get(
-            pk=request.POST.get("employee_pk"))
-        return render(request, 'editUser.html', {"user": employee_to_edit})
-
+    
     if request.method == "POST" and request.POST.get("edit_user_submit") is not None:
-        emp_pk = request.POST.get("employee_pk")
+        emp_pk = request.POST.get("employee_pk2")
         emp_obj = get_object_or_404(Employee, pk=emp_pk)
 
         user = User.objects.get(pk=emp_obj.pk)
 
-        permission = request.POST["permissions"]
+        permission = request.POST["permissions2"]
         if(permission == "Employee"):
             permission = 1
         elif (permission == "HR"):
@@ -376,16 +372,16 @@ def edit_employee(request):
         else:
             permission = 4  # ADMIN
 
-        user.username = request.POST["uname"]
-        user.first_name = request.POST["fname"]
-        user.last_name = request.POST["lname"]
+        user.username = request.POST["uname2"]
+        user.first_name = request.POST["fname2"]
+        user.last_name = request.POST["lname2"]
         user.save()
 
         emp_obj.user = user
         emp_obj.user_type = permission
-        emp_obj.hourly_wage = request.POST["hwage"]
-        emp_obj.f_name = request.POST["fname"]
-        emp_obj.l_name = request.POST["lname"]
+        emp_obj.hourly_wage = request.POST["hwage2"]
+        emp_obj.f_name = request.POST["fname2"]
+        emp_obj.l_name = request.POST["lname2"]
         emp_obj.save()
 
     return redirect("/employees/")
