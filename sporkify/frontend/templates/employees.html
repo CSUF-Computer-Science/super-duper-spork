@@ -220,7 +220,7 @@
                 <td>{{shift.time_in}}</td>
                 <td>{{shift.time_out}}</td>
                 <td>{{shift.time_worked}}</td>
-                <td>${{shift.money|floatformat}}</td>
+                <td>${{shift.money|floatformat:2}}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -247,7 +247,7 @@
             <tr>
                 <td>{{employee.f_name}}</td>
                 <td>{{employee.l_name}}</td>
-                <td>{{employee.hourly_wage}}</td>
+                <td>{{employee.hourly_wage|floatformat:2}}</td>
                 <td>
                     {% if employee.user_type == 1 %}
                     Employee
@@ -302,7 +302,7 @@
                 <td>{{shift.time_in}}</td>
                 <td>{{shift.time_out}}</td>
                 <td>{{shift.time_worked}}</td>
-                <td>${{shift.money|floatformat}}</td>
+                <td>${{shift.money|floatformat:2}}</td>
             </tr>
             {% endfor %}
         </tbody>
