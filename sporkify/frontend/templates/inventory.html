@@ -4,7 +4,6 @@
 <link rel="stylesheet" type="text/css" href="/static/stylesheets/inventory.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <script type="text/javascript">
-
     var productCodeToItemDetails = {
         {% for item in items %}
             "{{item.product_code}}": {
@@ -20,13 +19,11 @@
             },
         {% endfor %}
     };
-
     $(document).ready(function () {
         $('#inventoryTable').DataTable();
     });
     function prepare_map(productCode) {
         const itemDetails = productCodeToItemDetails[productCode];
-
         var alphabet = {
             A: 1, B: 2, C: 3, D: 4,
             E: 5, F: 6, G: 7, H: 8,
@@ -41,7 +38,6 @@
         new_pos = String(new_pos + " 0 -3");
         afr_animation.setAttribute('to', new_pos);
         document.getElementById("Map").style.display = "inline-block";
-
         /* This doesna work right yet..but YOU could help figure out why 
         Not sure how to query for the item with that value from here. and 4am..
         plan was to remove many of the current table columns once this was functional*/
