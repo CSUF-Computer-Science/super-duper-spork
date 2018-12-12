@@ -686,8 +686,10 @@ def download_csv_history(request):
                          "Clock Out", "Total Hours", "Total Pay"])
 
         for shift in shifts:
-            writer.writerow([shift.emp_ID.f_name, shift.time_in,
-                             shift.time_out, shift.time_worked, '$' + str(shift.money)])
+            try:
+                writer.writerow([shift.emp_ID.f_name, shift.time_in, shift.time_out, shift.time_worked, '$' + str(shift.money)])
+            except:
+                writer.writerow(["Homeless", "Homeless", shift.time_in, shift.time_out, shift.time_worked, '$' + str(shift.money)])
         return response
 
     return redirect("/employees/")
