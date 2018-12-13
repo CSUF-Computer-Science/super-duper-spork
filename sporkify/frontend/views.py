@@ -93,7 +93,7 @@ def monthly_report():
     monthly_report = {}
     now = datetime.now()
     now = now.replace(hour=0, minute=0, second=0)
-    daysof = calendar.monthrange(now.month, now.day)[1]
+    daysof = calendar.monthrange(now.year, now.month)[1]
     start = now - timedelta(days=(now.day-1))
     end = start + timedelta(days=daysof-1)
     keys = []
