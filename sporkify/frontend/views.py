@@ -127,7 +127,7 @@ def dates(value):
             date = date - timedelta(hours=8)
             dates.append(date.strftime("%a %m/%d"))
     else:
-        daysof = calendar.monthrange(now.month, now.day)[1]
+        daysof = calendar.monthrange(now.year, now.month)[1]
         start = now - timedelta(days=(now.day-1))
         end = start + timedelta(days=daysof-1)
         
