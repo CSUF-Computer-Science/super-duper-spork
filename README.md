@@ -6,7 +6,8 @@ Initial iterations of an inventory, sales and employee management system built t
 ```
 #### Why The Spork:
 ```
-When creating our initial repository github kindly suggested "super-duper-spork" as its name, at the time we needed a team name for our group and so we seized the recommendation and Sporkify evolved from there.
+When creating our initial repository github suggested "super-duper-spork" as its name.
+At the time we were in need of a group name so we embraced the recommendation and Sporkify evolved from there.
 ```
 # Created by
 [David Feinzimer](https://github.com/kernelpop), 
